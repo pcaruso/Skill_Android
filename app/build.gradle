@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.carusoft.skill"
+        minSdk 24
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+
+
+
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.navigation:navigation-fragment:2.4.0'
+    implementation 'androidx.navigation:navigation-ui:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.preference:preference:1.2.0'
+
+    implementation platform('com.google.firebase:firebase-bom:29.0.4')
+    implementation 'com.google.firebase:firebase-database:20.0.3'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.firebase:firebase-analytics:20.0.2'
+    implementation 'com.google.firebase:firebase-core:20.0.2'
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+    //implementation 'com.crowdfire.cfalertdialog:cfalertdialog:1.1.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    //implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    implementation 'com.irozon.alertview:alertview:1.0.1'
+    implementation 'com.github.Gkemon:XML-to-PDF-generator:2.5'
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    implementation 'com.airbnb.android:lottie:3.7.0'
+
+    implementation 'com.crowdfire.cfalertdialog:cfalertdialog:1.1.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
+    implementation("net.orandja.shadowlayout:shadowlayout:1.0.1")
+
+    implementation 'com.github.mudassar1:SearchableSpinner:v1.1'
+    implementation 'com.github.MdFarhanRaja:SearchableSpinner:2.0'
+    implementation 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'
+
+
+}

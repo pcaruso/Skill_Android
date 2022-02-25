@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "757902061621",
+    "firebase_url": "https://datasens-c2046-default-rtdb.firebaseio.com",
+    "project_id": "datasens-c2046",
+    "storage_bucket": "datasens-c2046.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757902061621:android:a3e1fa3335072beead817c",
+        "android_client_info": {
+          "package_name": "com.carusoft.skill"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757902061621-dd6olsk9mcdgoceb2jcat1pohe7jbu1s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2WpJK-O0ouQChLLhlcGddxE0hLmZ296U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757902061621-dd6olsk9mcdgoceb2jcat1pohe7jbu1s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "757902061621-87nirdlht3fj50pcijn8vf0pf7af587b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.carusoft.DataSense"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

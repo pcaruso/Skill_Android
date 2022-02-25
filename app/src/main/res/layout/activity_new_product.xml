@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/back_color"
+    android:fitsSystemWindows="true"
+    tools:context=".authentication.SignInActivity">
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Registrar Producto"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomActions"
+        android:layout_below="@id/textView7"
+        android:layout_centerVertical="false"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/fechaLbl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="Fecha:"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/darkGray"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/fecha"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="   "
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/darkGray"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/diaLbl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="Dia:"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/darkGray"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/dia"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="   "
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/darkGray"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Tipo:"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tipoNegocio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="   "
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Negocio:"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/nombre"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="   "
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Lugar:"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/lugar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="   "
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Registrar Producto"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="Ingrese manualmente el producto"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/darkGray"
+                    android:textSize="16sp" />
+
+                <net.orandja.shadowlayout.ShadowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/semiround_white_solid"
+                    android:padding="4dp"
+                    app:shadow_cast_only_background="true"
+                    app:shadow_color="#808"
+                    app:shadow_downscale="1"
+                    app:shadow_radius="8"
+                    app:shadow_with_color="true"
+                    app:shadow_with_content="true"
+                    app:shadow_with_css_scale="true"
+                    app:shadow_with_dpi_scale="true"
+                    app:shadow_x_shift="0dp"
+                    app:shadow_y_shift="4dp">
+
+                    <RelativeLayout
+                        android:id="@+id/emailLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/categoria"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="0dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                </net.orandja.shadowlayout.ShadowLayout>
+
+                <net.orandja.shadowlayout.ShadowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/semiround_white_solid"
+                    android:padding="4dp"
+                    app:shadow_cast_only_background="true"
+                    app:shadow_color="#808"
+                    app:shadow_downscale="1"
+                    app:shadow_radius="8"
+                    app:shadow_with_color="true"
+                    app:shadow_with_content="true"
+                    app:shadow_with_css_scale="true"
+                    app:shadow_with_dpi_scale="true"
+                    app:shadow_x_shift="0dp"
+                    app:shadow_y_shift="4dp">
+
+                    <RelativeLayout
+                        android:id="@+id/emailLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/presentacion"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                </net.orandja.shadowlayout.ShadowLayout>
+
+
+                <net.orandja.shadowlayout.ShadowLayout
+                    android:id="@+id/otraPresentacionView"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/semiround_white_solid"
+                    android:padding="4dp"
+                    app:shadow_cast_only_background="true"
+                    app:shadow_color="#808"
+                    app:shadow_downscale="1"
+                    app:shadow_radius="8"
+                    app:shadow_with_color="true"
+                    app:shadow_with_content="true"
+                    app:shadow_with_css_scale="true"
+
+                    app:shadow_with_dpi_scale="true"
+                    app:shadow_x_shift="0dp"
+                    app:shadow_y_shift="4dp">
+
+                    <RelativeLayout
+                        android:id="@+id/fechaLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/otraPresentacion"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="Otra Presentacion"
+
+                            android:inputType="textPersonName"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                </net.orandja.shadowlayout.ShadowLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <net.orandja.shadowlayout.ShadowLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/semiround_white_solid"
+                        android:padding="4dp"
+                        app:shadow_cast_only_background="true"
+                        app:shadow_color="#808"
+                        app:shadow_downscale="1"
+                        app:shadow_radius="8"
+                        app:shadow_with_color="true"
+                        app:shadow_with_content="true"
+                        app:shadow_with_css_scale="true"
+
+                        app:shadow_with_dpi_scale="true"
+                        app:shadow_x_shift="0dp"
+                        app:shadow_y_shift="4dp">
+
+                        <RelativeLayout
+                            android:id="@+id/passLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+
+                                android:id="@+id/peso"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="5dp"
+                                android:background="@null"
+                                android:ems="10"
+                                android:fontFamily="@font/poppins_regular"
+                                android:hint="Peso/Vol."
+
+                                android:inputType="textPersonName"
+                                android:textSize="14sp" />
+                        </RelativeLayout>
+
+                    </net.orandja.shadowlayout.ShadowLayout>
+
+                    <net.orandja.shadowlayout.ShadowLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/semiround_white_solid"
+                        android:padding="4dp"
+                        app:shadow_cast_only_background="true"
+                        app:shadow_color="#808"
+                        app:shadow_downscale="1"
+                        app:shadow_radius="8"
+                        app:shadow_with_color="true"
+                        app:shadow_with_content="true"
+
+                        app:shadow_with_css_scale="true"
+                        app:shadow_with_dpi_scale="true"
+                        app:shadow_x_shift="0dp"
+                        app:shadow_y_shift="4dp">
+
+                        <RelativeLayout
+                            android:id="@+id/emailLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp">
+
+                            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                                android:id="@+id/unidad"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="5dp"
+                                android:padding="0dp"
+                                android:textAlignment="center" />
+                        </RelativeLayout>
+
+                    </net.orandja.shadowlayout.ShadowLayout>
+
+                </LinearLayout>
+
+                <net.orandja.shadowlayout.ShadowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/semiround_white_solid"
+                    android:padding="4dp"
+                    app:shadow_cast_only_background="true"
+                    app:shadow_color="#808"
+                    app:shadow_downscale="1"
+                    app:shadow_radius="8"
+                    app:shadow_with_color="true"
+                    app:shadow_with_content="true"
+                    app:shadow_with_css_scale="true"
+                    app:shadow_with_dpi_scale="true"
+
+                    app:shadow_x_shift="0dp"
+                    app:shadow_y_shift="4dp">
+
+                    <RelativeLayout
+                        android:id="@+id/passLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/gasto"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="Gasto (Bs.)"
+
+                            android:inputType="textPersonName"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                </net.orandja.shadowlayout.ShadowLayout>
+
+                <net.orandja.shadowlayout.ShadowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/semiround_white_solid"
+                    android:padding="4dp"
+                    app:shadow_cast_only_background="true"
+                    app:shadow_color="#808"
+                    app:shadow_downscale="1"
+                    app:shadow_radius="8"
+                    app:shadow_with_color="true"
+                    app:shadow_with_content="true"
+                    app:shadow_with_css_scale="true"
+
+                    app:shadow_with_dpi_scale="true"
+                    app:shadow_x_shift="0dp"
+                    app:shadow_y_shift="4dp">
+
+                    <RelativeLayout
+                        android:id="@+id/emailLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/marcas"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                </net.orandja.shadowlayout.ShadowLayout>
+
+                <net.orandja.shadowlayout.ShadowLayout
+                    android:id="@+id/otraMarcaView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/semiround_white_solid"
+                    android:padding="4dp"
+                    app:shadow_cast_only_background="true"
+                    app:shadow_color="#808"
+                    app:shadow_downscale="1"
+                    app:shadow_radius="8"
+                    app:shadow_with_color="true"
+                    app:shadow_with_content="true"
+                    app:shadow_with_css_scale="true"
+
+                    app:shadow_with_dpi_scale="true"
+                    app:shadow_x_shift="0dp"
+                    app:shadow_y_shift="4dp">
+
+                    <RelativeLayout
+                        android:id="@+id/fechaLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/otraMarca"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="Otra Marca"
+
+                            android:inputType="textPersonName"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                </net.orandja.shadowlayout.ShadowLayout>
+
+
+                <net.orandja.shadowlayout.ShadowLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/semiround_white_solid"
+                    android:padding="4dp"
+                    app:shadow_cast_only_background="true"
+                    app:shadow_color="#808"
+                    app:shadow_downscale="1"
+                    app:shadow_radius="8"
+                    app:shadow_with_color="true"
+                    app:shadow_with_content="true"
+                    app:shadow_with_css_scale="true"
+                    app:shadow_with_dpi_scale="true"
+
+                    app:shadow_x_shift="0dp"
+                    app:shadow_y_shift="4dp">
+
+                    <RelativeLayout
+                        android:id="@+id/fechaLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/cantidad"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="Cantidad"
+
+                            android:inputType="textPersonName"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                </net.orandja.shadowlayout.ShadowLayout>
+
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:text="o escanee el codigo de barras"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/darkGray"
+                    android:textSize="16sp" />
+
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="200dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/logo_skill" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomActions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/finCompra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/semiround_gold_solid"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="0dp"
+            android:text="Revisar Compra"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/nuevoProd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/semiround_gold_solid"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Nuevo Prod"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/spin_kit"
+        style="@style/SpinKitView.Wave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        app:SpinKit_Color="@android:color/darker_gray" />
+
+
+</RelativeLayout>
