@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -20,6 +22,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.carusoft.skill.authentication.SignInActivity;
 import com.crowdfire.cfalertdialog.CFAlertDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -127,6 +130,23 @@ public class FinishPurchase extends AppCompatActivity {
             }
         });
 
+        ImageView logout = (ImageView) findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CFAlertDialog.Builder builder = new CFAlertDialog.Builder(FinishPurchase.this)
+                        .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
+                        .setTitle("Atención")
+                        .setMessage("Esta seguro que desea salir?")
+                        .addButton("Si, salir", -1, -1, CFAlertDialog.CFAlertActionStyle.NEGATIVE, CFAlertDialog.CFAlertActionAlignment.END, (dialog, which) -> {
+                            logout();
+                        }).addButton("No, cancelar", -1, -1, CFAlertDialog.CFAlertActionStyle.DEFAULT, CFAlertDialog.CFAlertActionAlignment.END, (dialog, which) -> {
+                            dialog.dismiss();
+                        });
+                builder.show();
+            }
+        });
+
     }
 
     private void setupProducts(){
@@ -160,4 +180,19 @@ public class FinishPurchase extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    private void logout(){
+
+        SharedPreferences mPrefs = getSharedPreferences("prefs",MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.remove("idHogar").apply();
+        prefsEditor.remove("grupo").apply();
+        prefsEditor.remove("estado").apply();
+        prefsEditor.remove("municipio").apply();
+        prefsEditor.remove("ciudad").apply();
+
+        Intent intent = new Intent(FinishPurchase.this, SignInActivity.class);
+        startActivity(intent);
+    }
+
 }

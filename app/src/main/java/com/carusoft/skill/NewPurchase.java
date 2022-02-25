@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -93,6 +94,23 @@ public class NewPurchase extends AppCompatActivity {
         hintNegocio.setNombre("Tipo de Negocio");
         items.add(hintNegocio);
 
+
+        ImageView logout = (ImageView) findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CFAlertDialog.Builder builder = new CFAlertDialog.Builder(NewPurchase.this)
+                        .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
+                        .setTitle("Atención")
+                        .setMessage("Esta seguro que desea salir?")
+                        .addButton("Si, salir", -1, -1, CFAlertDialog.CFAlertActionStyle.NEGATIVE, CFAlertDialog.CFAlertActionAlignment.END, (dialog, which) -> {
+                            logout();
+                        }).addButton("No, cancelar", -1, -1, CFAlertDialog.CFAlertActionStyle.DEFAULT, CFAlertDialog.CFAlertActionAlignment.END, (dialog, which) -> {
+                            dialog.dismiss();
+                        });
+                builder.show();
+            }
+        });
 
         Button next = (Button) findViewById(R.id.next);
         next.setOnClickListener(new View.OnClickListener() {
@@ -236,6 +254,20 @@ public class NewPurchase extends AppCompatActivity {
 
         stringRequest.setShouldCache(false);
         queue.add(stringRequest);
+    }
+
+    private void logout(){
+
+        SharedPreferences mPrefs = getSharedPreferences("prefs",MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.remove("idHogar").apply();
+        prefsEditor.remove("grupo").apply();
+        prefsEditor.remove("estado").apply();
+        prefsEditor.remove("municipio").apply();
+        prefsEditor.remove("ciudad").apply();
+
+        Intent intent = new Intent(NewPurchase.this, SignInActivity.class);
+        startActivity(intent);
     }
 
 
