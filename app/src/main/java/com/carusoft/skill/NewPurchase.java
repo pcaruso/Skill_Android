@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.DialogFragment;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.RenderMode;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,8 +42,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -53,6 +59,9 @@ public class NewPurchase extends AppCompatActivity {
     int diaDelMes = calendario.get(Calendar.DAY_OF_MONTH);
 
     ArrayList<ClassNegocio> items = new ArrayList<>();
+
+    private LottieAnimationView loader;
+    private RelativeLayout overlay;
 
     private SearchableSpinner tipoNegocio;
     private AppCompatEditText fecha;
@@ -77,6 +86,7 @@ public class NewPurchase extends AppCompatActivity {
         lugar = (AppCompatEditText) findViewById(R.id.lugar);
         nombre = (AppCompatEditText) findViewById(R.id.nombre);
         fecha = (AppCompatEditText) findViewById(R.id.fecha);
+
         fecha.setFocusable(false);
         fecha.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,14 +96,32 @@ public class NewPurchase extends AppCompatActivity {
             }
         });
 
+        SharedPreferences mPrefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        String idHogar = mPrefs.getString("idHogar", "");
+        String grupo = mPrefs.getString("grupo", "");
+        String municipio = mPrefs.getString("municipio", "");
+        String estado = mPrefs.getString("estado", "");
+        String ciudad = mPrefs.getString("ciudad", "");
 
+        TextView idHogarTxt = (TextView) findViewById(R.id.idHogar);
+        idHogarTxt.setText(idHogar);
+        TextView grupoTxt = (TextView) findViewById(R.id.grupo);
+        grupoTxt.setText(grupo);
+        TextView municipioTxt = (TextView) findViewById(R.id.municipio);
+        municipioTxt.setText(municipio);
+        TextView estadoTxt = (TextView) findViewById(R.id.estado);
+        estadoTxt.setText(estado);
+        TextView ciudadTxt = (TextView) findViewById(R.id.ciudad);
+        ciudadTxt.setText(ciudad);
+
+        nombre = (AppCompatEditText) findViewById(R.id.nombre);
+        fecha = (AppCompatEditText) findViewById(R.id.fecha);
         tipoNegocio = (SearchableSpinner) findViewById(R.id.spinner);
 
         ClassNegocio hintNegocio = new ClassNegocio();
         hintNegocio.setIdNegocio(0);
         hintNegocio.setNombre("Tipo de Negocio");
         items.add(hintNegocio);
-
 
         ImageView logout = (ImageView) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +150,21 @@ public class NewPurchase extends AppCompatActivity {
 
                     HashMap<String, Object> data = new HashMap<>();
                     data.put("fecha", fecha.getText().toString());
+
+                    String dtStart = fecha.getText().toString();
+                    SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+                    try {
+                        Date date = format.parse(dtStart);
+                        Calendar cl = Calendar. getInstance();
+                        cl.setTime(date);
+
+                        data.put("week", cl.WEEK_OF_YEAR);
+                        data.put("year", cl.YEAR);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
                     data.put("lugar", lugar.getText().toString());
                     data.put("nombre", nombre.getText().toString());
                     data.put("codNegocio", codNegocio);
@@ -141,7 +184,6 @@ public class NewPurchase extends AppCompatActivity {
                     data.put("estado", estado);
                     data.put("ciudad", ciudad);
 
-                    compras.add(data);
 
                     Intent intent = new Intent(NewPurchase.this, NewProduct.class);
                     Bundle args = new Bundle();
@@ -175,7 +217,7 @@ public class NewPurchase extends AppCompatActivity {
         public void onDateSet(DatePicker view, int anio, int mes, int diaDelMes) {
             // Esto se llama cuando seleccionan una fecha. Nos pasa la vista, pero más importante, nos pasa:
             // El año, el mes y el día del mes. Es lo que necesitamos para saber la fecha completa
-            String fechaSt = String.format(Locale.getDefault(), "%02d-%02d-%02d", anio, mes+1, diaDelMes);
+            String fechaSt = String.format(Locale.getDefault(), "%02d-%02d-%02d", mes+1, diaDelMes,anio);
 
             fecha.setText(fechaSt);
         }
@@ -268,6 +310,19 @@ public class NewPurchase extends AppCompatActivity {
 
         Intent intent = new Intent(NewPurchase.this, SignInActivity.class);
         startActivity(intent);
+    }
+
+    private void startLoader() {
+        loader = findViewById(R.id.animation_view);
+        overlay = findViewById(R.id.overlay);
+        overlay.setVisibility(View.VISIBLE);
+        loader.setVisibility(View.VISIBLE);
+        loader.setRenderMode(RenderMode.HARDWARE);
+    }
+
+    private void stopLoader(){
+        loader.setVisibility(View.GONE);
+        overlay.setVisibility(View.GONE);
     }
 
 

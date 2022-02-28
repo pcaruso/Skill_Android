@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.RenderMode;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -74,20 +77,22 @@ import java.util.Map;
 public class SignInActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    ProgressBar progressBar;
+    private LottieAnimationView loader;
 
     CFAlertDialog alertDialog;
 
     private static final int RC_SIGN_IN = 1001;
     GoogleSignInClient googleSignInClient;
     private FirebaseAuth firebaseAuth;
+    private RelativeLayout overlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
-        progressBar = (ProgressBar)findViewById(R.id.spin_kit);
+
+
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
@@ -96,7 +101,6 @@ public class SignInActivity extends AppCompatActivity {
             Window w = getWindow();
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
-
 
         Button contacto = (Button) findViewById(R.id.contacto);
         contacto.setOnClickListener(new View.OnClickListener() {
@@ -118,12 +122,11 @@ public class SignInActivity extends AppCompatActivity {
                 Log.d("login", "login");
                 EditText email = findViewById(R.id.email);
                 EditText password = findViewById(R.id.password);
-                Sprite wanderingCubes = new Wave();
-
-                progressBar.setIndeterminateDrawable(wanderingCubes);
-                progressBar.setVisibility(View.VISIBLE);
+                startLoader();
 
                 if (!(email.getText().equals("")) && !(password.getText().equals(""))){
+
+
                     String packagesUrl = "http://skill-ca.com/api/login.php";
 
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -137,7 +140,10 @@ public class SignInActivity extends AppCompatActivity {
                             JSONObject json = null;
                             try {
                                 json = new JSONObject(response);
-                                //stopLoader();
+                                stopLoader();
+
+
+
                                 if (json.getInt("code") == 1) {
                                     JSONObject resultado = json.getJSONObject("result");
 
@@ -165,7 +171,7 @@ public class SignInActivity extends AppCompatActivity {
                         public void onErrorResponse(VolleyError volleyError) {
                             Log.d("VOLLey error", volleyError.getMessage());
                             if (volleyError instanceof TimeoutError) {
-
+                                stopLoader();
                             }
                         }
                     }) {
@@ -188,7 +194,8 @@ public class SignInActivity extends AppCompatActivity {
                     queue.add(stringRequest);
 
                 }else{
-                    progressBar.setVisibility(View.GONE);
+                    stopLoader();
+
                     CFAlertDialog.Builder builder = new CFAlertDialog.Builder(SignInActivity.this)
                             .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
                             .setTitle("Atención")
@@ -201,6 +208,19 @@ public class SignInActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void startLoader() {
+        loader = findViewById(R.id.animation_view);
+        overlay = findViewById(R.id.overlay);
+        overlay.setVisibility(View.VISIBLE);
+        loader.setVisibility(View.VISIBLE);
+        loader.setRenderMode(RenderMode.HARDWARE);
+    }
+
+    private void stopLoader(){
+        loader.setVisibility(View.GONE);
+        overlay.setVisibility(View.GONE);
     }
 
     @Override

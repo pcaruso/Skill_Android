@@ -59,6 +59,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -73,8 +74,8 @@
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Fecha:"
                                 android:textAlignment="viewStart"
-                                android:textColor="@color/darkGray"
-                                android:textSize="16sp" />
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
 
                             <TextView
                                 android:id="@+id/fecha"
@@ -101,8 +102,8 @@
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Dia:"
                                 android:textAlignment="viewStart"
-                                android:textColor="@color/darkGray"
-                                android:textSize="16sp" />
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
 
                             <TextView
                                 android:id="@+id/dia"
@@ -113,13 +114,14 @@
                                 android:text="   "
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/darkGray"
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -129,8 +131,8 @@
                             android:fontFamily="@font/poppins_regular"
                             android:text="Tipo:"
                             android:textAlignment="viewStart"
-                            android:textColor="@color/darkGray"
-                            android:textSize="16sp" />
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tipoNegocio"
@@ -141,12 +143,13 @@
                             android:text="   "
                             android:textAlignment="viewStart"
                             android:textColor="@color/darkGray"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -156,8 +159,8 @@
                             android:fontFamily="@font/poppins_regular"
                             android:text="Negocio:"
                             android:textAlignment="viewStart"
-                            android:textColor="@color/darkGray"
-                            android:textSize="16sp" />
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/nombre"
@@ -168,12 +171,13 @@
                             android:text="   "
                             android:textAlignment="viewStart"
                             android:textColor="@color/darkGray"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -183,8 +187,8 @@
                             android:fontFamily="@font/poppins_regular"
                             android:text="Lugar:"
                             android:textAlignment="viewStart"
-                            android:textColor="@color/darkGray"
-                            android:textSize="16sp" />
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/lugar"
@@ -195,7 +199,7 @@
                             android:text="   "
                             android:textAlignment="viewStart"
                             android:textColor="@color/darkGray"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -253,7 +257,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
-            android:background="@drawable/semiround_gold_solid"
+            android:background="@drawable/semiround_gray_solid"
             android:fontFamily="@font/poppins_bold"
             android:text="Nuevo Prod"
             android:textColor="@android:color/white"
@@ -261,15 +265,32 @@
 
     </LinearLayout>
 
-    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/spin_kit"
-        style="@style/SpinKitView.Wave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:background="@color/black"
+        android:visibility="gone">
+
+    </RelativeLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:visibility="gone"
         android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        app:SpinKit_Color="@android:color/darker_gray" />
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading" />
 
-
+    <ImageView
+        android:id="@+id/logout"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        app:srcCompat="@drawable/logout" />
 </RelativeLayout>

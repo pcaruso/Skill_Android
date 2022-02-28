@@ -12,8 +12,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.RenderMode;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,15 +42,21 @@ public class FinishPurchase extends AppCompatActivity {
     private ArrayList<HashMap<String, Object>> compras;
     private HashMap<String, Object> compraData;
     private ProductsAdapter adapter;
+    private LottieAnimationView loader;
+    private RelativeLayout overlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finish_purchase);
 
+        setContentView(R.layout.activity_new_product);
+        getSupportActionBar().hide();
+
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("BUNDLE");
         compras = (ArrayList<HashMap<String, Object>>) args.getSerializable("compras");
+        Log.d("COMPRAS", String.valueOf(compras));
 
         String compra = args.getString("compra");
         compraData = new Gson().fromJson(compra, new TypeToken<HashMap<String, Object>>() {}.getType());
@@ -67,23 +76,27 @@ public class FinishPurchase extends AppCompatActivity {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startLoader();
                 String packagesUrl = "http://skill-ca.com/api/salvar.php";
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                 queue.getCache().clear();
-                //startLoader();
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, packagesUrl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("RESPONSE_SALVAR", response);
                         JSONObject json = null;
-
+                        stopLoader();
                         CFAlertDialog.Builder builder = new CFAlertDialog.Builder(FinishPurchase.this)
                                 .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
                                 .setTitle("Gracias!")
                                 .setMessage("La compra se ha registrado correctamente.")
-                                .addButton("OK", -1, -1, CFAlertDialog.CFAlertActionStyle.NEGATIVE, CFAlertDialog.CFAlertActionAlignment.END, (dialog, which) -> {
+                                .addButton("OK", -1, -1, CFAlertDialog.CFAlertActionStyle.DEFAULT, CFAlertDialog.CFAlertActionAlignment.END, (dialog, which) -> {
                                     dialog.dismiss();
+                                    finish();
+                                    Intent intent = new Intent(FinishPurchase.this, NewPurchase.class);
+                                    startActivity(intent);
+
                                 });
                         builder.show();
                     }
@@ -92,7 +105,7 @@ public class FinishPurchase extends AppCompatActivity {
                     public void onErrorResponse(VolleyError volleyError) {
                         Log.d("VOLLey error", volleyError.getMessage());
                         if (volleyError instanceof TimeoutError) {
-
+                            stopLoader();
                         }
                     }
                 }) {
@@ -153,6 +166,7 @@ public class FinishPurchase extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.lista);
         recyclerView.setLayoutManager(layoutManager);
+        Log.d("COMPRAS", String.valueOf(compras));
         adapter = new ProductsAdapter(getApplicationContext(), compras,this);
         adapter.setOnItemClickListener(new ProductsAdapter.onClickListner() {
             @Override
@@ -194,5 +208,19 @@ public class FinishPurchase extends AppCompatActivity {
         Intent intent = new Intent(FinishPurchase.this, SignInActivity.class);
         startActivity(intent);
     }
+
+    private void startLoader() {
+        loader = findViewById(R.id.animation_view);
+        overlay = findViewById(R.id.overlay);
+        overlay.setVisibility(View.VISIBLE);
+        loader.setVisibility(View.VISIBLE);
+        loader.setRenderMode(RenderMode.HARDWARE);
+    }
+
+    private void stopLoader(){
+        loader.setVisibility(View.GONE);
+        overlay.setVisibility(View.GONE);
+    }
+
 
 }

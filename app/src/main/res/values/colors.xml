@@ -10,6 +10,7 @@
 
     <color name="back_color">#F9FAFE</color>
     <color name="main_color">#B9935A</color>
+    <color name="secondary_color">#F8C300</color>
 
 
 </resources>

@@ -10,11 +10,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.RenderMode;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -65,8 +68,10 @@ public class NewProduct extends AppCompatActivity {
     private String presentacionSt;
     private String medidaSt;
 
-    private Integer editando;
+    private Integer editando = 0;
     private Integer prodIndex;
+    private LottieAnimationView loader;
+    private RelativeLayout overlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,7 +259,7 @@ public class NewProduct extends AppCompatActivity {
                             JSONObject resultObj = resultado.getJSONObject(i);
 
                             HashMap<String, Object> item  = new HashMap<String, Object>();
-                            item.put("codCat", Integer.parseInt(resultObj.get("codCat").toString()));
+                            item.put("codCat", Float.parseFloat(resultObj.get("codCat").toString()));
                             item.put("categoria", (resultObj.get("categoria").toString()));
                             items.add(item);
 
@@ -647,6 +652,17 @@ public class NewProduct extends AppCompatActivity {
     }
 
 
+    private void startLoader() {
+        loader = findViewById(R.id.animation_view);
+        overlay = findViewById(R.id.overlay);
+        overlay.setVisibility(View.VISIBLE);
+        loader.setVisibility(View.VISIBLE);
+        loader.setRenderMode(RenderMode.HARDWARE);
+    }
 
+    private void stopLoader(){
+        loader.setVisibility(View.GONE);
+        overlay.setVisibility(View.GONE);
+    }
 
 }

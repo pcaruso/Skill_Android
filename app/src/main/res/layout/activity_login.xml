@@ -161,7 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/semiround_gold_solid"
+                    android:background="@drawable/semiround_yellow_solid"
                     android:fontFamily="@font/poppins_bold"
                     android:text="Ingresar"
                     android:textColor="@android:color/white"
@@ -169,8 +169,8 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="200dp"
-                    android:layout_height="100dp"
+                    android:layout_width="140dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/logo_skill" />
@@ -181,15 +181,25 @@
 
     </ScrollView>
 
-    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/spin_kit"
-        style="@style/SpinKitView.Wave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:background="@color/black"
+        android:visibility="gone">
+
+    </RelativeLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:visibility="gone"
         android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        app:SpinKit_Color="@android:color/darker_gray" />
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/loading" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -223,6 +233,8 @@
             android:textAllCaps="false"
             android:textColor="@color/main_color"
             android:textSize="14sp" />
+
+
     </LinearLayout>
 
 
