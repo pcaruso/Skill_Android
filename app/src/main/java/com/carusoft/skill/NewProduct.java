@@ -66,6 +66,7 @@ public class NewProduct extends AppCompatActivity {
     private String categoriaSt;
     private String marcaSt;
     private String presentacionSt;
+    private String pesoSt;
     private String medidaSt;
 
     private Integer editando = 0;
@@ -183,6 +184,7 @@ public class NewProduct extends AppCompatActivity {
             dato.put("categoria", categoriaSt);
             dato.put("codPresentacion", codPresentacion);
             dato.put("presentacion", presentacionSt);
+            dato.put("pesounidad", pesoSt);
             dato.put("codMarca", codMarca);
             dato.put("marca", marcaSt);
             dato.put("codMedida", codMedida);
@@ -280,6 +282,7 @@ public class NewProduct extends AppCompatActivity {
 
                                     String titulo = "";
                                     presentacionSt = titulo;
+                                    pesoSt = titulo;
                                     codPresentacion = null;
                                     presentacion.setSelection(0);
 
@@ -364,6 +367,7 @@ public class NewProduct extends AppCompatActivity {
                         HashMap<String, Object> hintItem  = new HashMap<String, Object>();
                         hintItem.put("codPresentacion", 0);
                         hintItem.put("presentacion", "Presentacion");
+                        hintItem.put("pesounidad", "0");
                         items.add(hintItem);
                         spinnerArray[0] =  "Presentacion";
 
@@ -373,6 +377,7 @@ public class NewProduct extends AppCompatActivity {
                             HashMap<String, Object> item  = new HashMap<String, Object>();
                             item.put("codPresentacion", Integer.parseInt(resultObj.get("codPresentacion").toString()));
                             item.put("presentacion", (resultObj.get("presentacion").toString()));
+                            item.put("pesounidad", (resultObj.get("peso").toString()));
                             items.add(item);
 
                             spinnerArray[i+1] =  (resultObj.get("presentacion").toString());
@@ -389,6 +394,7 @@ public class NewProduct extends AppCompatActivity {
                                     ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                     codPresentacion = items.get(position).get("codPresentacion").toString();
                                     presentacionSt = items.get(position).get("presentacion").toString();
+                                    pesoSt = items.get(position).get("pesounidad").toString();
                                     ShadowLayout otraPresentacionView = findViewById(R.id.otraPresentacionView);
                                     if (spinnerArray[position].equals("OTRA")){
                                         otraPresentacionView.setVisibility(View.VISIBLE);
@@ -408,6 +414,8 @@ public class NewProduct extends AppCompatActivity {
                             codPresentacion = codigo;
                             String titulo = compraData.get("presentacion").toString();
                             presentacionSt = titulo;
+                            String pesounidad = compraData.get("pesounidad").toString();
+                            pesoSt = pesounidad;
                             int spinnerPosition = adapter.getPosition(titulo);
                             presentacion.setSelection(spinnerPosition);
                         }

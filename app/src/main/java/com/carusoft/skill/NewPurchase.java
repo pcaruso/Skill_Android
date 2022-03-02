@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -96,6 +98,37 @@ public class NewPurchase extends AppCompatActivity {
             }
         });
 
+        /*Button composeEmail = (Button) findViewById(R.id.contacto);
+        composeEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                composeEmail();
+            }
+        });*/
+        Button contacto = (Button) findViewById(R.id.contacto);
+        contacto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+                    intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+                    intent.putExtra(Intent.EXTRA_EMAIL, "info@skill-ca.com");
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Contacto desde Android app");
+                    startActivity(intent);
+                    /*if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(intent);
+                    }*/
+
+                    /*Intent intent = new Intent(Intent.ACTION_SENDTO);
+                    intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                    startActivity(intent);*/
+                } catch (android.content.ActivityNotFoundException e) {
+                    Toast.makeText(NewPurchase.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
         SharedPreferences mPrefs = getSharedPreferences("prefs", MODE_PRIVATE);
         String idHogar = mPrefs.getString("idHogar", "");
         String grupo = mPrefs.getString("grupo", "");
@@ -160,6 +193,7 @@ public class NewPurchase extends AppCompatActivity {
 
                         data.put("week", cl.WEEK_OF_YEAR);
                         data.put("year", cl.YEAR);
+                        data.put("day", cl.DAY_OF_WEEK);
 
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -239,6 +273,7 @@ public class NewPurchase extends AppCompatActivity {
                     json = new JSONObject(response);
                     //stopLoader();
                     if (json.getInt("code") == 1) {
+
                         JSONArray tipoNegocios = json.getJSONArray("result");
                         for (int i = 0 ; i < tipoNegocios.length(); i++) {
                             JSONObject tipoNeg = tipoNegocios.getJSONObject(i);
@@ -323,6 +358,16 @@ public class NewPurchase extends AppCompatActivity {
     private void stopLoader(){
         loader.setVisibility(View.GONE);
         overlay.setVisibility(View.GONE);
+    }
+
+    public void composeEmail() {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_EMAIL, "info@skill-ca.com");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Contacto desde Android app");
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
 
