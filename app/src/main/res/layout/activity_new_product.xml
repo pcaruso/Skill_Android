@@ -9,7 +9,7 @@
     tools:context=".authentication.SignInActivity">
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/titulo2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottomActions"
-        android:layout_below="@id/textView7"
+        android:layout_below="@id/titulo2"
         android:layout_centerVertical="false"
         android:layout_marginTop="10dp">
 
@@ -45,6 +45,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -72,7 +74,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
-                                android:fontFamily="@font/poppins_regular"
+                                android:fontFamily="@font/poppins_semibold"
                                 android:text="   "
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/darkGray"
@@ -89,8 +91,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
+                                android:layout_weight="1"
                                 android:fontFamily="@font/poppins_regular"
-                                android:text="Dia:"
+                                android:text="Dia"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/darkGray"
                                 android:textSize="14sp" />
@@ -100,12 +103,40 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
-                                android:fontFamily="@font/poppins_regular"
-                                android:text="   "
+                                android:fontFamily="@font/poppins_semibold"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/darkGray"
                                 android:textSize="14sp" />
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/semanaLbl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="Semana"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/darkGray"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/semana"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/darkGray"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -192,10 +223,25 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
+                    <Button
+                        android:id="@+id/editarCompra"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/semiround_gold_solid"
+                        android:fontFamily="@font/poppins_bold"
+                        android:padding="0dp"
+                        android:text="Editar Compra"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
+
+
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/titulo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -256,6 +302,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/semiround_white_solid"
                     android:padding="4dp"
+                    android:visibility="visible"
                     app:shadow_cast_only_background="true"
                     app:shadow_color="#808"
                     app:shadow_downscale="1"
@@ -285,53 +332,12 @@
                 </net.orandja.shadowlayout.ShadowLayout>
 
 
-                <net.orandja.shadowlayout.ShadowLayout
-                    android:id="@+id/otraPresentacionView"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/semiround_white_solid"
-                    android:padding="4dp"
-                    app:shadow_cast_only_background="true"
-                    app:shadow_color="#808"
-                    app:shadow_downscale="1"
-                    app:shadow_radius="8"
-                    app:shadow_with_color="true"
-                    app:shadow_with_content="true"
-                    app:shadow_with_css_scale="true"
-
-                    app:shadow_with_dpi_scale="true"
-                    app:shadow_x_shift="0dp"
-                    app:shadow_y_shift="4dp">
-
-                    <RelativeLayout
-                        android:id="@+id/fechaLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp">
-
-                        <androidx.appcompat.widget.AppCompatEditText
-
-                            android:id="@+id/otraPresentacion"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp"
-                            android:background="@null"
-                            android:ems="10"
-                            android:fontFamily="@font/poppins_regular"
-                            android:hint="Otra Presentacion"
-
-                            android:inputType="textPersonName"
-                            android:textSize="14sp" />
-                    </RelativeLayout>
-
-                </net.orandja.shadowlayout.ShadowLayout>
-
                 <LinearLayout
+                    android:id="@+id/pesoLayoutRow"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="invisible">
 
                     <net.orandja.shadowlayout.ShadowLayout
                         android:layout_width="match_parent"
@@ -416,6 +422,7 @@
                 </LinearLayout>
 
                 <net.orandja.shadowlayout.ShadowLayout
+                    android:id="@+id/gastoView"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
@@ -429,8 +436,8 @@
                     app:shadow_with_color="true"
                     app:shadow_with_content="true"
                     app:shadow_with_css_scale="true"
-                    app:shadow_with_dpi_scale="true"
 
+                    app:shadow_with_dpi_scale="true"
                     app:shadow_x_shift="0dp"
                     app:shadow_y_shift="4dp">
 
@@ -449,9 +456,9 @@
                             android:background="@null"
                             android:ems="10"
                             android:fontFamily="@font/poppins_regular"
-                            android:hint="Gasto (Bs.)"
+                            android:hint="Costo"
 
-                            android:inputType="textPersonName"
+                            android:inputType="numberDecimal"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
@@ -501,14 +508,15 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/semiround_white_solid"
                     android:padding="4dp"
+                    android:visibility="invisible"
                     app:shadow_cast_only_background="true"
                     app:shadow_color="#808"
                     app:shadow_downscale="1"
                     app:shadow_radius="8"
                     app:shadow_with_color="true"
                     app:shadow_with_content="true"
-                    app:shadow_with_css_scale="true"
 
+                    app:shadow_with_css_scale="true"
                     app:shadow_with_dpi_scale="true"
                     app:shadow_x_shift="0dp"
                     app:shadow_y_shift="4dp">
@@ -571,9 +579,10 @@
                             android:background="@null"
                             android:ems="10"
                             android:fontFamily="@font/poppins_regular"
-                            android:hint="Cantidad"
+                            android:hint="Cantidad de Productos."
+                            android:inputType="numberDecimal"
 
-                            android:inputType="textPersonName"
+
                             android:textSize="14sp" />
                     </RelativeLayout>
 
@@ -590,8 +599,63 @@
                     android:textAlignment="viewStart"
                     android:textColor="@color/darkGray"
                     android:textSize="16sp"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
+                <Button
+                    android:id="@+id/escanear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/semiround_gold_solid"
+                    android:fontFamily="@font/poppins_bold"
+                    android:padding="0dp"
+                    android:text="ESCANEAR"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+                <net.orandja.shadowlayout.ShadowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="40dp"
+                    android:background="@drawable/semiround_white_solid"
+                    android:padding="4dp"
+                    app:shadow_cast_only_background="true"
+                    app:shadow_color="#808"
+                    app:shadow_downscale="1"
+                    app:shadow_radius="8"
+                    app:shadow_with_color="true"
+                    app:shadow_with_content="true"
+                    app:shadow_with_css_scale="true"
+
+                    app:shadow_with_dpi_scale="true"
+                    app:shadow_x_shift="0dp"
+                    app:shadow_y_shift="4dp">
+
+                    <RelativeLayout
+                        android:id="@+id/barcodeLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/barcode"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="Ingrese manualmente el código"
+                            android:inputType="numberDecimal"
+
+
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                </net.orandja.shadowlayout.ShadowLayout>
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -629,7 +693,7 @@
             android:background="@drawable/semiround_gold_solid"
             android:fontFamily="@font/poppins_bold"
             android:padding="0dp"
-            android:text="Revisar Compra"
+            android:text="Guardar"
             android:textColor="@android:color/white"
             android:textSize="12sp" />
 
@@ -642,7 +706,7 @@
             android:layout_weight="1"
             android:background="@drawable/semiround_gray_solid"
             android:fontFamily="@font/poppins_bold"
-            android:text="Nuevo Prod"
+            android:text="Siguiente Producto"
             android:textColor="@android:color/white"
             android:textSize="12sp" />
 

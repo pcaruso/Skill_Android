@@ -1,5 +1,6 @@
 package com.carusoft.skill;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -10,9 +11,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 
@@ -50,10 +56,11 @@ public class NewProduct extends AppCompatActivity {
     private SearchableSpinner unidad;
     private SearchableSpinner presentacion;
     private AppCompatEditText otraMarca;
-    private AppCompatEditText otraPresentacion;
+
     private AppCompatEditText gasto;
     private AppCompatEditText peso;
     private AppCompatEditText cantidad;
+    private AppCompatEditText barcode;
 
 
     private String codCat;
@@ -86,9 +93,40 @@ public class NewProduct extends AppCompatActivity {
         TextView titulo = (TextView) findViewById(R.id.titulo);
         TextView titulo2 = (TextView) findViewById(R.id.titulo2);
 
+        barcode = findViewById(R.id.barcode);
+
+        // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
+        ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            // There are no request codes
+                            Intent data = result.getData();
+                            // doSomeOperations();
+                            Log.d("GOT_BACK", data.getStringExtra("barcode"));
+                            barcode.setText(data.getStringExtra("barcode"));
+                        }
+                    }
+                });
+
+        Button escanear = (Button) findViewById(R.id.escanear);
+        escanear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewProduct.this, ScannerActivity.class);
+                //startActivityForResult(intent,  2,null); // suppose requestCode == 2
+                someActivityResultLauncher.launch(intent);
+
+                // startActivity(intent);
+            }
+        });
 
 
-        compras = (ArrayList<HashMap<String, Object>>) args.getSerializable("compras");
+
+
+    compras = (ArrayList<HashMap<String, Object>>) args.getSerializable("compras");
 
         String compra = args.getString("compra");
         compraData = new Gson().fromJson(compra, new TypeToken<HashMap<String, Object>>() {}.getType());
@@ -97,7 +135,12 @@ public class NewProduct extends AppCompatActivity {
         fecha.setText(compraData.get("fecha").toString());
 
         TextView dia = (TextView) findViewById(R.id.dia);
-        compraData.get("dia");
+        dia.setText(compraData.get("day").toString());
+
+        TextView semana = (TextView) findViewById(R.id.dia);
+        semana.setText(compraData.get("week").toString());
+
+
 
         TextView tipoNegocio = (TextView) findViewById(R.id.tipoNegocio);
         tipoNegocio.setText(compraData.get("tipoNegocio").toString());
@@ -113,7 +156,7 @@ public class NewProduct extends AppCompatActivity {
         unidad = (SearchableSpinner) findViewById(R.id.unidad);
         presentacion = (SearchableSpinner) findViewById(R.id.presentacion);
         otraMarca = (AppCompatEditText) findViewById(R.id.otraMarca);
-        otraPresentacion = (AppCompatEditText) findViewById(R.id.otraPresentacion);
+
         gasto = (AppCompatEditText) findViewById(R.id.gasto);
         peso = (AppCompatEditText) findViewById(R.id.peso);
         cantidad = (AppCompatEditText) findViewById(R.id.cantidad);
@@ -128,9 +171,11 @@ public class NewProduct extends AppCompatActivity {
 
             gasto.setText(compraData.get("gasto").toString());
             otraMarca.setText(compraData.get("otraMarca").toString());
-            otraPresentacion.setText(compraData.get("otraPresentacion").toString());
+
             cantidad.setText(compraData.get("cantidad").toString());
             peso.setText(compraData.get("peso").toString());
+
+            barcode.setText(compraData.get("barcode").toString());
 
         }
 
@@ -170,6 +215,23 @@ public class NewProduct extends AppCompatActivity {
             }
         });
 
+        Button editarCompra = (Button) findViewById(R.id.editarCompra);
+        editarCompra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(NewProduct.this, NewPurchase.class);
+                Bundle args = new Bundle();
+                args.putSerializable("compras", (Serializable) compras);
+                args.putString("compra", new Gson().toJson(compraData));
+                args.putString("editando", "1");
+                intent.putExtra("BUNDLE", args);
+                startActivity(intent);
+
+
+            }
+        });
+
 
     }
 
@@ -177,7 +239,7 @@ public class NewProduct extends AppCompatActivity {
     private void saveProd(Integer action){
         HashMap<String, Object> dato = new HashMap<>();
 
-        if ((codCat != null) && (codPresentacion != null) && (codMarca != null) && (codMedida != null) && (!peso.getText().equals("")) && (!gasto.getText().equals("")) && (!cantidad.getText().equals(""))){
+        if ((codCat != null) && (codPresentacion != null) && (codMarca != null)  && (!gasto.getText().equals("")) && (!cantidad.getText().equals(""))){
             dato = compraData;
 
             dato.put("codCat", codCat);
@@ -187,12 +249,17 @@ public class NewProduct extends AppCompatActivity {
             dato.put("pesounidad", pesoSt);
             dato.put("codMarca", codMarca);
             dato.put("marca", marcaSt);
+
             dato.put("codMedida", codMedida);
+
             dato.put("medida", medidaSt);
-            dato.put("otraPresentacion", otraPresentacion.getText().toString());
-            dato.put("otraMarca", otraMarca.getText().toString());
-            dato.put("peso", peso.getText().toString());
             dato.put("gasto", gasto.getText().toString());
+            dato.put("peso", peso.getText().toString());
+
+            dato.put("otraMarca", otraMarca.getText().toString());
+            dato.put("barcode", barcode.getText().toString());
+
+
             dato.put("cantidad", cantidad.getText().toString());
 
             if (editando == 1){
@@ -395,12 +462,23 @@ public class NewProduct extends AppCompatActivity {
                                     codPresentacion = items.get(position).get("codPresentacion").toString();
                                     presentacionSt = items.get(position).get("presentacion").toString();
                                     pesoSt = items.get(position).get("pesounidad").toString();
-                                    ShadowLayout otraPresentacionView = findViewById(R.id.otraPresentacionView);
-                                    if (spinnerArray[position].equals("OTRA")){
-                                        otraPresentacionView.setVisibility(View.VISIBLE);
+
+                                    LinearLayout pesoLayoutRow = findViewById(R.id.pesoLayoutRow);
+                                    ShadowLayout gastoView = findViewById(R.id.gastoView);
+                                    if (spinnerArray[position].contains("OTRA")){
+                                        pesoSt = "";
+                                        gastoView.setVisibility(View.GONE);
+                                        pesoLayoutRow.setVisibility(View.VISIBLE);
                                     }else{
-                                        otraPresentacionView.setVisibility(View.INVISIBLE);
+                                        gastoView.setVisibility(View.GONE);
+                                        pesoLayoutRow.setVisibility(View.GONE);
                                     }
+
+                                    if (spinnerArray[position].contains("DETALLADO")){
+                                        gastoView.setVisibility(View.VISIBLE);
+                                        pesoLayoutRow.setVisibility(View.VISIBLE);
+                                    }
+
                                 }
                             }
 
@@ -410,10 +488,28 @@ public class NewProduct extends AppCompatActivity {
                         });
 
                         if (editando == 1){
+
+                            LinearLayout pesoLayoutRow = findViewById(R.id.pesoLayoutRow);
                             String codigo = compraData.get("codPresentacion").toString();
                             codPresentacion = codigo;
                             String titulo = compraData.get("presentacion").toString();
                             presentacionSt = titulo;
+
+
+                            ShadowLayout gastoView = findViewById(R.id.gastoView);
+                            if (presentacionSt.contains("OTRA")){
+                                gastoView.setVisibility(View.GONE);
+                                pesoLayoutRow.setVisibility(View.VISIBLE);
+                            }else{
+                                gastoView.setVisibility(View.GONE);
+                                pesoLayoutRow.setVisibility(View.GONE);
+                            }
+
+                            if (presentacionSt.contains("DETALLADO")){
+                                gastoView.setVisibility(View.VISIBLE);
+                                pesoLayoutRow.setVisibility(View.VISIBLE);
+                            }
+
                             String pesounidad = compraData.get("pesounidad").toString();
                             pesoSt = pesounidad;
                             int spinnerPosition = adapter.getPosition(titulo);

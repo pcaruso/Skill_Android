@@ -11,21 +11,18 @@
     android:clipToPadding="true">
 
 
-    <androidx.cardview.widget.CardView
+    <ImageView
         android:id="@+id/editar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentEnd="true"
-        android:forceHasOverlappingRendering="false">
+        android:layout_width="30dp"
+        android:layout_height="30dp"
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/pencil" />
-    </androidx.cardview.widget.CardView>
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/transparent"
+        android:backgroundTint="@android:color/transparent"
+        android:backgroundTintMode="src_over"
+        android:foregroundGravity="center"
+        app:srcCompat="@drawable/pencil" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -127,7 +124,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
-                android:text="Peso:"
+                android:text="Peso/Detallado:"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -154,7 +151,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
-                android:text="Gasto:"
+                android:text="Costo:"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -181,7 +178,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_regular"
-                android:text="Cantidad:"
+                android:text="Cantidad Productos:"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 

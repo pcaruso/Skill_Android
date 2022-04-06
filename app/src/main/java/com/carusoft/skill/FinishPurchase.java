@@ -50,7 +50,6 @@ public class FinishPurchase extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finish_purchase);
 
-        setContentView(R.layout.activity_new_product);
         getSupportActionBar().hide();
 
         Intent intent = getIntent();
@@ -63,7 +62,14 @@ public class FinishPurchase extends AppCompatActivity {
         TextView fecha = (TextView) findViewById(R.id.fecha);
         fecha.setText(compraData.get("fecha").toString());
         TextView dia = (TextView) findViewById(R.id.dia);
-        compraData.get("dia");
+        dia.setText(compraData.get("day").toString());
+
+
+
+
+        TextView semana = (TextView) findViewById(R.id.dia);
+        semana.setText(compraData.get("week").toString());
+
         TextView tipoNegocio = (TextView) findViewById(R.id.tipoNegocio);
         tipoNegocio.setText(compraData.get("tipoNegocio").toString());
         TextView nombre = (TextView) findViewById(R.id.nombre);
@@ -136,12 +142,33 @@ public class FinishPurchase extends AppCompatActivity {
                 Intent intent = new Intent(FinishPurchase.this, NewProduct.class);
                 Bundle args = new Bundle();
                 args.putSerializable("compras", (Serializable) compras);
-                args.putString("compra", new Gson().toJson(compra));
+                args.putString("compra", new Gson().toJson(compraData));
                 intent.putExtra("BUNDLE", args);
 
                 startActivity(intent);
+
+
             }
         });
+
+        Button editarCompra = (Button) findViewById(R.id.editarCompra);
+        editarCompra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(FinishPurchase.this, NewPurchase.class);
+                Bundle args = new Bundle();
+                args.putSerializable("compras", (Serializable) compras);
+                args.putString("compra", new Gson().toJson(compraData));
+                args.putString("editando", "1");
+                intent.putExtra("BUNDLE", args);
+                startActivity(intent);
+
+
+            }
+        });
+
+
 
         ImageView logout = (ImageView) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {

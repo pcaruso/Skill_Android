@@ -16,9 +16,11 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.18840579710144928" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.20551724137931035" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18840579710144928" />
-        <entry key="app/src/main/res/layout/activity_new_product.xml" value="0.21467391304347827" />
+        <entry key="app/src/main/res/layout/activity_new_product.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_new_purchase.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_scanner.xml" value="0.17300724637681159" />
         <entry key="app/src/main/res/layout/cell_producto.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/scanner.xml" value="0.17300724637681159" />
         <entry key="app/src/main/res/layout/spinner_item.xml" value="0.11979166666666667" />
         <entry key="app/src/main/res/layout/styles.xml" value="0.16259057971014493" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.17135416666666667" />

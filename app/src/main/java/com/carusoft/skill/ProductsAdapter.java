@@ -76,7 +76,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         TextView peso;
         TextView gasto;
         TextView cantidad;
-        CardView editar;
+        ImageView editar;
 
 
         public ViewHolder(View itemView) {

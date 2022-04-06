@@ -13,7 +13,7 @@
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView2"
+
         android:layout_marginStart="20dp"
         android:fontFamily="@font/poppins_regular"
         android:text="Bienvenido"
