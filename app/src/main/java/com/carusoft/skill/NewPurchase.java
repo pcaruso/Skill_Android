@@ -41,6 +41,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
+import net.orandja.shadowlayout.ShadowLayout;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,7 +88,6 @@ public class NewPurchase extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_purchase);
         getSupportActionBar().hide();
-
 
         if (compras == null) {
             compras = new ArrayList<HashMap<String, Object>>();
@@ -151,18 +152,18 @@ public class NewPurchase extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+                    /*Intent intent = new Intent(Intent.ACTION_SENDTO);
                     intent.setData(Uri.parse("mailto:")); // only email apps should handle this
                     intent.putExtra(Intent.EXTRA_EMAIL, "info@skill-ca.com");
                     intent.putExtra(Intent.EXTRA_SUBJECT, "Contacto desde Android app");
                     startActivity(intent);
-                    /*if (intent.resolveActivity(getPackageManager()) != null) {
-                        startActivity(intent);
-                    }*/
+                     */
 
-                    /*Intent intent = new Intent(Intent.ACTION_SENDTO);
-                    intent.addCategory(Intent.CATEGORY_APP_EMAIL);
-                    startActivity(intent);*/
+                    Intent email = new Intent(Intent.ACTION_SEND);
+                    email.putExtra(Intent.EXTRA_EMAIL, new String[]{ "panelskill@gmail.com"});
+                    email.setType("message/rfc822");
+                    startActivity(Intent.createChooser(email, ""));
+
                 } catch (android.content.ActivityNotFoundException e) {
                     Toast.makeText(NewPurchase.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
                 }
@@ -223,9 +224,7 @@ public class NewPurchase extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (!(fecha.getText().equals("")) && (codNegocio != null) && !(nombre.getText().equals("")) && !(lugar.getText().equals(""))) {
-
-
+                if (!(fecha.getText().toString().isEmpty()) && (codNegocio != null) && !(nombre.getText().toString().isEmpty()) && !(lugar.getText().toString().isEmpty())) {
                     HashMap<String, Object> data = new HashMap<>();
                     data.put("fecha", fecha.getText().toString());
 
@@ -242,13 +241,12 @@ public class NewPurchase extends AppCompatActivity {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("u");
                         dayOfTheWeek = dateFormat.format(date);
                         SimpleDateFormat dateFormat2 = new SimpleDateFormat("w");
-                        weekYear = dateFormat2.format(date);
+                        weekYear = String.valueOf(Integer.parseInt(dateFormat2.format(date))+948);
                         year = (String) DateFormat.format("yyyy", date); // 2013
 
                         data.put("week", weekYear);
                         data.put("year", year);
                         data.put("day", dayOfTheWeek);
-
 
                     } catch (ParseException e) {
                         e.printStackTrace();

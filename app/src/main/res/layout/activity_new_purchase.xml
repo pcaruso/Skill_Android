@@ -319,8 +319,8 @@
                             android:background="@null"
                             android:ems="10"
                             android:fontFamily="@font/poppins_regular"
-                            android:hint="Nombre de Negocio"
-                            android:inputType="textPersonName"
+                            android:hint="Nombre del Negocio"
+                            android:inputType="none|textCapCharacters"
 
                             android:textSize="14sp" />
                     </RelativeLayout>
@@ -362,7 +362,7 @@
                             android:ems="10"
                             android:fontFamily="@font/poppins_regular"
                             android:hint="Lugar"
-                            android:inputType="textPersonName"
+                            android:inputType="none|textCapCharacters"
 
                             android:textSize="14sp" />
                     </RelativeLayout>

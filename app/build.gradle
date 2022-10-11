@@ -8,8 +8,8 @@ android {
         applicationId "com.carusoft.skill"
         minSdk 24
         targetSdk 31
-        versionCode 2
-        versionName "1.1"
+        versionCode 10
+        versionName "1.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

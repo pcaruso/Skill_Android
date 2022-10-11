@@ -3,6 +3,7 @@ package com.carusoft.skill.authentication;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -107,9 +108,18 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent(Intent.ACTION_MAIN);
+
+                    /*Intent intent = new Intent(Intent.ACTION_MAIN);
+                    Uri data = Uri.parse("mailto:panelskill@gmail.com");
+                    intent.setData(data);
                     intent.addCategory(Intent.CATEGORY_APP_EMAIL);
-                    startActivity(intent);
+                    startActivity(intent);*/
+
+                    Intent email = new Intent(Intent.ACTION_SEND);
+                    email.putExtra(Intent.EXTRA_EMAIL, new String[]{ "panelskill@gmail.com"});
+                    email.setType("message/rfc822");
+                    startActivity(Intent.createChooser(email, ""));
+
                 } catch (android.content.ActivityNotFoundException e) {
                     Toast.makeText(SignInActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
                 }

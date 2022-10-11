@@ -48,8 +48,24 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.categoria.setText(data.get("categoria").toString());
         holder.presentacion.setText(data.get("presentacion").toString());
         holder.marca.setText(data.get("marca").toString());
-        holder.peso.setText(data.get("peso").toString());
-        holder.gasto.setText(data.get("gasto").toString());
+
+        String weight = "";
+        if ((data.get("peso") != null) && (data.get("medida") != null) ){
+            weight = data.get("peso") + " " + data.get("medida");
+        }
+        holder.peso.setText(weight);
+
+        if (data.get("moneda") != null){
+            Integer moneda = Integer.parseInt(String.valueOf(data.get("moneda")));
+            if (moneda == 0){
+                holder.gasto.setText(data.get("gasto").toString() + " BOLIVARES");
+            }else{
+                holder.gasto.setText(data.get("gasto").toString() + " DOLARES");
+            }
+        }else{
+            holder.gasto.setText(data.get("gasto").toString() + " BOLIVARES");
+        }
+
         holder.cantidad.setText(data.get("cantidad").toString());
         holder.editar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,8 +75,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
             }
         });
     }
-
-
 
     @Override
     public int getItemCount() {

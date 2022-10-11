@@ -62,12 +62,30 @@ public class FinishPurchase extends AppCompatActivity {
         TextView fecha = (TextView) findViewById(R.id.fecha);
         fecha.setText(compraData.get("fecha").toString());
         TextView dia = (TextView) findViewById(R.id.dia);
-        dia.setText(compraData.get("day").toString());
 
+        if (compraData.get("day").toString().equals("1")){
+            dia.setText("Lunes");
+        }
+        if (compraData.get("day").toString().equals("2")){
+            dia.setText("Martes");
+        }
+        if (compraData.get("day").toString().equals("3")){
+            dia.setText("Miercoles");
+        }
+        if (compraData.get("day").toString().equals("4")){
+            dia.setText("Jueves");
+        }
+        if (compraData.get("day").toString().equals("5")){
+            dia.setText("Viernes");
+        }
+        if (compraData.get("day").toString().equals("6")){
+            dia.setText("Sabado");
+        }
+        if (compraData.get("day").toString().equals("7")){
+            dia.setText("Domingo");
+        }
 
-
-
-        TextView semana = (TextView) findViewById(R.id.dia);
+        TextView semana = (TextView) findViewById(R.id.semana);
         semana.setText(compraData.get("week").toString());
 
         TextView tipoNegocio = (TextView) findViewById(R.id.tipoNegocio);
@@ -109,7 +127,7 @@ public class FinishPurchase extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        Log.d("VOLLey error", volleyError.getMessage());
+                        //Log.d("VOLLey error", volleyError.getMessage());
                         if (volleyError instanceof TimeoutError) {
                             stopLoader();
                         }
@@ -215,8 +233,6 @@ public class FinishPurchase extends AppCompatActivity {
         args.putInt("prodIndex", prodIndex);
         args.putInt("editando", 1);
         intent.putExtra("BUNDLE", args);
-
-
 
         startActivity(intent);
 
