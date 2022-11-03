@@ -214,13 +214,9 @@ public class NewProduct extends AppCompatActivity {
 
             barcode.setText(compraData.get("barcode").toString());
 
-
             codeTxt.setVisibility(View.VISIBLE);
             legend.setVisibility(View.VISIBLE);
             escanear.setVisibility(View.VISIBLE);
-
-
-
         }
 
         getCategorias();
@@ -357,6 +353,13 @@ public class NewProduct extends AppCompatActivity {
             }
         }
 
+        if (validationType == 4) {
+            if ((codCat != null)  && !(isEmpty(gasto)) && !(isEmpty(gasto)) && (codMarca != null) &&  !(isEmpty(cantidad))) {
+                Log.d("VERIF_TYPE", "4");
+                passed = true;
+            }
+        }
+
         if (passed == true) {
             dato = compraData;
 
@@ -447,8 +450,8 @@ public class NewProduct extends AppCompatActivity {
                             items.add(item);
 
                             spinnerArray[i + 1] = (resultObj.get("categoria").toString());
-
                         }
+
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         categoria.setAdapter(adapter);
@@ -459,7 +462,10 @@ public class NewProduct extends AppCompatActivity {
                                 if (++check > 1) {
                                     if (position > 0) {
                                         Log.d("onItemSelected", "CAT_onItemSelected");
-                                        ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                        if (((TextView) parent.getChildAt(0)) != null){
+                                            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                        }
+
                                         codCat = items.get(position).get("codCat").toString();
                                         categoriaSt = items.get(position).get("categoria").toString();
 
@@ -490,7 +496,7 @@ public class NewProduct extends AppCompatActivity {
                                         ShadowLayout gastoView = findViewById(R.id.gastoView);
                                         LinearLayout gastoStack = findViewById(R.id.gastoLayoutRow);
 
-                                        if ((spinnerArray[position].contains("PAN DETALLADO")) || (spinnerArray[position].contains("HUEVOS")) || (spinnerArray[position].contains("CUBITOS"))) {
+                                        if ((spinnerArray[position].contains("PAN DETALLADO"))) {
                                             presentacionLayout.setVisibility(View.GONE);
                                             pesoLayoutRow.setVisibility(View.GONE);
                                             marcaLayout.setVisibility(View.GONE);
@@ -510,6 +516,11 @@ public class NewProduct extends AppCompatActivity {
                                             getUnidades(codCat);
                                         }
 
+                                         if ((spinnerArray[position].contains("HUEVOS")) || (spinnerArray[position].contains("CUBITOS")) || (spinnerArray[position].contains("GALLETAS DULCES")) || (spinnerArray[position].contains("GALLETAS SALADAS"))){
+                                            presentacionLayout.setVisibility(View.VISIBLE);
+                                            pesoLayoutRow.setVisibility(View.GONE);
+                                            marcaLayout.setVisibility(View.VISIBLE);
+                                        }
 
                                     }
                                 }
@@ -535,12 +546,21 @@ public class NewProduct extends AppCompatActivity {
                             ShadowLayout gastoView = findViewById(R.id.gastoView);
                             LinearLayout gastoStack = findViewById(R.id.gastoLayoutRow);
 
-                            if ((categoriaCompraName.contains("PAN DETALLADO")) || (categoriaCompraName.contains("HUEVOS")) || (categoriaCompraName.contains("CUBITOS"))) {
+                            if ((categoriaCompraName.contains("PAN DETALLADO"))) {
                                 presentacionLayout.setVisibility(View.GONE);
                                 pesoLayoutRow.setVisibility(View.GONE);
                                 marcaLayout.setVisibility(View.GONE);
                                 gastoStack.setVisibility(View.VISIBLE);
                             } else {
+                                getPresentaciones(codCat);
+                                getMarcas(codCat);
+                            }
+
+                            if ((categoriaCompraName.contains("HUEVOS")) || (categoriaCompraName.contains("CUBITOS"))|| (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
+
+                                presentacionLayout.setVisibility(View.VISIBLE);
+                                pesoLayoutRow.setVisibility(View.VISIBLE);
+                                marcaLayout.setVisibility(View.VISIBLE);
                                 getPresentaciones(codCat);
                                 getMarcas(codCat);
                             }
@@ -625,33 +645,49 @@ public class NewProduct extends AppCompatActivity {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if (position > 0) {
-                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-                                    codPresentacion = items.get(position).get("codPresentacion").toString();
-                                    presentacionSt = items.get(position).get("presentacion").toString();
-                                    pesoSt = items.get(position).get("pesounidad").toString();
 
-                                    validationType = 0;
-
-                                    LinearLayout pesoLayoutRow = findViewById(R.id.pesoLayoutRow);
-                                    ShadowLayout gastoView = findViewById(R.id.gastoView);
-                                    LinearLayout gastoStack = findViewById(R.id.gastoLayoutRow);
-                                    if (spinnerArray[position].contains("OTRA")) {
-                                        pesoSt = "";
-                                        gastoStack.setVisibility(View.GONE);
-                                        pesoLayoutRow.setVisibility(View.VISIBLE);
-                                        validationType = 1;
-                                    } else {
-                                        gastoStack.setVisibility(View.GONE);
-                                        pesoLayoutRow.setVisibility(View.GONE);
+                                    if (((TextView) parent.getChildAt(0)) != null) {
+                                        ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                     }
 
-                                    if (spinnerArray[position].equals("DETALLADO")) {
-                                        validationType = 2;
-                                        gastoStack.setVisibility(View.VISIBLE);
-                                        pesoLayoutRow.setVisibility(View.VISIBLE);
+                                        codPresentacion = items.get(position).get("codPresentacion").toString();
+                                        presentacionSt = items.get(position).get("presentacion").toString();
+                                        pesoSt = items.get(position).get("pesounidad").toString();
+
+                                        validationType = 0;
+
+                                        LinearLayout pesoLayoutRow = findViewById(R.id.pesoLayoutRow);
+                                        ShadowLayout gastoView = findViewById(R.id.gastoView);
+                                        LinearLayout gastoStack = findViewById(R.id.gastoLayoutRow);
+                                        if (spinnerArray[position].contains("OTRA")) {
+                                            pesoSt = "";
+                                            gastoStack.setVisibility(View.GONE);
+                                            pesoLayoutRow.setVisibility(View.VISIBLE);
+                                            validationType = 1;
+                                            if ((categoriaSt.contains("HUEVOS")) || (categoriaSt.contains("CUBITOS")) || (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS")) ){
+                                                pesoLayoutRow.setVisibility(View.GONE);
+                                                gastoStack.setVisibility(View.VISIBLE);
+                                                validationType = 4;
+                                            }
+                                        } else {
+                                            gastoStack.setVisibility(View.GONE);
+                                            pesoLayoutRow.setVisibility(View.GONE);
+                                        }
+
+                                        if (spinnerArray[position].equals("DETALLADO")) {
+                                            validationType = 2;
+                                            gastoStack.setVisibility(View.VISIBLE);
+                                            pesoLayoutRow.setVisibility(View.VISIBLE);
+                                            if ((categoriaSt.contains("HUEVOS")) || (categoriaSt.contains("CUBITOS")) || (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
+                                                pesoLayoutRow.setVisibility(View.GONE);
+                                                gastoStack.setVisibility(View.VISIBLE);
+                                                validationType = 4;
+                                            }
+                                        }
                                     }
 
-                                }
+
+
                             }
 
                             @Override
@@ -681,6 +717,11 @@ public class NewProduct extends AppCompatActivity {
                                 gastoStack.setVisibility(View.GONE);
                                 pesoLayoutRow.setVisibility(View.VISIBLE);
                                 validationType = 1;
+                                if ((categoriaSt.contains("HUEVOS")) || (categoriaSt.contains("CUBITOS")) || (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
+                                    pesoLayoutRow.setVisibility(View.GONE);
+                                    gastoStack.setVisibility(View.VISIBLE);
+                                    validationType = 4;
+                                }
                             } else {
                                 gastoStack.setVisibility(View.GONE);
                                 pesoLayoutRow.setVisibility(View.GONE);
@@ -690,7 +731,14 @@ public class NewProduct extends AppCompatActivity {
                                 gastoStack.setVisibility(View.VISIBLE);
                                 pesoLayoutRow.setVisibility(View.VISIBLE);
                                 validationType = 2;
+                                if ((categoriaSt.contains("HUEVOS")) || (categoriaSt.contains("CUBITOS")) || (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
+                                    pesoLayoutRow.setVisibility(View.GONE);
+                                    gastoStack.setVisibility(View.VISIBLE);
+                                    validationType = 4;
+                                }
                             }
+
+
 
                             getUnidades(codCat);
 
@@ -777,7 +825,11 @@ public class NewProduct extends AppCompatActivity {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if (position > 0) {
-                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                    if (((TextView) parent.getChildAt(0)) != null){
+                                        ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                    }
+
+
                                     codMedida = items.get(position).get("codMedida").toString();
                                     medidaSt = items.get(position).get("medida").toString();
                                 }
@@ -856,7 +908,11 @@ public class NewProduct extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                    if (((TextView) parent.getChildAt(0)) != null){
+                        ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                    }
+
+
                     Log.d("moneda_position", String.valueOf(position));
                     monedaSt = position;
                 }
@@ -923,18 +979,21 @@ public class NewProduct extends AppCompatActivity {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if (position > 0) {
-                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-                                    codMarca = items.get(position).get("codMarca").toString();
-                                    marcaSt = items.get(position).get("marca").toString();
-                                    ShadowLayout otraMarcaView = findViewById(R.id.otraMarcaView);
-                                    Log.d("OTRA MARCA", spinnerArray[position]);
-                                    if (spinnerArray[position].contains("OTRA")) {
-
-                                        otraMarcaView.setVisibility(View.VISIBLE);
-                                    } else {
-                                        otraMarcaView.setVisibility(View.INVISIBLE);
+                                    if (((TextView) parent.getChildAt(0)) != null) {
+                                        ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                     }
-                                }
+                                        codMarca = items.get(position).get("codMarca").toString();
+                                        marcaSt = items.get(position).get("marca").toString();
+                                        ShadowLayout otraMarcaView = findViewById(R.id.otraMarcaView);
+                                        Log.d("OTRA MARCA", spinnerArray[position]);
+                                        if (spinnerArray[position].contains("OTRA")) {
+                                            otraMarcaView.setVisibility(View.VISIBLE);
+                                        } else {
+                                            otraMarcaView.setVisibility(View.INVISIBLE);
+                                        }
+                                    }
+
+
                             }
 
                             @Override
