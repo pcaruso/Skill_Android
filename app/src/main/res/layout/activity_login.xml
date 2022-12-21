@@ -8,6 +8,15 @@
     android:fitsSystemWindows="true"
     tools:context=".authentication.SignInActivity">
 
+    <ImageView
+        android:id="@+id/logout"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        app:srcCompat="@drawable/logout" />
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
@@ -18,6 +27,19 @@
         android:text="Iniciar Sesión"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/textView4"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="PANEL DE HOGAR"
+        android:textAlignment="center"
+        android:textColor="@color/main_color"
         android:textSize="30sp" />
 
     <TextView
@@ -184,11 +206,11 @@
         android:id="@+id/animation_view"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:visibility="gone"
         android:layout_centerInParent="true"
+        android:visibility="gone"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/loading" />
+         />
 
     <LinearLayout
         android:layout_width="wrap_content"

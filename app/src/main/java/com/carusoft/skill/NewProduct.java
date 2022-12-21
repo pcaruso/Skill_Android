@@ -50,7 +50,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class NewProduct extends AppCompatActivity {
+
+    private LinearLayout tipoContainer;
+    private LinearLayout saborContainer;
+    private LinearLayout fraganciaContainer;
+    private LinearLayout variedadContainer;
+    private RelativeLayout fabricanteLayout;
+    private RelativeLayout cantidadLayout;
+    private LinearLayout codBarrasLayout;
+    private String codTipo;
+    private String tipoSt;
+    private RelativeLayout otroTipoLayout;
+    private String codSabor;
+    private String saborSt;
+    private RelativeLayout otroSaborLayout;
+
+    private String codFragancia;
+    private String fraganciaSt;
+    private RelativeLayout otraFraganciaLayout;
+
+    private String codVariedad;
+    private String variedadSt;
+    private RelativeLayout otraVariedadLayout;
+
+
+    public interface VolleyCallBack {
+        void onSuccess(JSONObject json) throws JSONException;
+    }
+
     int check = 0;
 
     Integer validationType = 0;
@@ -59,8 +88,13 @@ public class NewProduct extends AppCompatActivity {
     private SearchableSpinner unidad;
     private SearchableSpinner moneda;
     private SearchableSpinner presentacion;
-    private AppCompatEditText otraMarca;
+    private SearchableSpinner tipo;
+    private SearchableSpinner fragancia;
+    private SearchableSpinner sabor;
+    private SearchableSpinner variedad;
 
+    private AppCompatEditText fabricante;
+    private AppCompatEditText otraMarca;
     private AppCompatEditText gasto;
     private AppCompatEditText peso;
     private AppCompatEditText cantidad;
@@ -86,6 +120,12 @@ public class NewProduct extends AppCompatActivity {
     private RelativeLayout overlay;
     private Integer monedaSt = 0;
 
+    private LinearLayout pesoLayout;
+    private RelativeLayout presentacionLayout;
+    private RelativeLayout marcaLayout;
+    private LinearLayout gastoLayout;
+    private RelativeLayout otraMarcaLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +138,6 @@ public class NewProduct extends AppCompatActivity {
         TextView titulo = (TextView) findViewById(R.id.titulo);
         TextView titulo2 = (TextView) findViewById(R.id.titulo2);
 
-
         ShadowLayout codeTxt = (ShadowLayout) findViewById(R.id.scannerLayout);
         codeTxt.setVisibility(View.GONE);
         TextView legend = (TextView) findViewById(R.id.legend);
@@ -106,11 +145,8 @@ public class NewProduct extends AppCompatActivity {
         Button escanear = (Button) findViewById(R.id.escanear);
         escanear.setVisibility(View.GONE);
 
-
         barcode = findViewById(R.id.barcode);
 
-
-        // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -126,7 +162,6 @@ public class NewProduct extends AppCompatActivity {
                     }
                 });
 
-
         escanear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,80 +173,58 @@ public class NewProduct extends AppCompatActivity {
             }
         });
 
-
         compras = (ArrayList<HashMap<String, Object>>) args.getSerializable("compras");
 
         String compra = args.getString("compra");
         compraData = new Gson().fromJson(compra, new TypeToken<HashMap<String, Object>>() {
         }.getType());
 
-        TextView fecha = (TextView) findViewById(R.id.fecha);
-        fecha.setText(compraData.get("fecha").toString());
+        setHeaderInfo(compraData);
 
-        TextView dia = (TextView) findViewById(R.id.dia);
-        if (compraData.get("day").toString().equals("1")) {
-            dia.setText("Lunes");
-        }
-        if (compraData.get("day").toString().equals("2")) {
-            dia.setText("Martes");
-        }
-        if (compraData.get("day").toString().equals("3")) {
-            dia.setText("Miercoles");
-        }
-        if (compraData.get("day").toString().equals("4")) {
-            dia.setText("Jueves");
-        }
-        if (compraData.get("day").toString().equals("5")) {
-            dia.setText("Viernes");
-        }
-        if (compraData.get("day").toString().equals("6")) {
-            dia.setText("Sabado");
-        }
-        if (compraData.get("day").toString().equals("7")) {
-            dia.setText("Domingo");
-        }
+        pesoLayout = (LinearLayout) findViewById(R.id.pesoLayout);
+        presentacionLayout = (RelativeLayout) findViewById(R.id.presentacionLayout);
+        marcaLayout = (RelativeLayout) findViewById(R.id.marcaLayout);
+        otraMarcaLayout = (RelativeLayout) findViewById(R.id.otraMarcaLayout);
+        gastoLayout = (LinearLayout) findViewById(R.id.gastoLayout);
 
-        TextView semana = (TextView) findViewById(R.id.semana);
-        semana.setText(compraData.get("week").toString());
-
-        TextView tipoNegocio = (TextView) findViewById(R.id.tipoNegocio);
-        tipoNegocio.setText(compraData.get("tipoNegocio").toString());
-
-        TextView nombre = (TextView) findViewById(R.id.nombre);
-        nombre.setText(compraData.get("nombre").toString());
-
-        TextView lugar = (TextView) findViewById(R.id.lugar);
-        lugar.setText(compraData.get("lugar").toString());
+        tipoContainer = (LinearLayout) findViewById(R.id.tipoContainer);
+        otroTipoLayout = (RelativeLayout) findViewById(R.id.otroTipoLayout);
+        saborContainer = (LinearLayout) findViewById(R.id.saborContainer);
+        otroSaborLayout = (RelativeLayout) findViewById(R.id.otroSaborLayout);
+        fraganciaContainer = (LinearLayout) findViewById(R.id.fraganciaContainer);
+        variedadContainer = (LinearLayout) findViewById(R.id.variedadContainer);
+        fabricanteLayout = (RelativeLayout) findViewById(R.id.fabricanteLayout);
+        cantidadLayout = (RelativeLayout) findViewById(R.id.cantidadLayout);
+        codBarrasLayout = (LinearLayout) findViewById(R.id.codBarrasLayout);
 
         categoria = (SearchableSpinner) findViewById(R.id.categoria);
         marcas = (SearchableSpinner) findViewById(R.id.marcas);
         unidad = (SearchableSpinner) findViewById(R.id.unidad);
         moneda = (SearchableSpinner) findViewById(R.id.moneda);
-
         presentacion = (SearchableSpinner) findViewById(R.id.presentacion);
-        otraMarca = (AppCompatEditText) findViewById(R.id.otraMarca);
+        tipo = (SearchableSpinner) findViewById(R.id.tipo);
+        fragancia = (SearchableSpinner) findViewById(R.id.fragancia);
+        sabor = (SearchableSpinner) findViewById(R.id.sabor);
+        variedad = (SearchableSpinner) findViewById(R.id.variedad);
 
+        fabricante = (AppCompatEditText) findViewById(R.id.fabricante);
+        otraMarca = (AppCompatEditText) findViewById(R.id.otraMarca);
         gasto = (AppCompatEditText) findViewById(R.id.gasto);
         peso = (AppCompatEditText) findViewById(R.id.peso);
         cantidad = (AppCompatEditText) findViewById(R.id.cantidad);
 
+        setPlaceholders();
 
         if (args.getInt("editando") == 1) {
             editando = 1;
-            Log.d("EDITANDO", "EDITANDO");
-
             prodIndex = args.getInt("prodIndex");
             titulo.setText("Editar Producto");
             titulo2.setText("Editar Producto");
 
             gasto.setText(compraData.get("gasto").toString());
-
             otraMarca.setText(compraData.get("otraMarca").toString());
-
             cantidad.setText(compraData.get("cantidad").toString());
-
             peso.setText(compraData.get("peso").toString());
-
             barcode.setText(compraData.get("barcode").toString());
 
             codeTxt.setVisibility(View.VISIBLE);
@@ -221,6 +234,7 @@ public class NewProduct extends AppCompatActivity {
 
         getCategorias();
         setupMoneda();
+
         Button nuevoProd = (Button) findViewById(R.id.nuevoProd);
         nuevoProd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -309,10 +323,104 @@ public class NewProduct extends AppCompatActivity {
                 args.putString("editando", "1");
                 intent.putExtra("BUNDLE", args);
                 startActivity(intent);
-
-
             }
         });
+    }
+
+    private void setPlaceholders(){
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Categoria"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categoria.setAdapter(adapter);
+
+        adapter =
+                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Presentacion"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        presentacion.setAdapter(adapter);
+
+        adapter =
+                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Unidad"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        unidad.setAdapter(adapter);
+
+        adapter =
+                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Tipo"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tipo.setAdapter(adapter);
+
+        adapter =
+                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Fragancia"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fragancia.setAdapter(adapter);
+
+        adapter =
+                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Variedad"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        variedad.setAdapter(adapter);
+
+        adapter =
+                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Sabor"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sabor.setAdapter(adapter);
+
+        adapter =
+                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Marca"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        marcas.setAdapter(adapter);
+
+        adapter =
+                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Moneda"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        moneda.setAdapter(adapter);
+
+
+    }
+
+    private void setHeaderInfo(HashMap<String, Object> compraData) {
+
+        TextView fecha = (TextView) findViewById(R.id.fecha);
+        fecha.setText(compraData.get("fecha").toString());
+
+        TextView dia = (TextView) findViewById(R.id.dia);
+        if (compraData.get("day").toString().equals("1")) {
+            dia.setText("Lunes");
+        }
+        if (compraData.get("day").toString().equals("2")) {
+            dia.setText("Martes");
+        }
+        if (compraData.get("day").toString().equals("3")) {
+            dia.setText("Miercoles");
+        }
+        if (compraData.get("day").toString().equals("4")) {
+            dia.setText("Jueves");
+        }
+        if (compraData.get("day").toString().equals("5")) {
+            dia.setText("Viernes");
+        }
+        if (compraData.get("day").toString().equals("6")) {
+            dia.setText("Sabado");
+        }
+        if (compraData.get("day").toString().equals("7")) {
+            dia.setText("Domingo");
+        }
+
+        TextView semana = (TextView) findViewById(R.id.semana);
+        semana.setText(compraData.get("week").toString());
+
+        TextView tipoNegocio = (TextView) findViewById(R.id.tipoNegocio);
+        tipoNegocio.setText(compraData.get("tipoNegocio").toString());
+
+        TextView nombre = (TextView) findViewById(R.id.nombre);
+        nombre.setText(compraData.get("nombre").toString());
+
+        /*TextView estado = (TextView) findViewById(R.id.estado);
+        estado.setText(compraData.get("estado").toString());
+
+        TextView municipio = (TextView) findViewById(R.id.municipio);
+        municipio.setText(compraData.get("municipio").toString());
+
+        TextView barrio = (TextView) findViewById(R.id.barrio);
+        barrio.setText(compraData.get("barrio").toString());*/
     }
 
     private boolean isEmpty(EditText etText) {
@@ -354,7 +462,7 @@ public class NewProduct extends AppCompatActivity {
         }
 
         if (validationType == 4) {
-            if ((codCat != null)  && !(isEmpty(gasto)) && !(isEmpty(gasto)) && (codMarca != null) &&  !(isEmpty(cantidad))) {
+            if ((codCat != null) && !(isEmpty(gasto)) && !(isEmpty(gasto)) && (codMarca != null) && !(isEmpty(cantidad))) {
                 Log.d("VERIF_TYPE", "4");
                 passed = true;
             }
@@ -411,24 +519,800 @@ public class NewProduct extends AppCompatActivity {
             builder.show();
 
         }
-
     }
 
-    private void getCategorias() {
-        String packagesUrl = "http://skill-ca.com/api/categorias.php";
+    private void getData(final VolleyCallBack callBack, String url, HashMap<String, String> params) {
+        String packagesUrl = url;
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.getCache().clear();
-        //startLoader();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, packagesUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("RESPONSE", response);
+                JSONObject json = null;
+                Log.d("TAG", response);
+                try {
+                    json = new JSONObject(response);
+                    callBack.onSuccess(json);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d("VOLLey error", volleyError.getMessage());
+                if (volleyError instanceof TimeoutError) {
+
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                return params;
+            }
+
+            @Override
+            public Request.Priority getPriority() {
+                return Request.Priority.IMMEDIATE;
+            }
+        };
+
+        stringRequest.setShouldCache(false);
+        queue.add(stringRequest);
+    }
+
+    private HashMap<String, Object> setHint(String cod, String name) {
+        HashMap<String, Object> hintItem = new HashMap<String, Object>();
+        hintItem.put(cod, 0);
+        hintItem.put(name, name);
+        return hintItem;
+    }
+
+    private void showFields(HashMap<String, Object> result, String codCat) {
+        String marca = result.get("marca").toString();
+        String tipo = result.get("tipo").toString();
+        String sabor = result.get("sabor").toString();
+        String fragancia = result.get("fragancia").toString();
+        String variedad = result.get("variedad").toString();
+        String fabricante = result.get("fabricante").toString();
+        String cantidad = result.get("cantidad").toString();
+        String costo = result.get("costo").toString();
+        String codBarras = result.get("codBarras").toString();
+
+        if (marca.equals("1")) {
+            marcaLayout.setVisibility(View.VISIBLE);
+            marcas.setTag(1);
+        } else {
+            marcaLayout.setVisibility(View.GONE);
+            marcas.setTag(0);
+        }
+        if (tipo.equals("1")) {
+            tipoContainer.setVisibility(View.VISIBLE);
+            this.tipo.setTag(1);
+
+            getTipo(codCat);
+
+        } else {
+            tipoContainer.setVisibility(View.GONE);
+            this.tipo.setTag(0);
+        }
+        if (sabor.equals("1")) {
+            saborContainer.setVisibility(View.VISIBLE);
+            this.sabor.setTag(1);
+
+            getSabor(codCat);
+
+        } else {
+            saborContainer.setVisibility(View.GONE);
+            this.sabor.setTag(0);
+        }
+        if (fragancia.equals("1")) {
+            fraganciaContainer.setVisibility(View.VISIBLE);
+            this.fragancia.setTag(1);
+
+            getFragancia(codCat);
+
+        } else {
+            fraganciaContainer.setVisibility(View.GONE);
+            this.fragancia.setTag(0);
+        }
+        if (variedad.equals("1")) {
+            variedadContainer.setVisibility(View.VISIBLE);
+            this.variedad.setTag(1);
+        } else {
+            variedadContainer.setVisibility(View.GONE);
+            this.variedad.setTag(0);
+        }
+        if (fabricante.equals("1")) {
+            fabricanteLayout.setVisibility(View.VISIBLE);
+            this.fabricante.setTag(1);
+        } else {
+            fabricanteLayout.setVisibility(View.GONE);
+            this.fabricante.setTag(0);
+        }
+        if (cantidad.equals("1")) {
+            cantidadLayout.setVisibility(View.VISIBLE);
+            this.cantidad.setTag(1);
+        } else {
+            cantidadLayout.setVisibility(View.GONE);
+            this.cantidad.setTag(0);
+        }
+        if (costo.equals("1")) {
+            gastoLayout.setVisibility(View.VISIBLE);
+            this.gasto.setTag(1);
+        } else {
+            gastoLayout.setVisibility(View.GONE);
+            this.gasto.setTag(0);
+        }
+        if (codBarras.equals("1")) {
+            codBarrasLayout.setVisibility(View.VISIBLE);
+        } else {
+            codBarrasLayout.setVisibility(View.GONE);
+        }
+
+    }
+
+    private void resetData() {
+        String empty = "";
+        presentacionSt = empty;
+        pesoSt = empty;
+        marcaSt = empty;
+
+        codPresentacion = null;
+        presentacion.setSelection(0);
+        codMarca = null;
+        marcas.setSelection(0);
+        monedaSt = 0;
+        moneda.setSelection(0);
+        gasto.setText(empty);
+        marcas.setSelection(0);
+        cantidad.setText(empty);
+    }
+
+    private void getCategorias() {
+        getData(new VolleyCallBack() {
+            @Override
+            public void onSuccess(JSONObject json) throws JSONException {
+                if (json.getInt("code") == 1) {
+                    JSONArray resultado = json.getJSONArray("result");
+
+                    String[] spinnerArray = new String[resultado.length() + 1];
+                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+
+                    items.add(setHint("codCat", "categoria"));
+                    spinnerArray[0] = "Categoria";
+
+                    for (int i = 0; i < resultado.length(); i++) {
+                        JSONObject resultObj = resultado.getJSONObject(i);
+                        HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
+                        items.add(item);
+                        spinnerArray[i + 1] = (resultObj.get("categoria").toString());
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    categoria.setAdapter(adapter);
+                    categoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (++check > 0) {
+                                if (position > 0) {
+                                    if (((TextView) parent.getChildAt(0)) != null) {
+                                        ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                    }
+
+                                    codCat = items.get(position).get("codCat").toString();
+                                    categoriaSt = items.get(position).get("categoria").toString();
+
+                                    String por_unidad = items.get(position).get("por_unidad").toString();
+
+                                    showFields(items.get(position), codCat);
+                                    resetData();
+
+                                    getPresentaciones(codCat,por_unidad);
+                                    getMarcas(codCat);
+                                    getUnidades(codCat);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+
+                    if (editando == 1) {
+                        String categoriaCompra = compraData.get("codCat").toString();
+                        codCat = categoriaCompra;
+
+                        String categoriaCompraName = compraData.get("categoria").toString();
+                        categoriaSt = categoriaCompraName;
+                        int spinnerPosition = adapter.getPosition(categoriaCompraName);
+                        categoria.setSelection(spinnerPosition);
+
+                        if ((categoriaCompraName.contains("PAN DETALLADO"))) {
+                            presentacionLayout.setVisibility(View.GONE);
+                            pesoLayout.setVisibility(View.GONE);
+                            marcaLayout.setVisibility(View.GONE);
+                            gastoLayout.setVisibility(View.VISIBLE);
+                        } else {
+                            getPresentaciones(codCat, "0");
+                            getMarcas(codCat);
+                        }
+
+                        if ((categoriaCompraName.contains("HUEVOS")) || (categoriaCompraName.contains("CUBITOS"))) { //|| (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
+                            presentacionLayout.setVisibility(View.VISIBLE);
+                            pesoLayout.setVisibility(View.VISIBLE);
+                            marcaLayout.setVisibility(View.VISIBLE);
+                            getPresentaciones(codCat, "0");
+                            getMarcas(codCat);
+                        }
+
+                    }
+                }
+            }
+        }, "http://skill-ca.com/api/categorias.php", new HashMap<>());
+    }
+
+    private void getPresentaciones(String idCat, String por_unidad) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("codCat", idCat);
+
+        getData(new VolleyCallBack() {
+            @Override
+            public void onSuccess(JSONObject json) throws JSONException {
+                if (json.getInt("code") == 1) {
+                    JSONArray resultado = json.getJSONArray("result");
+
+                    if (resultado.length() == 0){
+                        presentacionLayout.setVisibility(View.GONE);
+                        pesoLayout.setVisibility(View.VISIBLE);
+                    }
+
+                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+                    items.add(setHint("codPresentacion", "presentacion"));
+
+                    String[] spinnerArray = new String[resultado.length() + 1];
+                    spinnerArray[0] = "Presentacion";
+
+                    for (int i = 0; i < resultado.length(); i++) {
+                        JSONObject resultObj = resultado.getJSONObject(i);
+                        HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
+                        items.add(item);
+                        spinnerArray[i + 1] = (resultObj.get("presentacion").toString());
+                    }
+
+                    ArrayAdapter<String> adapter =
+                            new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    presentacion.setAdapter(adapter);
+                    presentacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position > 0) {
+                                if (((TextView) parent.getChildAt(0)) != null) {
+                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                }
+
+                                codPresentacion = items.get(position).get("codPresentacion").toString();
+                                presentacionSt = items.get(position).get("presentacion").toString();
+                                pesoSt = items.get(position).get("pesounidad").toString();
+
+                                if (spinnerArray[position].contains("OTR")) {
+                                    pesoLayout.setVisibility(View.VISIBLE);
+                                } else {
+                                    pesoLayout.setVisibility(View.GONE);
+                                }
+
+                                if (spinnerArray[position].contains("DETALLAD")) {
+                                    pesoLayout.setVisibility(View.VISIBLE);
+
+                                    if (por_unidad.equals("1")){
+                                        pesoLayout.setVisibility(View.GONE);
+                                        cantidadLayout.setVisibility(View.VISIBLE);
+                                    }else{
+                                        pesoLayout.setVisibility(View.VISIBLE);
+                                        cantidadLayout.setVisibility(View.GONE);
+                                    }
+
+                                } else {
+                                    pesoLayout.setVisibility(View.GONE);
+                                }
+
+
+
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+                }
+            }
+        }, "http://skill-ca.com/api/presentaciones.php", params);
+    }
+
+    private void getUnidades(String idCat) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("idCat", idCat);
+
+        getData(new VolleyCallBack() {
+            @Override
+            public void onSuccess(JSONObject json) throws JSONException {
+                if (json.getInt("code") == 1) {
+                    JSONArray resultado = json.getJSONArray("result");
+
+                    String[] spinnerArray = new String[resultado.length() + 1];
+                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+
+                    items.add(setHint("codMedida", "medida"));
+                    spinnerArray[0] = "Medida";
+
+                    for (int i = 0; i < resultado.length(); i++) {
+                        JSONObject resultObj = resultado.getJSONObject(i);
+                        HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
+                        items.add(item);
+                        spinnerArray[i + 1] = (resultObj.get("medida").toString());
+                    }
+
+                    ArrayAdapter<String> adapter =
+                            new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    unidad.setAdapter(adapter);
+                    unidad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position > 0) {
+                                if (((TextView) parent.getChildAt(0)) != null) {
+                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                }
+
+                                codMedida = items.get(position).get("codMedida").toString();
+                                medidaSt = items.get(position).get("medida").toString();
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+
+                    if (editando == 1) {
+                        if (compraData.containsKey("codMedida") == true) {
+                            String codigo = compraData.get("codMedida").toString();
+                            codMedida = codigo;
+                            String titulo = compraData.get("medida").toString();
+                            medidaSt = titulo;
+
+                            Log.d("MEDIDA_ST", titulo);
+                            int spinnerPosition = adapter.getPosition(titulo);
+                            unidad.setSelection(spinnerPosition);
+                        }
+                    }
+                }
+            }
+        }, "http://skill-ca.com/api/medidas.php", params);
+    }
+
+    private void setupMoneda() {
+
+        String[] spinnerArray = new String[4];
+        ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+
+        HashMap<String, Object> hintItem = new HashMap<String, Object>();
+        hintItem.put("moneda", "BOLIVARES");
+        items.add(hintItem);
+        spinnerArray[0] = "BOLIVARES";
+
+        HashMap<String, Object> hintItem2 = new HashMap<String, Object>();
+        hintItem2.put("moneda", "DOLARES");
+        items.add(hintItem2);
+        spinnerArray[1] = "DOLARES";
+
+        HashMap<String, Object> hintItem3 = new HashMap<String, Object>();
+        hintItem3.put("moneda", "PESO COLOMBIANO");
+        items.add(hintItem3);
+        spinnerArray[2] = "PESO COLOMBIANO";
+
+        HashMap<String, Object> hintItem4 = new HashMap<String, Object>();
+        hintItem4.put("moneda", "OTRA");
+        items.add(hintItem4);
+        spinnerArray[3] = "OTRA";
+
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        moneda.setAdapter(adapter);
+        moneda.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
+                    if (((TextView) parent.getChildAt(0)) != null) {
+                        ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                    }
+
+                    Log.d("moneda_position", String.valueOf(position));
+                    monedaSt = position;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        Log.d("editando_moneda", String.valueOf(editando));
+        if (editando == 1) {
+            if (compraData.containsKey("moneda") == true) {
+                Double titulo = Double.parseDouble(compraData.get("moneda").toString());
+                monedaSt = Integer.valueOf(titulo.intValue());
+                moneda.setSelection(monedaSt);
+            }
+        }
+    }
+
+    private void getMarcas(String idCat) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("codCat", idCat);
+
+        getData(new VolleyCallBack() {
+            @Override
+            public void onSuccess(JSONObject json) throws JSONException {
+                if (json.getInt("code") == 1) {
+                    JSONArray resultado = json.getJSONArray("result");
+
+                    String[] spinnerArray = new String[resultado.length() + 1];
+                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+
+                    items.add(setHint("codMarca", "marca"));
+                    spinnerArray[0] = "Marca";
+
+                    for (int i = 0; i < resultado.length(); i++) {
+                        JSONObject resultObj = resultado.getJSONObject(i);
+                        HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
+                        items.add(item);
+                        spinnerArray[i + 1] = (resultObj.get("marca").toString());
+                    }
+
+                    ArrayAdapter<String> adapter =
+                            new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    marcas.setAdapter(adapter);
+                    marcas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position > 0) {
+                                if (((TextView) parent.getChildAt(0)) != null) {
+                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                }
+
+                                codMarca = items.get(position).get("codMarca").toString();
+                                marcaSt = items.get(position).get("marca").toString();
+
+                                if (spinnerArray[position].contains("OTRA")) {
+                                    otraMarcaLayout.setVisibility(View.VISIBLE);
+                                } else {
+                                    otraMarcaLayout.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+
+                    if (editando == 1) {
+                        if (compraData.get("codMarca") != null) {
+                            String codigo = compraData.get("codMarca").toString();
+                            codMarca = codigo;
+                        }
+                        if (compraData.get("marca") != null) {
+                            String titulo = compraData.get("marca").toString();
+                            marcaSt = titulo;
+                            int spinnerPosition = adapter.getPosition(titulo);
+                            marcas.setSelection(spinnerPosition);
+                        }
+                    }
+
+                }
+            }
+        }, "http://skill-ca.com/api/marcas.php", params);
+    }
+
+    private void getTipo(String idCat) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("codCat", idCat);
+
+        getData(new VolleyCallBack() {
+            @Override
+            public void onSuccess(JSONObject json) throws JSONException {
+                if (json.getInt("code") == 1) {
+                    JSONArray resultado = json.getJSONArray("result");
+
+                    String[] spinnerArray = new String[resultado.length() + 1];
+                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+
+                    items.add(setHint("codTipo", "tipo"));
+                    spinnerArray[0] = "Tipo";
+
+                    for (int i = 0; i < resultado.length(); i++) {
+                        JSONObject resultObj = resultado.getJSONObject(i);
+                        HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
+                        items.add(item);
+                        spinnerArray[i + 1] = (resultObj.get("tipo").toString());
+                    }
+
+                    ArrayAdapter<String> adapter =
+                            new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    tipo.setAdapter(adapter);
+                    tipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position > 0) {
+                                if (((TextView) parent.getChildAt(0)) != null) {
+                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                }
+
+                                codTipo = items.get(position).get("codTipo").toString();
+                                tipoSt = items.get(position).get("tipo").toString();
+
+                                if (spinnerArray[position].contains("OTR")) {
+                                    otroTipoLayout.setVisibility(View.VISIBLE);
+                                } else {
+                                    otroTipoLayout.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+
+                    if (editando == 1) {
+                        if (compraData.get("codTipo") != null) {
+                            String codigo = compraData.get("codTipo").toString();
+                            codTipo = codigo;
+                        }
+                        if (compraData.get("tipo") != null) {
+                            String titulo = compraData.get("tipo").toString();
+                            tipoSt = titulo;
+                            int spinnerPosition = adapter.getPosition(titulo);
+                            tipo.setSelection(spinnerPosition);
+                        }
+                    }
+
+                }
+            }
+        }, "http://skill-ca.com/api/tipos.php", params);
+    }
+
+    private void getSabor(String idCat) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("codCat", idCat);
+
+        getData(new VolleyCallBack() {
+            @Override
+            public void onSuccess(JSONObject json) throws JSONException {
+                if (json.getInt("code") == 1) {
+                    JSONArray resultado = json.getJSONArray("result");
+
+                    String[] spinnerArray = new String[resultado.length() + 1];
+                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+
+                    items.add(setHint("codSabor", "sabor"));
+                    spinnerArray[0] = "Sabor";
+
+                    for (int i = 0; i < resultado.length(); i++) {
+                        JSONObject resultObj = resultado.getJSONObject(i);
+                        HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
+                        items.add(item);
+                        spinnerArray[i + 1] = (resultObj.get("sabor").toString());
+                    }
+
+                    ArrayAdapter<String> adapter =
+                            new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    sabor.setAdapter(adapter);
+                    sabor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position > 0) {
+                                if (((TextView) parent.getChildAt(0)) != null) {
+                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                }
+
+                                codSabor = items.get(position).get("codSabor").toString();
+                                saborSt = items.get(position).get("sabor").toString();
+
+                                if (spinnerArray[position].contains("OTR")) {
+                                    otroSaborLayout.setVisibility(View.VISIBLE);
+                                } else {
+                                    otroSaborLayout.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+
+                    if (editando == 1) {
+                        if (compraData.get("codSabor") != null) {
+                            String codigo = compraData.get("codSabor").toString();
+                            codSabor = codigo;
+                        }
+                        if (compraData.get("sabor") != null) {
+                            String titulo = compraData.get("sabor").toString();
+                            saborSt = titulo;
+                            int spinnerPosition = adapter.getPosition(titulo);
+                            sabor.setSelection(spinnerPosition);
+                        }
+                    }
+
+                }
+            }
+        }, "http://skill-ca.com/api/sabores.php", params);
+    }
+
+    private void getVariedad(String idCat) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("codCat", idCat);
+
+        getData(new VolleyCallBack() {
+            @Override
+            public void onSuccess(JSONObject json) throws JSONException {
+                if (json.getInt("code") == 1) {
+                    JSONArray resultado = json.getJSONArray("result");
+
+                    String[] spinnerArray = new String[resultado.length() + 1];
+                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+
+                    items.add(setHint("codVariedad", "variedad"));
+                    spinnerArray[0] = "Variedad";
+
+                    for (int i = 0; i < resultado.length(); i++) {
+                        JSONObject resultObj = resultado.getJSONObject(i);
+                        HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
+                        items.add(item);
+                        spinnerArray[i + 1] = (resultObj.get("variedad").toString());
+                    }
+
+                    ArrayAdapter<String> adapter =
+                            new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    tipo.setAdapter(adapter);
+                    tipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position > 0) {
+                                if (((TextView) parent.getChildAt(0)) != null) {
+                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                }
+
+                                codVariedad = items.get(position).get("codVariedad").toString();
+                                variedadSt = items.get(position).get("variedad").toString();
+
+                                if (spinnerArray[position].contains("OTR")) {
+                                    otraVariedadLayout.setVisibility(View.VISIBLE);
+                                } else {
+                                    otraVariedadLayout.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+
+                    if (editando == 1) {
+                        if (compraData.get("codVariedad") != null) {
+                            String codigo = compraData.get("codVariedad").toString();
+                            codVariedad = codigo;
+                        }
+                        if (compraData.get("variedad") != null) {
+                            String titulo = compraData.get("variedad").toString();
+                            variedadSt = titulo;
+                            int spinnerPosition = adapter.getPosition(titulo);
+                            variedad.setSelection(spinnerPosition);
+                        }
+                    }
+
+                }
+            }
+        }, "http://skill-ca.com/api/variedades.php", params);
+    }
+
+    private void getFragancia(String idCat) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("codCat", idCat);
+
+        getData(new VolleyCallBack() {
+            @Override
+            public void onSuccess(JSONObject json) throws JSONException {
+                if (json.getInt("code") == 1) {
+                    JSONArray resultado = json.getJSONArray("result");
+
+                    String[] spinnerArray = new String[resultado.length() + 1];
+                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+
+                    items.add(setHint("codFragancia", "fragancia"));
+                    spinnerArray[0] = "Fragancia";
+
+                    for (int i = 0; i < resultado.length(); i++) {
+                        JSONObject resultObj = resultado.getJSONObject(i);
+                        HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
+                        items.add(item);
+                        spinnerArray[i + 1] = (resultObj.get("fragancia").toString());
+                    }
+
+                    ArrayAdapter<String> adapter =
+                            new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    fragancia.setAdapter(adapter);
+                    fragancia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position > 0) {
+                                if (((TextView) parent.getChildAt(0)) != null) {
+                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                }
+
+                                codFragancia = items.get(position).get("codFragancia").toString();
+                                fraganciaSt = items.get(position).get("fragancia").toString();
+
+                                if (spinnerArray[position].contains("OTR")) {
+                                    otraFraganciaLayout.setVisibility(View.VISIBLE);
+                                } else {
+                                    otraFraganciaLayout.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+
+                    if (editando == 1) {
+                        if (compraData.get("codFragancia") != null) {
+                            String codigo = compraData.get("codFragancia").toString();
+                            codFragancia = codigo;
+                        }
+                        if (compraData.get("fragancia") != null) {
+                            String titulo = compraData.get("fragancia").toString();
+                            fraganciaSt = titulo;
+                            int spinnerPosition = adapter.getPosition(titulo);
+                            fragancia.setSelection(spinnerPosition);
+                        }
+                    }
+
+                }
+            }
+        }, "http://skill-ca.com/api/fragancias.php", params);
+    }
+
+
+    private void getCategorias_old() {
+        String packagesUrl = "http://skill-ca.com/api/categorias.php";
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.getCache().clear();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, packagesUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
                 JSONObject json = null;
                 try {
                     json = new JSONObject(response);
-                    //stopLoader();
                     if (json.getInt("code") == 1) {
                         JSONArray resultado = json.getJSONArray("result");
 
@@ -455,70 +1339,56 @@ public class NewProduct extends AppCompatActivity {
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         categoria.setAdapter(adapter);
-                        //categoria.setSelection(0,false);
                         categoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if (++check > 1) {
                                     if (position > 0) {
-                                        Log.d("onItemSelected", "CAT_onItemSelected");
-                                        if (((TextView) parent.getChildAt(0)) != null){
+                                        if (((TextView) parent.getChildAt(0)) != null) {
                                             ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                         }
 
                                         codCat = items.get(position).get("codCat").toString();
                                         categoriaSt = items.get(position).get("categoria").toString();
 
-                                        Log.d("codCat", "CAT_onItemSelected");
+                                        String empty = "";
+                                        presentacionSt = empty;
+                                        pesoSt = empty;
+                                        marcaSt = empty;
 
-                                        String titulo = "";
-                                        presentacionSt = titulo;
-                                        pesoSt = titulo;
                                         codPresentacion = null;
                                         presentacion.setSelection(0);
-
-                                        marcaSt = titulo;
                                         codMarca = null;
                                         marcas.setSelection(0);
-
                                         monedaSt = 0;
                                         moneda.setSelection(0);
-
-                                        gasto.setText("");
-
+                                        gasto.setText(empty);
                                         marcas.setSelection(0);
-
-                                        cantidad.setText("");
-
-                                        LinearLayout pesoLayoutRow = findViewById(R.id.pesoLayoutRow);
-                                        ShadowLayout presentacionLayout = findViewById(R.id.presentacionLayout);
-                                        ShadowLayout marcaLayout = findViewById(R.id.marcaLayout);
-                                        ShadowLayout gastoView = findViewById(R.id.gastoView);
-                                        LinearLayout gastoStack = findViewById(R.id.gastoLayoutRow);
+                                        cantidad.setText(empty);
 
                                         if ((spinnerArray[position].contains("PAN DETALLADO"))) {
                                             presentacionLayout.setVisibility(View.GONE);
-                                            pesoLayoutRow.setVisibility(View.GONE);
+                                            pesoLayout.setVisibility(View.GONE);
                                             marcaLayout.setVisibility(View.GONE);
 
-                                            gastoStack.setVisibility(View.VISIBLE);
+                                            gastoLayout.setVisibility(View.VISIBLE);
                                             validationType = 3;
                                         } else {
                                             presentacionLayout.setVisibility(View.VISIBLE);
                                             marcaLayout.setVisibility(View.VISIBLE);
-                                            pesoLayoutRow.setVisibility(View.GONE);
-                                            gastoStack.setVisibility(View.GONE);
+                                            pesoLayout.setVisibility(View.GONE);
+                                            gastoLayout.setVisibility(View.GONE);
 
                                             validationType = 0;
 
-                                            getPresentaciones(codCat);
+                                            getPresentaciones(codCat, "0");
                                             getMarcas(codCat);
                                             getUnidades(codCat);
                                         }
 
-                                         if ((spinnerArray[position].contains("HUEVOS")) || (spinnerArray[position].contains("CUBITOS")) || (spinnerArray[position].contains("GALLETAS DULCES")) || (spinnerArray[position].contains("GALLETAS SALADAS"))){
+                                        if ((spinnerArray[position].contains("HUEVOS")) || (spinnerArray[position].contains("CUBITOS"))) {// || (spinnerArray[position].contains("GALLETAS DULCES")) || (spinnerArray[position].contains("GALLETAS SALADAS"))){
                                             presentacionLayout.setVisibility(View.VISIBLE);
-                                            pesoLayoutRow.setVisibility(View.GONE);
+                                            pesoLayout.setVisibility(View.GONE);
                                             marcaLayout.setVisibility(View.VISIBLE);
                                         }
 
@@ -540,28 +1410,22 @@ public class NewProduct extends AppCompatActivity {
                             int spinnerPosition = adapter.getPosition(categoriaCompraName);
                             categoria.setSelection(spinnerPosition);
 
-                            LinearLayout pesoLayoutRow = findViewById(R.id.pesoLayoutRow);
-                            ShadowLayout presentacionLayout = findViewById(R.id.presentacionLayout);
-                            ShadowLayout marcaLayout = findViewById(R.id.marcaLayout);
-                            ShadowLayout gastoView = findViewById(R.id.gastoView);
-                            LinearLayout gastoStack = findViewById(R.id.gastoLayoutRow);
-
                             if ((categoriaCompraName.contains("PAN DETALLADO"))) {
                                 presentacionLayout.setVisibility(View.GONE);
-                                pesoLayoutRow.setVisibility(View.GONE);
+                                pesoLayout.setVisibility(View.GONE);
                                 marcaLayout.setVisibility(View.GONE);
-                                gastoStack.setVisibility(View.VISIBLE);
+                                gastoLayout.setVisibility(View.VISIBLE);
                             } else {
-                                getPresentaciones(codCat);
+                                getPresentaciones(codCat, "0");
                                 getMarcas(codCat);
                             }
 
-                            if ((categoriaCompraName.contains("HUEVOS")) || (categoriaCompraName.contains("CUBITOS"))|| (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
+                            if ((categoriaCompraName.contains("HUEVOS")) || (categoriaCompraName.contains("CUBITOS"))) { //|| (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
 
                                 presentacionLayout.setVisibility(View.VISIBLE);
-                                pesoLayoutRow.setVisibility(View.VISIBLE);
+                                pesoLayout.setVisibility(View.VISIBLE);
                                 marcaLayout.setVisibility(View.VISIBLE);
-                                getPresentaciones(codCat);
+                                getPresentaciones(codCat, "0");
                                 getMarcas(codCat);
                             }
 
@@ -596,14 +1460,12 @@ public class NewProduct extends AppCompatActivity {
         stringRequest.setShouldCache(false);
         queue.add(stringRequest);
     }
-
-    private void getPresentaciones(String idCat) {
+    private void getPresentaciones_old(String idCat) {
         String packagesUrl = "http://skill-ca.com/api/presentaciones.php";
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.getCache().clear();
         //startLoader();
-        Log.d("getPresentaciones", "getPresentaciones");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, packagesUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -645,47 +1507,42 @@ public class NewProduct extends AppCompatActivity {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if (position > 0) {
-
                                     if (((TextView) parent.getChildAt(0)) != null) {
                                         ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                     }
 
-                                        codPresentacion = items.get(position).get("codPresentacion").toString();
-                                        presentacionSt = items.get(position).get("presentacion").toString();
-                                        pesoSt = items.get(position).get("pesounidad").toString();
+                                    codPresentacion = items.get(position).get("codPresentacion").toString();
+                                    presentacionSt = items.get(position).get("presentacion").toString();
+                                    pesoSt = items.get(position).get("pesounidad").toString();
 
-                                        validationType = 0;
+                                    validationType = 0;
 
-                                        LinearLayout pesoLayoutRow = findViewById(R.id.pesoLayoutRow);
-                                        ShadowLayout gastoView = findViewById(R.id.gastoView);
-                                        LinearLayout gastoStack = findViewById(R.id.gastoLayoutRow);
-                                        if (spinnerArray[position].contains("OTRA")) {
-                                            pesoSt = "";
-                                            gastoStack.setVisibility(View.GONE);
-                                            pesoLayoutRow.setVisibility(View.VISIBLE);
-                                            validationType = 1;
-                                            if ((categoriaSt.contains("HUEVOS")) || (categoriaSt.contains("CUBITOS")) || (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS")) ){
-                                                pesoLayoutRow.setVisibility(View.GONE);
-                                                gastoStack.setVisibility(View.VISIBLE);
-                                                validationType = 4;
-                                            }
-                                        } else {
-                                            gastoStack.setVisibility(View.GONE);
-                                            pesoLayoutRow.setVisibility(View.GONE);
+                                    if (spinnerArray[position].contains("OTRA")) {
+                                        pesoSt = "";
+                                        gastoLayout.setVisibility(View.GONE);
+                                        pesoLayout.setVisibility(View.VISIBLE);
+                                        validationType = 1;
+                                        if ((categoriaSt.contains("HUEVOS")) || (categoriaSt.contains("CUBITOS"))) { // || (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS")) ){
+                                            pesoLayout.setVisibility(View.GONE);
+                                            gastoLayout.setVisibility(View.VISIBLE);
+                                            validationType = 4;
                                         }
-
-                                        if (spinnerArray[position].equals("DETALLADO")) {
-                                            validationType = 2;
-                                            gastoStack.setVisibility(View.VISIBLE);
-                                            pesoLayoutRow.setVisibility(View.VISIBLE);
-                                            if ((categoriaSt.contains("HUEVOS")) || (categoriaSt.contains("CUBITOS")) || (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
-                                                pesoLayoutRow.setVisibility(View.GONE);
-                                                gastoStack.setVisibility(View.VISIBLE);
-                                                validationType = 4;
-                                            }
-                                        }
+                                    } else {
+                                        gastoLayout.setVisibility(View.GONE);
+                                        pesoLayout.setVisibility(View.GONE);
                                     }
 
+                                    if (spinnerArray[position].equals("DETALLADO")) {
+                                        validationType = 2;
+                                        gastoLayout.setVisibility(View.VISIBLE);
+                                        pesoLayout.setVisibility(View.VISIBLE);
+                                        if ((categoriaSt.contains("HUEVOS")) || (categoriaSt.contains("CUBITOS"))) { // || (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
+                                            pesoLayout.setVisibility(View.GONE);
+                                            gastoLayout.setVisibility(View.VISIBLE);
+                                            validationType = 4;
+                                        }
+                                    }
+                                }
 
 
                             }
@@ -696,8 +1553,6 @@ public class NewProduct extends AppCompatActivity {
                         });
 
                         if (editando == 1) {
-
-                            LinearLayout pesoLayoutRow = findViewById(R.id.pesoLayoutRow);
 
                             if (compraData.get("codPresentacion") != null) {
                                 String codigo = compraData.get("codPresentacion").toString();
@@ -710,34 +1565,30 @@ public class NewProduct extends AppCompatActivity {
                                 presentacion.setSelection(spinnerPosition);
                             }
 
-
-                            ShadowLayout gastoView = findViewById(R.id.gastoView);
-                            LinearLayout gastoStack = findViewById(R.id.gastoLayoutRow);
                             if (presentacionSt.contains("OTRA")) {
-                                gastoStack.setVisibility(View.GONE);
-                                pesoLayoutRow.setVisibility(View.VISIBLE);
+                                gastoLayout.setVisibility(View.GONE);
+                                pesoLayout.setVisibility(View.VISIBLE);
                                 validationType = 1;
-                                if ((categoriaSt.contains("HUEVOS")) || (categoriaSt.contains("CUBITOS")) || (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
-                                    pesoLayoutRow.setVisibility(View.GONE);
-                                    gastoStack.setVisibility(View.VISIBLE);
+                                if ((categoriaSt.contains("HUEVOS")) || (categoriaSt.contains("CUBITOS"))) {// || (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
+                                    pesoLayout.setVisibility(View.GONE);
+                                    gastoLayout.setVisibility(View.VISIBLE);
                                     validationType = 4;
                                 }
                             } else {
-                                gastoStack.setVisibility(View.GONE);
-                                pesoLayoutRow.setVisibility(View.GONE);
+                                gastoLayout.setVisibility(View.GONE);
+                                pesoLayout.setVisibility(View.GONE);
                             }
 
                             if (presentacionSt.equals("DETALLADO")) {
-                                gastoStack.setVisibility(View.VISIBLE);
-                                pesoLayoutRow.setVisibility(View.VISIBLE);
+                                gastoLayout.setVisibility(View.VISIBLE);
+                                pesoLayout.setVisibility(View.VISIBLE);
                                 validationType = 2;
-                                if ((categoriaSt.contains("HUEVOS")) || (categoriaSt.contains("CUBITOS")) || (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
-                                    pesoLayoutRow.setVisibility(View.GONE);
-                                    gastoStack.setVisibility(View.VISIBLE);
+                                if ((categoriaSt.contains("HUEVOS")) || (categoriaSt.contains("CUBITOS"))) {// || (categoriaSt.contains("GALLETAS DULCES")) || (categoriaSt.contains("GALLETAS SALADAS"))){
+                                    pesoLayout.setVisibility(View.GONE);
+                                    gastoLayout.setVisibility(View.VISIBLE);
                                     validationType = 4;
                                 }
                             }
-
 
 
                             getUnidades(codCat);
@@ -776,15 +1627,11 @@ public class NewProduct extends AppCompatActivity {
         stringRequest.setShouldCache(false);
         queue.add(stringRequest);
     }
-
-    private void getUnidades(String codCat) {
-        Log.d("getUnidades", "getUnidades");
+    private void getUnidades_old(String codCat) {
         String packagesUrl = "http://skill-ca.com/api/medidas.php";
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.getCache().clear();
-        //startLoader();
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, packagesUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -792,8 +1639,6 @@ public class NewProduct extends AppCompatActivity {
                 JSONObject json = null;
                 try {
                     json = new JSONObject(response);
-                    //stopLoader();
-
                     if (json.getInt("code") == 1) {
                         JSONArray resultado = json.getJSONArray("result");
                         String[] spinnerArray = new String[resultado.length() + 1];
@@ -825,10 +1670,9 @@ public class NewProduct extends AppCompatActivity {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if (position > 0) {
-                                    if (((TextView) parent.getChildAt(0)) != null){
+                                    if (((TextView) parent.getChildAt(0)) != null) {
                                         ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                     }
-
 
                                     codMedida = items.get(position).get("codMedida").toString();
                                     medidaSt = items.get(position).get("medida").toString();
@@ -883,63 +1727,11 @@ public class NewProduct extends AppCompatActivity {
         stringRequest.setShouldCache(false);
         queue.add(stringRequest);
     }
-
-
-    private void setupMoneda() {
-
-        String[] spinnerArray = new String[2];
-        ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
-
-        HashMap<String, Object> hintItem = new HashMap<String, Object>();
-        hintItem.put("moneda", "BOLIVARES");
-        items.add(hintItem);
-        spinnerArray[0] = "BOLIVARES";
-
-        HashMap<String, Object> hintItem2 = new HashMap<String, Object>();
-        hintItem2.put("moneda", "DOLARES");
-        items.add(hintItem2);
-        spinnerArray[1] = "DOLARES";
-
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        moneda.setAdapter(adapter);
-        moneda.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0) {
-                    if (((TextView) parent.getChildAt(0)) != null){
-                        ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-                    }
-
-
-                    Log.d("moneda_position", String.valueOf(position));
-                    monedaSt = position;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-        Log.d("editando_moneda", String.valueOf(editando));
-        if (editando == 1) {
-            if (compraData.containsKey("moneda") == true) {
-                Double titulo = Double.parseDouble(compraData.get("moneda").toString());
-                monedaSt = Integer.valueOf(titulo.intValue());
-                moneda.setSelection(monedaSt);
-            }
-        }
-    }
-
-    private void getMarcas(String idCat) {
+    private void getMarcas_old(String idCat) {
         String packagesUrl = "http://skill-ca.com/api/marcas.php";
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.getCache().clear();
-        //startLoader();
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, packagesUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -982,16 +1774,16 @@ public class NewProduct extends AppCompatActivity {
                                     if (((TextView) parent.getChildAt(0)) != null) {
                                         ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                     }
-                                        codMarca = items.get(position).get("codMarca").toString();
-                                        marcaSt = items.get(position).get("marca").toString();
-                                        ShadowLayout otraMarcaView = findViewById(R.id.otraMarcaView);
-                                        Log.d("OTRA MARCA", spinnerArray[position]);
-                                        if (spinnerArray[position].contains("OTRA")) {
-                                            otraMarcaView.setVisibility(View.VISIBLE);
-                                        } else {
-                                            otraMarcaView.setVisibility(View.INVISIBLE);
-                                        }
+                                    codMarca = items.get(position).get("codMarca").toString();
+                                    marcaSt = items.get(position).get("marca").toString();
+
+                                    Log.d("OTRA MARCA", spinnerArray[position]);
+                                    if (spinnerArray[position].contains("OTRA")) {
+                                        otraMarcaLayout.setVisibility(View.VISIBLE);
+                                    } else {
+                                        otraMarcaLayout.setVisibility(View.INVISIBLE);
                                     }
+                                }
 
 
                             }
@@ -1012,7 +1804,6 @@ public class NewProduct extends AppCompatActivity {
                                 int spinnerPosition = adapter.getPosition(titulo);
                                 marcas.setSelection(spinnerPosition);
                             }
-
                         }
 
                     }
@@ -1047,8 +1838,14 @@ public class NewProduct extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
-    private void logout() {
 
+
+
+
+
+
+
+    private void logout() {
         SharedPreferences mPrefs = getSharedPreferences("prefs", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         prefsEditor.remove("idHogar").apply();

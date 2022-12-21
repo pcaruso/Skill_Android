@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_regular"
-        android:text="Registrar Producto"
+        android:text="Datos del Negocio"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16sp" />
@@ -212,13 +212,69 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_regular"
-                            android:text="Lugar:"
+                            android:text="Estado:"
                             android:textAlignment="viewStart"
                             android:textColor="@color/darkGray"
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/lugar"
+                            android:id="@+id/estado"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="   "
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Municipio:"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/municipio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="   "
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:text="Barrio:"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/barrio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
@@ -239,7 +295,7 @@
                         android:background="@drawable/semiround_gold_solid"
                         android:fontFamily="@font/poppins_bold"
                         android:padding="0dp"
-                        android:text="Editar Compra"
+                        android:text="Editar datos del Negocio"
                         android:textColor="@android:color/white"
                         android:textSize="12sp" />
 
@@ -262,459 +318,511 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="Ingrese manualmente el producto"
+                    android:text="Ingrese los datos del producto"
                     android:textAlignment="viewStart"
                     android:textColor="@color/darkGray"
                     android:textSize="16sp" />
 
-                <net.orandja.shadowlayout.ShadowLayout
+                <RelativeLayout
+
+                    android:id="@+id/categoriaLayout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/semiround_white_solid"
-                    android:padding="4dp"
-                    app:shadow_cast_only_background="true"
-                    app:shadow_color="#808"
-                    app:shadow_downscale="1"
-                    app:shadow_radius="8"
-                    app:shadow_with_color="true"
-                    app:shadow_with_content="true"
-                    app:shadow_with_css_scale="true"
-                    app:shadow_with_dpi_scale="true"
-                    app:shadow_x_shift="0dp"
-                    app:shadow_y_shift="4dp">
+                    android:background="@color/white">
 
-                    <RelativeLayout
-                        android:id="@+id/emailLayout"
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:id="@+id/categoria"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:padding="0dp"
+                        android:textAlignment="center" />
+                </RelativeLayout>
 
-                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                            android:id="@+id/categoria"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="0dp"
-                            android:padding="0dp"
-                            android:textAlignment="center" />
-                    </RelativeLayout>
+                <RelativeLayout
 
-                </net.orandja.shadowlayout.ShadowLayout>
-
-                <net.orandja.shadowlayout.ShadowLayout
                     android:id="@+id/presentacionLayout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_gravity="center"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/semiround_white_solid"
-                    android:padding="4dp"
-                    android:visibility="visible"
-                    app:shadow_cast_only_background="true"
-                    app:shadow_color="#808"
-                    app:shadow_downscale="1"
-                    app:shadow_radius="8"
-                    app:shadow_with_color="true"
-                    app:shadow_with_content="true"
-                    app:shadow_with_css_scale="true"
-                    app:shadow_with_dpi_scale="true"
-                    app:shadow_x_shift="0dp"
-                    app:shadow_y_shift="4dp">
+                    android:background="@color/white">
 
-                    <RelativeLayout
-                        android:id="@+id/emailLayout"
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:id="@+id/presentacion"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="5dp">
-
-                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                            android:id="@+id/presentacion"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp"
-                            android:padding="0dp"
-                            android:textAlignment="center" />
-                    </RelativeLayout>
-
-                </net.orandja.shadowlayout.ShadowLayout>
+                        android:layout_marginStart="5dp"
+                        android:padding="0dp"
+                        android:textAlignment="center" />
+                </RelativeLayout>
 
 
                 <LinearLayout
-                    android:id="@+id/pesoLayoutRow"
+                    android:id="@+id/pesoLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal"
-                    android:visibility="invisible">
+                    android:visibility="gone">
 
-                    <net.orandja.shadowlayout.ShadowLayout
+                    <RelativeLayout
+
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="5dp"
                         android:layout_weight="1.5"
-                        android:background="@drawable/semiround_white_solid"
-                        android:padding="4dp"
-                        app:shadow_cast_only_background="true"
-                        app:shadow_color="#808"
-                        app:shadow_downscale="1"
-                        app:shadow_radius="8"
-                        app:shadow_with_color="true"
-                        app:shadow_with_content="true"
-                        app:shadow_with_css_scale="true"
-
-                        app:shadow_with_dpi_scale="true"
-                        app:shadow_x_shift="0dp"
-                        app:shadow_y_shift="4dp">
-
-                        <RelativeLayout
-                            android:id="@+id/passLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp">
-
-                            <androidx.appcompat.widget.AppCompatEditText
-
-                                android:id="@+id/peso"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="5dp"
-                                android:background="@null"
-                                android:ems="10"
-                                android:fontFamily="@font/poppins_regular"
-                                android:hint="Peso/Vol."
-
-                                android:inputType="none|number"
-                                android:textSize="14sp" />
-                        </RelativeLayout>
-
-                    </net.orandja.shadowlayout.ShadowLayout>
-
-                    <net.orandja.shadowlayout.ShadowLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="2"
-                        android:background="@drawable/semiround_white_solid"
-                        android:padding="4dp"
-                        app:shadow_cast_only_background="true"
-                        app:shadow_color="#808"
-                        app:shadow_downscale="1"
-                        app:shadow_radius="8"
-                        app:shadow_with_color="true"
-                        app:shadow_with_content="true"
-
-                        app:shadow_with_css_scale="true"
-                        app:shadow_with_dpi_scale="true"
-                        app:shadow_x_shift="0dp"
-                        app:shadow_y_shift="4dp">
-
-                        <RelativeLayout
-                            android:id="@+id/emailLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp">
-
-                            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                                android:id="@+id/unidad"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="5dp"
-                                android:padding="0dp"
-                                android:textAlignment="center" />
-                        </RelativeLayout>
-
-                    </net.orandja.shadowlayout.ShadowLayout>
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/gastoLayoutRow"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:visibility="invisible">
-
-                    <net.orandja.shadowlayout.ShadowLayout
-                        android:id="@+id/gastoView"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/semiround_white_solid"
-                        android:padding="4dp"
-                        app:shadow_cast_only_background="true"
-                        app:shadow_color="#808"
-                        app:shadow_downscale="1"
-                        app:shadow_radius="8"
-                        app:shadow_with_color="true"
-                        app:shadow_with_content="true"
-
-                        app:shadow_with_css_scale="true"
-                        app:shadow_with_dpi_scale="true"
-                        app:shadow_x_shift="0dp"
-                        app:shadow_y_shift="4dp">
-
-                        <RelativeLayout
-                            android:id="@+id/passLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp">
-
-                            <androidx.appcompat.widget.AppCompatEditText
-
-                                android:id="@+id/gasto"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="5dp"
-                                android:background="@null"
-                                android:ems="10"
-                                android:fontFamily="@font/poppins_regular"
-                                android:hint="Costo"
-
-                                android:inputType="numberDecimal"
-                                android:textSize="14sp" />
-                        </RelativeLayout>
-
-                    </net.orandja.shadowlayout.ShadowLayout>
-
-                    <net.orandja.shadowlayout.ShadowLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/semiround_white_solid"
-                        android:padding="4dp"
-                        app:shadow_cast_only_background="true"
-                        app:shadow_color="#808"
-                        app:shadow_downscale="1"
-                        app:shadow_radius="8"
-                        app:shadow_with_color="true"
-                        app:shadow_with_content="true"
-
-                        app:shadow_with_css_scale="true"
-                        app:shadow_with_dpi_scale="true"
-                        app:shadow_x_shift="0dp"
-                        app:shadow_y_shift="4dp">
-
-                        <RelativeLayout
-                            android:id="@+id/emailLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp">
-
-                            <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                                android:id="@+id/moneda"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="5dp"
-                                android:padding="0dp"
-                                android:textAlignment="center" />
-                        </RelativeLayout>
-
-                    </net.orandja.shadowlayout.ShadowLayout>
-
-                </LinearLayout>
-
-
-
-                <net.orandja.shadowlayout.ShadowLayout
-                    android:id="@+id/marcaLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/semiround_white_solid"
-                    android:padding="4dp"
-                    app:shadow_cast_only_background="true"
-                    app:shadow_color="#808"
-                    app:shadow_downscale="1"
-                    app:shadow_radius="8"
-                    app:shadow_with_color="true"
-                    app:shadow_with_content="true"
-
-                    app:shadow_with_css_scale="true"
-                    app:shadow_with_dpi_scale="true"
-                    app:shadow_x_shift="0dp"
-                    app:shadow_y_shift="4dp">
-
-                    <RelativeLayout
-                        android:id="@+id/emailLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp">
-
-                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                            android:id="@+id/marcas"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="5dp"
-                            android:padding="0dp"
-                            android:textAlignment="center" />
-                    </RelativeLayout>
-
-                </net.orandja.shadowlayout.ShadowLayout>
-
-                <net.orandja.shadowlayout.ShadowLayout
-                    android:id="@+id/otraMarcaView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/semiround_white_solid"
-                    android:padding="4dp"
-                    android:visibility="invisible"
-                    app:shadow_cast_only_background="true"
-                    app:shadow_color="#808"
-                    app:shadow_downscale="1"
-                    app:shadow_radius="8"
-                    app:shadow_with_color="true"
-                    app:shadow_with_content="true"
-
-                    app:shadow_with_css_scale="true"
-                    app:shadow_with_dpi_scale="true"
-                    app:shadow_x_shift="0dp"
-                    app:shadow_y_shift="4dp">
-
-                    <RelativeLayout
-                        android:id="@+id/fechaLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp">
+                        android:background="@color/white">
 
                         <androidx.appcompat.widget.AppCompatEditText
 
-                            android:id="@+id/otraMarca"
+                            android:id="@+id/peso"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginStart="5dp"
                             android:background="@null"
                             android:ems="10"
                             android:fontFamily="@font/poppins_regular"
-                            android:hint="Otra Marca"
+                            android:hint="Peso/Vol."
+
+                            android:inputType="none|number"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="2"
+                        android:background="@color/white">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/unidad"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+
+                    android:id="@+id/marcaLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    tools:visibility="gone">
+
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:id="@+id/marcas"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:padding="0dp"
+                        android:textAlignment="center" />
+                </RelativeLayout>
+
+                <RelativeLayout
+
+                    android:id="@+id/otraMarcaLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+
+                        android:id="@+id/otraMarca"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:background="@null"
+                        android:ems="10"
+                        android:fontFamily="@font/poppins_regular"
+                        android:hint="Otra Marca"
+
+                        android:inputType="textPersonName"
+                        android:textSize="14sp"
+                        android:visibility="visible" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/tipoContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:visibility="gone">
+
+                    <RelativeLayout
+                        android:id="@+id/tipoLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/tipo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:id="@+id/otroTipoLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/otroTipo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="Otro Tipo"
+
+                            android:inputType="textPersonName"
+                            android:textSize="14sp"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/saborContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:visibility="gone">
+
+                    <RelativeLayout
+                        android:id="@+id/saborLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/sabor"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:id="@+id/otroSaborLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/otroSabor"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="Otro Sabor"
 
                             android:inputType="textPersonName"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
-                </net.orandja.shadowlayout.ShadowLayout>
+                </LinearLayout>
 
 
-                <net.orandja.shadowlayout.ShadowLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/semiround_white_solid"
-                    android:padding="4dp"
-                    app:shadow_cast_only_background="true"
-                    app:shadow_color="#808"
-                    app:shadow_downscale="1"
-                    app:shadow_radius="8"
-                    app:shadow_with_color="true"
-                    app:shadow_with_content="true"
-                    app:shadow_with_css_scale="true"
-                    app:shadow_with_dpi_scale="true"
-
-                    app:shadow_x_shift="0dp"
-                    app:shadow_y_shift="4dp">
+                <LinearLayout
+                    android:id="@+id/fraganciaContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:visibility="gone">
 
                     <RelativeLayout
-                        android:id="@+id/fechaLayout"
+                        android:id="@+id/fraganciaLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp">
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/fragancia"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:id="@+id/otraFraganciaLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:visibility="gone">
 
                         <androidx.appcompat.widget.AppCompatEditText
 
-                            android:id="@+id/cantidad"
+                            android:id="@+id/otraFragancia"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginStart="5dp"
                             android:background="@null"
                             android:ems="10"
                             android:fontFamily="@font/poppins_regular"
-                            android:hint="Cantidad de Productos."
-                            android:inputType="numberDecimal"
+                            android:hint="Otra Fragancia"
 
-
+                            android:inputType="textPersonName"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
-                </net.orandja.shadowlayout.ShadowLayout>
+                </LinearLayout>
 
-
-                <TextView
-                    android:id="@+id/legend"
+                <LinearLayout
+                    android:id="@+id/variedadContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="si el producto posse codigo de barras por favor escanee aquí"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/darkGray"
-                    android:textSize="16sp"
-                    android:visibility="visible" />
-
-                <Button
-                    android:id="@+id/escanear"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/semiround_gold_solid"
-                    android:fontFamily="@font/poppins_bold"
-                    android:padding="0dp"
-                    android:text="ESCANEAR"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
-                <net.orandja.shadowlayout.ShadowLayout
-                    android:id="@+id/scannerLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="40dp"
-                    android:background="@drawable/semiround_white_solid"
-                    android:padding="4dp"
-                    app:shadow_cast_only_background="true"
-                    app:shadow_color="#808"
-                    app:shadow_downscale="1"
-                    app:shadow_radius="8"
-                    app:shadow_with_color="true"
-                    app:shadow_with_content="true"
-
-                    app:shadow_with_css_scale="true"
-                    app:shadow_with_dpi_scale="true"
-                    app:shadow_x_shift="0dp"
-                    app:shadow_y_shift="4dp">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:visibility="gone">
 
                     <RelativeLayout
-                        android:id="@+id/barcodeLayout"
+                        android:id="@+id/variedadLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp">
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/variedad"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:id="@+id/otraVariedadLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:visibility="gone">
 
                         <androidx.appcompat.widget.AppCompatEditText
 
-                            android:id="@+id/barcode"
+                            android:id="@+id/otraVariedad"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginStart="5dp"
                             android:background="@null"
                             android:ems="10"
                             android:fontFamily="@font/poppins_regular"
-                            android:hint="Ingrese manualmente el código"
-                            android:inputType="numberDecimal"
+                            android:hint="Otra Variedad"
 
-
+                            android:inputType="textPersonName"
                             android:textSize="14sp" />
                     </RelativeLayout>
 
-                </net.orandja.shadowlayout.ShadowLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/fabricanteLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    tools:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+
+                        android:id="@+id/fabricante"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:background="@null"
+                        android:ems="10"
+                        android:fontFamily="@font/poppins_regular"
+                        android:hint="Fabricante"
+
+                        android:inputType="none"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/gastoLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <RelativeLayout
+                        android:id="@+id/passLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@color/white">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/gasto"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="Costo"
+
+                            android:inputType="numberDecimal"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="2"
+                        android:background="@color/white">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/moneda"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <RelativeLayout
+
+                    android:id="@+id/cantidadLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    tools:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+
+                        android:id="@+id/cantidad"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:background="@null"
+                        android:ems="10"
+                        android:fontFamily="@font/poppins_regular"
+                        android:hint="Cantidad de Productos."
+                        android:inputType="numberDecimal"
+
+
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/codBarrasLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/legend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="si el producto posse codigo de barras por favor escanee aquí"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/darkGray"
+                        android:textSize="16sp"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/escanear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/semiround_gold_solid"
+                        android:fontFamily="@font/poppins_bold"
+                        android:padding="0dp"
+                        android:text="ESCANEAR"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
+
+                    <net.orandja.shadowlayout.ShadowLayout
+                        android:id="@+id/scannerLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="40dp"
+                        android:background="@drawable/semiround_white_solid"
+                        android:padding="4dp"
+                        app:shadow_cast_only_background="true"
+                        app:shadow_color="#808"
+                        app:shadow_downscale="1"
+                        app:shadow_radius="8"
+                        app:shadow_with_color="true"
+                        app:shadow_with_content="true"
+
+                        app:shadow_with_css_scale="true"
+                        app:shadow_with_dpi_scale="true"
+                        app:shadow_x_shift="0dp"
+                        app:shadow_y_shift="4dp">
+
+                        <RelativeLayout
+                            android:id="@+id/barcodeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+
+                                android:id="@+id/barcode"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="5dp"
+                                android:background="@null"
+                                android:ems="10"
+                                android:fontFamily="@font/poppins_regular"
+                                android:hint="Ingrese manualmente el código"
+                                android:inputType="numberDecimal"
+
+
+                                android:textSize="14sp" />
+                        </RelativeLayout>
+
+                    </net.orandja.shadowlayout.ShadowLayout>
+
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -789,7 +897,7 @@
         android:visibility="gone"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/loading" />
+         />
 
     <ImageView
         android:id="@+id/logout"

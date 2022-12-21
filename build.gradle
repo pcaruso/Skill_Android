@@ -25,9 +25,11 @@ allprojects {
         jcenter()
         google()
         mavenCentral()
-
-
-
+    }
+    configurations.all {
+        resolutionStrategy {
+            force 'androidx.core:core-ktx:1.6.0'
+        }
     }
 }
 

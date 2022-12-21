@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_regular"
-        android:text="Registrar Producto"
+        android:text="Datos del Negocio"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16sp" />
@@ -40,16 +40,6 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Revision de Compra"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/black"
-                    android:textSize="30sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -250,9 +240,20 @@
                         android:background="@drawable/semiround_gold_solid"
                         android:fontFamily="@font/poppins_bold"
                         android:padding="0dp"
-                        android:text="Editar Compra"
+                        android:text="Editar Datos del Negocio"
                         android:textColor="@android:color/white"
                         android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Revision de Compra"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="30sp" />
 
                 </LinearLayout>
 
@@ -260,7 +261,6 @@
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Listado Productos"
                     android:textAlignment="viewStart"
@@ -335,7 +335,7 @@
         android:layout_centerInParent="true"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/loading" />
+         />
 
     <ImageView
         android:id="@+id/logout"

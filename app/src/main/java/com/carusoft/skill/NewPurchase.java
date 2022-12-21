@@ -70,6 +70,10 @@ public class NewPurchase extends AppCompatActivity {
     private RelativeLayout overlay;
 
     private SearchableSpinner tipoNegocio;
+    private SearchableSpinner municipios;
+    private SearchableSpinner estados;
+    private AppCompatEditText barrio;
+
     private AppCompatEditText fecha;
 
     private AppCompatEditText nombre;
@@ -81,6 +85,10 @@ public class NewPurchase extends AppCompatActivity {
     private DatePickerDialog dialogoFecha;
     private int editando = 0;
     private HashMap<String, Object> compraData;
+    private String codEstado;
+    private String estadoSt;
+    private String codMunicipio;
+    private String municipioSt;
 
 
     @Override
@@ -93,6 +101,7 @@ public class NewPurchase extends AppCompatActivity {
             compras = new ArrayList<HashMap<String, Object>>();
         }
         getTipoNegocios();
+        getEstados();
 
         lugar = (AppCompatEditText) findViewById(R.id.lugar);
         nombre = (AppCompatEditText) findViewById(R.id.nombre);
@@ -106,6 +115,7 @@ public class NewPurchase extends AppCompatActivity {
             if (args.getString("editando") != null) {
                 if (args.getString("editando").equals("1")) {
                     editando = 1;
+
                     TextView titulo = (TextView) findViewById(R.id.titulo);
                     titulo.setText("Editar Compra");
 
@@ -113,7 +123,7 @@ public class NewPurchase extends AppCompatActivity {
                     next.setText("Guardar");
 
                     compras = (ArrayList<HashMap<String, Object>>) args.getSerializable("compras");
-                    Log.d("COMPRAS", String.valueOf(compras));
+
                     String compra = args.getString("compra");
                     compraData = new Gson().fromJson(compra, new TypeToken<HashMap<String, Object>>() {
                     }.getType());
@@ -140,27 +150,13 @@ public class NewPurchase extends AppCompatActivity {
             }
         });
 
-        /*Button composeEmail = (Button) findViewById(R.id.contacto);
-        composeEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                composeEmail();
-            }
-        });*/
         Button contacto = (Button) findViewById(R.id.contacto);
         contacto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    /*Intent intent = new Intent(Intent.ACTION_SENDTO);
-                    intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-                    intent.putExtra(Intent.EXTRA_EMAIL, "info@skill-ca.com");
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Contacto desde Android app");
-                    startActivity(intent);
-                     */
-
                     Intent email = new Intent(Intent.ACTION_SEND);
-                    email.putExtra(Intent.EXTRA_EMAIL, new String[]{ "panelskill@gmail.com"});
+                    email.putExtra(Intent.EXTRA_EMAIL, new String[]{"panelskill@gmail.com"});
                     email.setType("message/rfc822");
                     startActivity(Intent.createChooser(email, ""));
 
@@ -191,7 +187,11 @@ public class NewPurchase extends AppCompatActivity {
 
         nombre = (AppCompatEditText) findViewById(R.id.nombre);
         fecha = (AppCompatEditText) findViewById(R.id.fecha);
-        tipoNegocio = (SearchableSpinner) findViewById(R.id.spinner);
+        tipoNegocio = (SearchableSpinner) findViewById(R.id.tipoNegocio);
+        municipios = (SearchableSpinner) findViewById(R.id.municipioCompra);
+        estados = (SearchableSpinner) findViewById(R.id.estadoCompra);
+        barrio = (AppCompatEditText) findViewById(R.id.barrioCompra);
+
 
         ClassNegocio hintNegocio = new ClassNegocio();
         hintNegocio.setIdNegocio(0);
@@ -224,24 +224,21 @@ public class NewPurchase extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (!(fecha.getText().toString().isEmpty()) && (codNegocio != null) && !(nombre.getText().toString().isEmpty()) && !(lugar.getText().toString().isEmpty())) {
+                if (!(fecha.getText().toString().isEmpty()) && (codNegocio != null) && (codMunicipio != null) && (codEstado != null) && !(nombre.getText().toString().isEmpty()) && !(lugar.getText().toString().isEmpty())) {
                     HashMap<String, Object> data = new HashMap<>();
                     data.put("fecha", fecha.getText().toString());
 
                     String dtStart = fecha.getText().toString();
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     try {
-                        Log.d("dtStart", dtStart);
                         Date date = format.parse(dtStart);
                         Calendar cl = Calendar.getInstance();
                         cl.setTime(date);
 
-                        Log.d("CALENDAR", String.valueOf(cl));
-
                         SimpleDateFormat dateFormat = new SimpleDateFormat("u");
                         dayOfTheWeek = dateFormat.format(date);
                         SimpleDateFormat dateFormat2 = new SimpleDateFormat("w");
-                        weekYear = String.valueOf(Integer.parseInt(dateFormat2.format(date))+948);
+                        weekYear = String.valueOf(Integer.parseInt(dateFormat2.format(date)) + 948);
                         year = (String) DateFormat.format("yyyy", date); // 2013
 
                         data.put("week", weekYear);
@@ -256,9 +253,15 @@ public class NewPurchase extends AppCompatActivity {
                     data.put("nombre", nombre.getText().toString().toUpperCase());
                     data.put("codNegocio", codNegocio);
                     data.put("tipoNegocio", tipoNegocioName);
+                    data.put("codMunicipio", codMunicipio);
+                    data.put("municipioCompra", municipioSt);
+                    data.put("codEstado", codEstado);
+                    data.put("estadoCompra", estadoSt);
+                    data.put("barrio", barrio.getText().toString().toUpperCase());
 
                     SharedPreferences mPrefs = getSharedPreferences("prefs", MODE_PRIVATE);
                     SharedPreferences.Editor prefsEditor = mPrefs.edit();
+
                     String idHogar = mPrefs.getString("idHogar", "");
                     String grupo = mPrefs.getString("grupo", "");
                     String municipio = mPrefs.getString("municipio", "");
@@ -271,9 +274,9 @@ public class NewPurchase extends AppCompatActivity {
                     data.put("estado", estado);
                     data.put("ciudad", ciudad);
 
-
                     if (editando == 1) {
                         ArrayList<HashMap<String, Object>> comprasEdited = new ArrayList<>();
+
                         for (int i = 0; i < compras.size(); i++) {
                             HashMap<String, Object> purchase = (HashMap<String, Object>) compras.get(i);
                             purchase.put("fecha", dtStart);
@@ -286,6 +289,13 @@ public class NewPurchase extends AppCompatActivity {
                             purchase.put("nombre", nombre.getText().toString());
                             purchase.put("codNegocio", codNegocio);
                             purchase.put("tipoNegocio", tipoNegocioName);
+
+                            purchase.put("codMunicipio", codMunicipio);
+                            purchase.put("municipioCompra", municipioSt);
+                            purchase.put("codEstado", codEstado);
+                            purchase.put("estadoCompra", estadoSt);
+                            purchase.put("barrio", barrio.getText().toString().toUpperCase());
+
                             comprasEdited.add(purchase);
                         }
                         compras = comprasEdited;
@@ -296,18 +306,14 @@ public class NewPurchase extends AppCompatActivity {
                         args.putString("compra", new Gson().toJson(compraData));
                         intent.putExtra("BUNDLE", args);
                         startActivity(intent);
-
-                    }else {
-
+                    } else {
                         Intent intent = new Intent(NewPurchase.this, NewProduct.class);
                         Bundle args = new Bundle();
                         args.putSerializable("compras", (Serializable) compras);
                         args.putString("compra", new Gson().toJson(data));
                         intent.putExtra("BUNDLE", args);
-
                         startActivity(intent);
                     }
-
                 } else {
                     CFAlertDialog.Builder builder = new CFAlertDialog.Builder(NewPurchase.this)
                             .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
@@ -325,83 +331,22 @@ public class NewPurchase extends AppCompatActivity {
 
     }
 
-    private DatePickerDialog.OnDateSetListener listenerDeDatePicker = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int anio, int mes, int diaDelMes) {
-            // Esto se llama cuando seleccionan una fecha. Nos pasa la vista, pero más importante, nos pasa:
-            // El año, el mes y el día del mes. Es lo que necesitamos para saber la fecha completa
-            String fechaSt = String.format(Locale.getDefault(), "%02d-%02d-%02d", anio, mes + 1, diaDelMes);
-
-            fecha.setText(fechaSt);
-        }
-    };
-
-    private void getTipoNegocios() {
-        String packagesUrl = "http://skill-ca.com/api/negocio.php";
+    private void getData(final NewProduct.VolleyCallBack callBack, String url, HashMap<String, String> params) {
+        String packagesUrl = url;
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.getCache().clear();
-        //startLoader();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, packagesUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("RESPONSE", response);
                 JSONObject json = null;
+                Log.d("TAG", response);
                 try {
                     json = new JSONObject(response);
-                    //stopLoader();
-                    if (json.getInt("code") == 1) {
+                    callBack.onSuccess(json);
 
-                        JSONArray tipoNegocios = json.getJSONArray("result");
-                        ClassNegocio neg = new ClassNegocio();
-                        for (int i = 0; i < tipoNegocios.length(); i++) {
-                            JSONObject tipoNeg = tipoNegocios.getJSONObject(i);
-                            ClassNegocio tipoNegocio = new ClassNegocio();
-                            tipoNegocio.setIdNegocio(Integer.parseInt(tipoNeg.get("codNegocio").toString()));
-                            tipoNegocio.setNombre(tipoNeg.get("tipoNegocio").toString());
-                            items.add(tipoNegocio);
-
-                            if (editando == 1) {
-                                tipoNegocioName = compraData.get("tipoNegocio").toString();
-                                if (tipoNegocioName.equals(tipoNeg.get("tipoNegocio").toString())) {
-                                    neg = tipoNegocio;
-                                }
-                            }
-                        }
-
-
-                        ArrayAdapter<ClassNegocio> adapter =
-                                new ArrayAdapter<ClassNegocio>(getApplicationContext(), R.layout.spinner_item, items);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        tipoNegocio.setAdapter(adapter);
-
-                        tipoNegocio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                if (position > 0) {
-                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-                                    codNegocio = ((ClassNegocio) items.get(position)).getIdNegocio();
-                                    tipoNegocioName = ((ClassNegocio) items.get(position)).getNombre();
-                                }
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-                            }
-                        });
-
-                        if (editando == 1) {
-                            String codNeg = compraData.get("codNegocio").toString();
-                            codNegocio = Math.toIntExact(Math.round(Double.parseDouble(String.valueOf(codNeg))));
-
-                            tipoNegocioName = compraData.get("tipoNegocio").toString();
-                            int spinnerPosition = adapter.getPosition(neg);
-                            tipoNegocio.setSelection(spinnerPosition);
-                        }
-                    }
                 } catch (JSONException e) {
-                    Log.d("ERROR", e.getMessage());
                     e.printStackTrace();
                 }
             }
@@ -416,7 +361,6 @@ public class NewPurchase extends AppCompatActivity {
         }) {
             @Override
             public Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> params = new HashMap<>();
                 return params;
             }
 
@@ -428,6 +372,201 @@ public class NewPurchase extends AppCompatActivity {
 
         stringRequest.setShouldCache(false);
         queue.add(stringRequest);
+    }
+
+
+    private DatePickerDialog.OnDateSetListener listenerDeDatePicker = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int anio, int mes, int diaDelMes) {
+            // Esto se llama cuando seleccionan una fecha. Nos pasa la vista, pero más importante, nos pasa:
+            // El año, el mes y el día del mes. Es lo que necesitamos para saber la fecha completa
+            String fechaSt = String.format(Locale.getDefault(), "%02d-%02d-%02d", anio, mes + 1, diaDelMes);
+
+            fecha.setText(fechaSt);
+        }
+    };
+
+    private HashMap<String, Object> setHint(String cod, String name) {
+        HashMap<String, Object> hintItem = new HashMap<String, Object>();
+        hintItem.put(cod, 0);
+        hintItem.put(name, name);
+        return hintItem;
+    }
+
+    private void getEstados() {
+        getData(new NewProduct.VolleyCallBack() {
+            @Override
+            public void onSuccess(JSONObject json) throws JSONException {
+                if (json.getInt("code") == 1) {
+                    JSONArray resultado = json.getJSONArray("result");
+
+                    String[] spinnerArray = new String[resultado.length() + 1];
+                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+
+                    items.add(setHint("codEstado", "estado"));
+                    spinnerArray[0] = "Estado";
+
+                    for (int i = 0; i < resultado.length(); i++) {
+                        JSONObject resultObj = resultado.getJSONObject(i);
+                        HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
+                        items.add(item);
+                        spinnerArray[i + 1] = (resultObj.get("estado").toString());
+                    }
+
+                    ArrayAdapter<String> adapter =
+                            new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    estados.setAdapter(adapter);
+                    estados.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position > 0) {
+                                if (((TextView) parent.getChildAt(0)) != null) {
+                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                }
+
+                                codEstado = items.get(position).get("codEstado").toString();
+                                estadoSt = items.get(position).get("estado").toString();
+
+                                getMunicipios(codEstado);
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                    if (editando == 1) {
+                        String codEst = compraData.get("codEstado").toString();
+                        codEstado = codEst;
+
+                        estadoSt = compraData.get("estadoCompra").toString();
+                        int spinnerPosition = adapter.getPosition(estadoSt);
+                        estados.setSelection(spinnerPosition);
+                    }
+                }
+            }
+        }, "http://skill-ca.com/api/estados.php",new HashMap<>());
+    }
+
+    private void getMunicipios(String estado) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("codEstado", estado);
+
+        getData(new NewProduct.VolleyCallBack() {
+            @Override
+            public void onSuccess(JSONObject json) throws JSONException {
+                if (json.getInt("code") == 1) {
+                    JSONArray resultado = json.getJSONArray("result");
+
+                    String[] spinnerArray = new String[resultado.length() + 1];
+                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+
+                    items.add(setHint("codMunicipio", "municipio"));
+                    spinnerArray[0] = "Municipio";
+
+                    for (int i = 0; i < resultado.length(); i++) {
+
+                        JSONObject resultObj = resultado.getJSONObject(i);
+                        Log.d("TAG", String.valueOf(resultObj.get("municipio")));
+                        HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
+                        items.add(item);
+                        spinnerArray[i + 1] = (resultObj.get("municipio").toString());
+                    }
+
+                    ArrayAdapter<String> adapter =
+                            new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    municipios.setAdapter(adapter);
+                    municipios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position > 0) {
+                                if (((TextView) parent.getChildAt(0)) != null) {
+                                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                }
+
+                                codMunicipio = items.get(position).get("codMunicipio").toString();
+                                municipioSt = items.get(position).get("municipio").toString();
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                    if (editando == 1) {
+                        String codMuni = compraData.get("codMunicipio").toString();
+                        codMunicipio = codMuni;
+
+                        municipioSt = compraData.get("municipioCompra").toString();
+                        int spinnerPosition = adapter.getPosition(municipioSt);
+                        municipios.setSelection(spinnerPosition);
+                    }
+                }
+            }
+        }, "http://skill-ca.com/api/municipios.php", params);
+    }
+
+
+    private void getTipoNegocios() {
+        getData(new NewProduct.VolleyCallBack() {
+            @Override
+            public void onSuccess(JSONObject json) throws JSONException {
+                if (json.getInt("code") == 1) {
+                    JSONArray resultado = json.getJSONArray("result");
+
+                    ClassNegocio neg = new ClassNegocio();
+                    for (int i = 0; i < resultado.length(); i++) {
+                        JSONObject tipoNeg = resultado.getJSONObject(i);
+                        ClassNegocio tipoNegocio = new ClassNegocio();
+                        tipoNegocio.setIdNegocio(Integer.parseInt(tipoNeg.get("codNegocio").toString()));
+                        tipoNegocio.setNombre(tipoNeg.get("tipoNegocio").toString());
+                        items.add(tipoNegocio);
+
+                        if (editando == 1) {
+                            tipoNegocioName = compraData.get("tipoNegocio").toString();
+                            if (tipoNegocioName.equals(tipoNeg.get("tipoNegocio").toString())) {
+                                neg = tipoNegocio;
+                            }
+                        }
+                    }
+
+                    ArrayAdapter<ClassNegocio> adapter =
+                            new ArrayAdapter<ClassNegocio>(getApplicationContext(), R.layout.spinner_item, items);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    tipoNegocio.setAdapter(adapter);
+                    tipoNegocio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position > 0) {
+                                ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                                codNegocio = ((ClassNegocio) items.get(position)).getIdNegocio();
+                                tipoNegocioName = ((ClassNegocio) items.get(position)).getNombre();
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                    if (editando == 1) {
+                        String codNeg = compraData.get("codNegocio").toString();
+                        codNegocio = Math.toIntExact(Math.round(Double.parseDouble(String.valueOf(codNeg))));
+
+                        tipoNegocioName = compraData.get("tipoNegocio").toString();
+                        int spinnerPosition = adapter.getPosition(neg);
+                        tipoNegocio.setSelection(spinnerPosition);
+                    }
+                }
+            }
+        }, "http://skill-ca.com/api/negocio.php",new HashMap<>());
     }
 
     private void logout() {

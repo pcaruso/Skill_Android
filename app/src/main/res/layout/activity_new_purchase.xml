@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_regular"
-        android:text="Nueva Compra"
+        android:text="Datos del Hogar"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="16sp" />
@@ -193,17 +193,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="Nueva Compra"
+                    android:text="Compra/Nueva Compra"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
-                    android:textSize="30sp" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="Por favor ingrese los datos de su negocio"
+                    android:text="Por favor ingrese los datos del negocio"
                     android:textAlignment="viewStart"
                     android:textColor="@color/darkGray"
                     android:textSize="16sp" />
@@ -241,7 +241,7 @@
                             android:background="@null"
                             android:ems="10"
                             android:fontFamily="@font/poppins_regular"
-                            android:hint="Fecha"
+                            android:hint="Fecha de Compra"
                             android:inputType="textPersonName"
 
                             android:textSize="14sp" />
@@ -275,7 +275,119 @@
                         android:layout_marginStart="5dp">
 
                         <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-                            android:id="@+id/spinner"
+                            android:id="@+id/estadoCompra"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="0dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                </net.orandja.shadowlayout.ShadowLayout>
+                <net.orandja.shadowlayout.ShadowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/semiround_white_solid"
+                    android:padding="4dp"
+                    app:shadow_cast_only_background="true"
+                    app:shadow_color="#808"
+                    app:shadow_downscale="1"
+                    app:shadow_radius="8"
+                    app:shadow_with_color="true"
+                    app:shadow_with_content="true"
+                    app:shadow_with_css_scale="true"
+
+                    app:shadow_with_dpi_scale="true"
+                    app:shadow_x_shift="0dp"
+                    app:shadow_y_shift="4dp">
+
+                    <RelativeLayout
+                        android:id="@+id/emailLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/municipioCompra"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="0dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                </net.orandja.shadowlayout.ShadowLayout>
+
+                <net.orandja.shadowlayout.ShadowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/semiround_white_solid"
+                    android:padding="4dp"
+                    app:shadow_cast_only_background="true"
+                    app:shadow_color="#808"
+                    app:shadow_downscale="1"
+                    app:shadow_radius="8"
+                    app:shadow_with_color="true"
+                    app:shadow_with_content="true"
+                    app:shadow_with_css_scale="true"
+                    app:shadow_with_dpi_scale="true"
+
+                    app:shadow_x_shift="0dp"
+                    app:shadow_y_shift="4dp">
+
+                    <RelativeLayout
+                        android:id="@+id/passLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/barrioCompra"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="Nombre del Negocio"
+                            android:inputType="none|textCapCharacters"
+
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                </net.orandja.shadowlayout.ShadowLayout>
+
+                <net.orandja.shadowlayout.ShadowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/semiround_white_solid"
+                    android:padding="4dp"
+                    app:shadow_cast_only_background="true"
+                    app:shadow_color="#808"
+                    app:shadow_downscale="1"
+                    app:shadow_radius="8"
+                    app:shadow_with_color="true"
+                    app:shadow_with_content="true"
+                    app:shadow_with_css_scale="true"
+
+                    app:shadow_with_dpi_scale="true"
+                    app:shadow_x_shift="0dp"
+                    app:shadow_y_shift="4dp">
+
+                    <RelativeLayout
+                        android:id="@+id/emailLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/tipoNegocio"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginStart="0dp"
@@ -409,11 +521,11 @@
         android:id="@+id/animation_view"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:visibility="gone"
         android:layout_centerInParent="true"
+        android:visibility="gone"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/loading" />
+         />
 
     <LinearLayout
         android:id="@+id/contactoLayout"
