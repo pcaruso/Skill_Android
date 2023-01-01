@@ -19,16 +19,17 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="10dp"
         android:background="@android:color/transparent"
-        android:backgroundTint="@android:color/transparent"
-        android:backgroundTintMode="src_over"
         android:foregroundGravity="center"
+        app:tint="@color/darkGray"
         app:srcCompat="@drawable/pencil" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
 
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -41,7 +42,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/avenirnextregular"
                 android:text="Categoria:"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -51,7 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/avenirnextregular"
+                android:maxLines="1"
                 android:text="   "
                 android:textColor="@color/darkGray"
                 android:textSize="14sp" />
@@ -69,7 +71,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/avenirnextregular"
                 android:text="Presentacion:"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -79,7 +81,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/avenirnextregular"
+                android:maxLines="1"
                 android:text="   "
                 android:textColor="@color/darkGray"
                 android:textSize="14sp" />
@@ -96,7 +99,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/avenirnextregular"
                 android:text="Marca"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -106,7 +109,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/avenirnextregular"
+                android:maxLines="1"
                 android:text="   "
                 android:textColor="@color/darkGray"
                 android:textSize="14sp" />
@@ -123,7 +127,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/avenirnextregular"
                 android:text="Peso/Detallado:"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -133,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/avenirnextregular"
                 android:text="   "
                 android:textColor="@color/darkGray"
                 android:textSize="14sp" />
@@ -150,7 +154,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/avenirnextregular"
                 android:text="Costo:"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -160,7 +164,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/avenirnextregular"
                 android:text="   "
                 android:textColor="@color/darkGray"
                 android:textSize="14sp" />
@@ -177,7 +181,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/avenirnextregular"
                 android:text="Cantidad Productos:"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -187,11 +191,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/poppins_regular"
+                android:fontFamily="@font/avenirnextregular"
                 android:text="   "
                 android:textColor="@color/darkGray"
                 android:textSize="14sp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="0"
+            android:background="@color/darkGray"
+            android:text="TextView" />
     </LinearLayout>
 
 

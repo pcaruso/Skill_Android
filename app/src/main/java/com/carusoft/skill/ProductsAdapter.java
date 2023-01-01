@@ -59,8 +59,16 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
             Integer moneda = Integer.parseInt(String.valueOf(data.get("moneda")));
             if (moneda == 0){
                 holder.gasto.setText(data.get("gasto").toString() + " BOLIVARES");
-            }else{
+            }else if (moneda == 0){
                 holder.gasto.setText(data.get("gasto").toString() + " DOLARES");
+            }else if (moneda == 0){
+                holder.gasto.setText(data.get("gasto").toString() + " PSO COL");
+            }else{
+                if (data.get("otraMoneda") != null) {
+                    holder.gasto.setText(data.get("gasto").toString() + " " + data.get("otraMoneda").toString());
+                }else{
+                    holder.gasto.setText(data.get("gasto").toString());
+                }
             }
         }else{
             holder.gasto.setText(data.get("gasto").toString() + " BOLIVARES");

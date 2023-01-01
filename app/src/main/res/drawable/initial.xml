@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/cfdialog_button_white_text_color"/>
+    <item
+        android:width="152dp"
+        android:height="102dp"
+        android:gravity="center">
+        <bitmap
+            android:gravity="fill_horizontal|fill_vertical"
+            android:src="@drawable/logo_skill"/>
+    </item>
+
+</layer-list>
+

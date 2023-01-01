@@ -15,6 +15,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
+        android:tint="@color/darkGray"
         app:srcCompat="@drawable/logout" />
 
     <TextView
@@ -23,11 +24,11 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/textView"
         android:layout_marginStart="20dp"
-        android:fontFamily="@font/poppins_regular"
+        android:fontFamily="@font/poppins_semibold"
         android:text="Iniciar Sesión"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -38,8 +39,8 @@
         android:layout_marginBottom="40dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="PANEL DE HOGAR"
-        android:textAlignment="center"
-        android:textColor="@color/main_color"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
         android:textSize="30sp" />
 
     <TextView
@@ -48,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/scroll"
         android:layout_marginStart="20dp"
-        android:fontFamily="@font/poppins_regular"
+        android:fontFamily="@font/avenirnextmedium"
         android:text="Ingrese su usuario y contraseña"
         android:textAlignment="viewStart"
         android:textColor="@color/darkGray"
@@ -104,7 +105,7 @@
                             android:layout_height="50dp"
                             android:background="@null"
                             android:ems="10"
-                            android:fontFamily="@font/poppins_regular"
+                            android:fontFamily="@font/avenirnextregular"
                             android:hint="Usuario"
                             android:inputType="none|number"
 
@@ -144,7 +145,7 @@
                             android:layout_height="50dp"
                             android:background="@null"
                             android:ems="10"
-                            android:fontFamily="@font/poppins_regular"
+                            android:fontFamily="@font/avenirnextregular"
                             android:hint="Contraseña"
                             android:inputType="textPersonName"
 
@@ -227,7 +228,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
+            android:fontFamily="@font/avenirnextregular"
             android:text="No posee cuenta?"
             android:textAlignment="viewStart"
             android:textColor="@color/black"
@@ -239,7 +240,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:background="@android:color/transparent"
-            android:fontFamily="@font/poppins_bold"
+            android:fontFamily="@font/avenirnextbold"
             android:text="Contacto"
             android:textAllCaps="false"
             android:textColor="@color/main_color"

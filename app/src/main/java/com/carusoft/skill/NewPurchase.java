@@ -103,8 +103,10 @@ public class NewPurchase extends AppCompatActivity {
         getTipoNegocios();
         getEstados();
 
+
         lugar = (AppCompatEditText) findViewById(R.id.lugar);
         nombre = (AppCompatEditText) findViewById(R.id.nombre);
+        barrio = (AppCompatEditText) findViewById(R.id.barrioCompra);
         fecha = (AppCompatEditText) findViewById(R.id.fecha);
 
         Intent intent = getIntent();
@@ -123,18 +125,24 @@ public class NewPurchase extends AppCompatActivity {
                     next.setText("Guardar");
 
                     compras = (ArrayList<HashMap<String, Object>>) args.getSerializable("compras");
+                    Log.d("compras", String.valueOf(compras));
 
                     String compra = args.getString("compra");
+
                     compraData = new Gson().fromJson(compra, new TypeToken<HashMap<String, Object>>() {
                     }.getType());
+
                     String fechaSt = compraData.get("fecha").toString();
                     fecha.setText(fechaSt);
 
                     String nombreSt = compraData.get("nombre").toString();
                     nombre.setText(nombreSt);
 
-                    String lugarSt = compraData.get("lugar").toString();
-                    lugar.setText(lugarSt);
+                    /*String lugarSt = compraData.get("lugar").toString();
+                    lugar.setText(lugarSt);*/
+
+                    String barrioSt = compraData.get("barrioCompra").toString();
+                    barrio.setText(barrioSt);
 
                 }
             }
@@ -192,6 +200,7 @@ public class NewPurchase extends AppCompatActivity {
         estados = (SearchableSpinner) findViewById(R.id.estadoCompra);
         barrio = (AppCompatEditText) findViewById(R.id.barrioCompra);
 
+        setPlaceholders();
 
         ClassNegocio hintNegocio = new ClassNegocio();
         hintNegocio.setIdNegocio(0);
@@ -224,7 +233,7 @@ public class NewPurchase extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (!(fecha.getText().toString().isEmpty()) && (codNegocio != null) && (codMunicipio != null) && (codEstado != null) && !(nombre.getText().toString().isEmpty()) && !(lugar.getText().toString().isEmpty())) {
+                if (!(fecha.getText().toString().isEmpty()) && (codNegocio != null) && (codMunicipio != null) && (codEstado != null) && !(nombre.getText().toString().isEmpty()) && !(barrio.getText().toString().isEmpty())) {
                     HashMap<String, Object> data = new HashMap<>();
                     data.put("fecha", fecha.getText().toString());
 
@@ -249,7 +258,7 @@ public class NewPurchase extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    data.put("lugar", lugar.getText().toString().toUpperCase());
+                    //data.put("lugar", lugar.getText().toString().toUpperCase());
                     data.put("nombre", nombre.getText().toString().toUpperCase());
                     data.put("codNegocio", codNegocio);
                     data.put("tipoNegocio", tipoNegocioName);
@@ -257,7 +266,7 @@ public class NewPurchase extends AppCompatActivity {
                     data.put("municipioCompra", municipioSt);
                     data.put("codEstado", codEstado);
                     data.put("estadoCompra", estadoSt);
-                    data.put("barrio", barrio.getText().toString().toUpperCase());
+                    data.put("barrioCompra", barrio.getText().toString().toUpperCase());
 
                     SharedPreferences mPrefs = getSharedPreferences("prefs", MODE_PRIVATE);
                     SharedPreferences.Editor prefsEditor = mPrefs.edit();
@@ -274,11 +283,14 @@ public class NewPurchase extends AppCompatActivity {
                     data.put("estado", estado);
                     data.put("ciudad", ciudad);
 
+                    compraData = data;
+
                     if (editando == 1) {
                         ArrayList<HashMap<String, Object>> comprasEdited = new ArrayList<>();
 
                         for (int i = 0; i < compras.size(); i++) {
                             HashMap<String, Object> purchase = (HashMap<String, Object>) compras.get(i);
+                            Log.d("comprasEdited", String.valueOf(purchase));
                             purchase.put("fecha", dtStart);
 
                             purchase.put("week", weekYear);
@@ -294,10 +306,11 @@ public class NewPurchase extends AppCompatActivity {
                             purchase.put("municipioCompra", municipioSt);
                             purchase.put("codEstado", codEstado);
                             purchase.put("estadoCompra", estadoSt);
-                            purchase.put("barrio", barrio.getText().toString().toUpperCase());
+                            purchase.put("barrioCompra", barrio.getText().toString().toUpperCase());
 
                             comprasEdited.add(purchase);
                         }
+                        Log.d("comprasEdited", String.valueOf(comprasEdited));
                         compras = comprasEdited;
 
                         Intent intent = new Intent(NewPurchase.this, FinishPurchase.class);
@@ -331,6 +344,14 @@ public class NewPurchase extends AppCompatActivity {
 
     }
 
+    private void setPlaceholders() {
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Municipios"});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        municipios.setAdapter(adapter);
+
+    }
+
     private void getData(final NewProduct.VolleyCallBack callBack, String url, HashMap<String, String> params) {
         String packagesUrl = url;
 
@@ -353,9 +374,9 @@ public class NewPurchase extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.d("VOLLey error", volleyError.getMessage());
-                if (volleyError instanceof TimeoutError) {
 
+                if (volleyError instanceof TimeoutError) {
+                    // Log.d("VOLLey error", volleyError.getMessage());
                 }
             }
         }) {
@@ -426,7 +447,7 @@ public class NewPurchase extends AppCompatActivity {
                                 }
 
                                 codEstado = items.get(position).get("codEstado").toString();
-                                estadoSt = items.get(position).get("estado").toString();
+                                estadoSt = items.get(position).get("estado").toString().toUpperCase();
 
                                 getMunicipios(codEstado);
                             }
@@ -442,13 +463,13 @@ public class NewPurchase extends AppCompatActivity {
                         String codEst = compraData.get("codEstado").toString();
                         codEstado = codEst;
 
-                        estadoSt = compraData.get("estadoCompra").toString();
+                        estadoSt = compraData.get("estadoCompra").toString().toUpperCase();
                         int spinnerPosition = adapter.getPosition(estadoSt);
                         estados.setSelection(spinnerPosition);
                     }
                 }
             }
-        }, "http://skill-ca.com/api/estados.php",new HashMap<>());
+        }, "http://skill-ca.com/api/estados.php", new HashMap<>());
     }
 
     private void getMunicipios(String estado) {
@@ -473,7 +494,7 @@ public class NewPurchase extends AppCompatActivity {
                         Log.d("TAG", String.valueOf(resultObj.get("municipio")));
                         HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
                         items.add(item);
-                        spinnerArray[i + 1] = (resultObj.get("municipio").toString());
+                        spinnerArray[i + 1] = (resultObj.get("municipio").toString().toUpperCase());
                     }
 
                     ArrayAdapter<String> adapter =
@@ -489,7 +510,7 @@ public class NewPurchase extends AppCompatActivity {
                                 }
 
                                 codMunicipio = items.get(position).get("codMunicipio").toString();
-                                municipioSt = items.get(position).get("municipio").toString();
+                                municipioSt = items.get(position).get("municipio").toString().toUpperCase();
                             }
                         }
 
@@ -503,7 +524,7 @@ public class NewPurchase extends AppCompatActivity {
                         String codMuni = compraData.get("codMunicipio").toString();
                         codMunicipio = codMuni;
 
-                        municipioSt = compraData.get("municipioCompra").toString();
+                        municipioSt = compraData.get("municipioCompra").toString().toUpperCase();
                         int spinnerPosition = adapter.getPosition(municipioSt);
                         municipios.setSelection(spinnerPosition);
                     }
@@ -566,7 +587,7 @@ public class NewPurchase extends AppCompatActivity {
                     }
                 }
             }
-        }, "http://skill-ca.com/api/negocio.php",new HashMap<>());
+        }, "http://skill-ca.com/api/negocio.php", new HashMap<>());
     }
 
     private void logout() {

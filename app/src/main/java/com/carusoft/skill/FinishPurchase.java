@@ -55,47 +55,15 @@ public class FinishPurchase extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("BUNDLE");
         compras = (ArrayList<HashMap<String, Object>>) args.getSerializable("compras");
-        Log.d("COMPRAS", String.valueOf(compras));
+
 
         String compra = args.getString("compra");
         compraData = new Gson().fromJson(compra, new TypeToken<HashMap<String, Object>>() {}.getType());
-        TextView fecha = (TextView) findViewById(R.id.fecha);
-        fecha.setText(compraData.get("fecha").toString());
-        TextView dia = (TextView) findViewById(R.id.dia);
 
-        if (compraData.get("day").toString().equals("1")){
-            dia.setText("Lunes");
-        }
-        if (compraData.get("day").toString().equals("2")){
-            dia.setText("Martes");
-        }
-        if (compraData.get("day").toString().equals("3")){
-            dia.setText("Miercoles");
-        }
-        if (compraData.get("day").toString().equals("4")){
-            dia.setText("Jueves");
-        }
-        if (compraData.get("day").toString().equals("5")){
-            dia.setText("Viernes");
-        }
-        if (compraData.get("day").toString().equals("6")){
-            dia.setText("Sabado");
-        }
-        if (compraData.get("day").toString().equals("7")){
-            dia.setText("Domingo");
-        }
-
-        TextView semana = (TextView) findViewById(R.id.semana);
-        semana.setText(compraData.get("week").toString());
-
-        TextView tipoNegocio = (TextView) findViewById(R.id.tipoNegocio);
-        tipoNegocio.setText(compraData.get("tipoNegocio").toString());
-        TextView nombre = (TextView) findViewById(R.id.nombre);
-        nombre.setText(compraData.get("nombre").toString());
-        TextView lugar = (TextView) findViewById(R.id.lugar);
-        lugar.setText(compraData.get("lugar").toString());
+        setHeaderInfo(compraData);
 
         setupProducts();
+
         Button finish = (Button) findViewById(R.id.finCompra);
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +76,6 @@ public class FinishPurchase extends AppCompatActivity {
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, packagesUrl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("RESPONSE_SALVAR", response);
                         JSONObject json = null;
                         stopLoader();
                         CFAlertDialog.Builder builder = new CFAlertDialog.Builder(FinishPurchase.this)
@@ -138,6 +105,7 @@ public class FinishPurchase extends AppCompatActivity {
                         HashMap<String, String> params = new HashMap<>();
                         String arrayList = new Gson().toJson(compras);
                         params.put("compras", String.valueOf(arrayList));
+                        Log.d("FINAL_COMPRAS", String.valueOf(compras));
                         return params;
                     }
 
@@ -205,6 +173,53 @@ public class FinishPurchase extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setHeaderInfo(HashMap<String, Object> compraData) {
+
+        TextView fecha = (TextView) findViewById(R.id.fecha);
+        fecha.setText(compraData.get("fecha").toString());
+
+        TextView dia = (TextView) findViewById(R.id.dia);
+        if (compraData.get("day").toString().equals("1")) {
+            dia.setText("LUNES");
+        }
+        if (compraData.get("day").toString().equals("2")) {
+            dia.setText("MARTES");
+        }
+        if (compraData.get("day").toString().equals("3")) {
+            dia.setText("MIERCOLES");
+        }
+        if (compraData.get("day").toString().equals("4")) {
+            dia.setText("JUEVES");
+        }
+        if (compraData.get("day").toString().equals("5")) {
+            dia.setText("VIERNES");
+        }
+        if (compraData.get("day").toString().equals("6")) {
+            dia.setText("SABADO");
+        }
+        if (compraData.get("day").toString().equals("7")) {
+            dia.setText("DOMINGO");
+        }
+
+        TextView semana = (TextView) findViewById(R.id.semana);
+        semana.setText(compraData.get("week").toString());
+
+        TextView tipoNegocio = (TextView) findViewById(R.id.tipoNegocio);
+        tipoNegocio.setText(compraData.get("tipoNegocio").toString());
+
+        TextView nombre = (TextView) findViewById(R.id.nombre);
+        nombre.setText(compraData.get("nombre").toString());
+
+        TextView estado = (TextView) findViewById(R.id.estado);
+        estado.setText(compraData.get("estadoCompra").toString());
+
+        TextView municipio = (TextView) findViewById(R.id.municipio);
+        municipio.setText(compraData.get("municipioCompra").toString());
+
+        TextView barrio = (TextView) findViewById(R.id.barrio);
+        barrio.setText(compraData.get("barrioCompra").toString());
     }
 
     private void setupProducts(){

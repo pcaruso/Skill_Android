@@ -8,5 +8,5 @@
     android:layout_margin="0dp"
     android:gravity="left"
     android:textColor="?android:textColorHint"
-    android:fontFamily="@font/poppins_regular"
+    android:fontFamily="@font/avenirnextregular"
     />
