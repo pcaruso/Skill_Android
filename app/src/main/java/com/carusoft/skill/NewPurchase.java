@@ -247,8 +247,12 @@ public class NewPurchase extends AppCompatActivity {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("u");
                         dayOfTheWeek = dateFormat.format(date);
                         SimpleDateFormat dateFormat2 = new SimpleDateFormat("w");
-                        weekYear = String.valueOf(Integer.parseInt(dateFormat2.format(date)) + 948);
+
+
                         year = (String) DateFormat.format("yyyy", date); // 2013
+                        Integer yearDif = Integer.parseInt(year)-2022;
+                        weekYear = String.valueOf((Integer.parseInt(dateFormat2.format(date) ) + (52*yearDif)) + 948 + 1) ;
+
 
                         data.put("week", weekYear);
                         data.put("year", year);
