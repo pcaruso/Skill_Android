@@ -50,8 +50,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class NewProduct extends AppCompatActivity {
+    int check = 0;
+    Integer validationType = 0;
+    ArrayList<HashMap<String, Object>> compras;
+    Boolean loadedCats = true;
+    Boolean loadedTipo = true;
+    Boolean loadedFragancias = true;
+    Boolean loadedVariedad = true;
+    Boolean loadedSabor = true;
+    Boolean loadedPresentacion = true;
+    Boolean loadedUnidades = true;
+    Boolean loadedMarcas = true;
     private Boolean modified = false;
     private LinearLayout tipoContainer;
     private LinearLayout saborContainer;
@@ -68,27 +78,20 @@ public class NewProduct extends AppCompatActivity {
     private String codSabor;
     private String saborSt;
     private RelativeLayout otroSaborLayout;
-
     private String codFragancia;
     private String fraganciaSt;
     private RelativeLayout otraFraganciaLayout;
-
     private String codVariedad;
     private String variedadSt;
     private RelativeLayout otraVariedadLayout;
-
-    private ArrayList<Object> requiredElements  = new ArrayList<>();
+    private ArrayList<Object> requiredElements = new ArrayList<>();
     private AppCompatEditText unidad2;
     private RelativeLayout otraMonedaLayout;
-
-
-    public interface VolleyCallBack {
-        void onSuccess(JSONObject json) throws JSONException;
-    }
-
-    int check = 0;
-
-    Integer validationType = 0;
+    private ArrayList<HashMap<String, Object>> itemsCategorias;
+    private ArrayList<HashMap<String, Object>> itemsMarcas;
+    private ArrayList<HashMap<String, Object>> itemsTipo;
+    private boolean loadingBarcode = false;
+    private HashMap<String, Object> itemsBarcode;
     private SearchableSpinner categoria;
     private SearchableSpinner marcas;
     private SearchableSpinner unidad;
@@ -98,7 +101,6 @@ public class NewProduct extends AppCompatActivity {
     private SearchableSpinner fragancia;
     private SearchableSpinner sabor;
     private SearchableSpinner variedad;
-
     private AppCompatEditText fabricante;
     private AppCompatEditText otraMarca;
     private AppCompatEditText otroSabor;
@@ -106,32 +108,25 @@ public class NewProduct extends AppCompatActivity {
     private AppCompatEditText otraVariedad;
     private AppCompatEditText otroTipo;
     private AppCompatEditText otraMoneda;
-
     private AppCompatEditText gasto;
     private AppCompatEditText peso;
     private AppCompatEditText cantidad;
     private AppCompatEditText barcode;
-
-
     private String codCat;
     private String codPresentacion;
     private String codMarca;
     private String codMedida;
     private HashMap<String, Object> compraData;
-
-    ArrayList<HashMap<String, Object>> compras;
     private String categoriaSt;
     private String marcaSt;
     private String presentacionSt;
     private String pesoSt;
     private String medidaSt;
-
     private Integer editando = 0;
     private Integer prodIndex;
     private LottieAnimationView loader;
     private RelativeLayout overlay;
     private Integer monedaSt = 0;
-
     private LinearLayout pesoLayout;
     private RelativeLayout presentacionLayout;
     private RelativeLayout marcaLayout;
@@ -151,11 +146,13 @@ public class NewProduct extends AppCompatActivity {
         TextView titulo2 = (TextView) findViewById(R.id.titulo2);
 
         ShadowLayout codeTxt = (ShadowLayout) findViewById(R.id.scannerLayout);
-        codeTxt.setVisibility(View.GONE);
+        //codeTxt.setVisibility(View.VISIBLE);
         TextView legend = (TextView) findViewById(R.id.legend);
-        legend.setVisibility(View.GONE);
+        //legend.setVisibility(View.VISIBLE);
         Button escanear = (Button) findViewById(R.id.escanear);
-        escanear.setVisibility(View.GONE);
+        //escanear.setVisibility(View.VISIBLE);
+
+        //loadProducts("7591002000745");
 
         barcode = findViewById(R.id.barcode);
 
@@ -169,7 +166,14 @@ public class NewProduct extends AppCompatActivity {
                             Intent data = result.getData();
                             // doSomeOperations();
                             Log.d("GOT_BACK", data.getStringExtra("barcode"));
-                            barcode.setText(data.getStringExtra("barcode"));
+
+                            String barcodeResponse = data.getStringExtra("barcode");
+                            barcode.setText(barcodeResponse);
+                            if (loadedCats == true) {
+                                loadProducts(barcodeResponse);
+                            }
+
+
                         }
                     }
                 });
@@ -216,13 +220,18 @@ public class NewProduct extends AppCompatActivity {
         otroSaborLayout.setVisibility(View.GONE);
         fraganciaContainer = (LinearLayout) findViewById(R.id.fraganciaContainer);
         fraganciaContainer.setVisibility(View.GONE);
+        otraFraganciaLayout = (RelativeLayout) findViewById(R.id.otraFraganciaLayout);
+        otraFraganciaLayout.setVisibility(View.GONE);
         variedadContainer = (LinearLayout) findViewById(R.id.variedadContainer);
         variedadContainer.setVisibility(View.GONE);
+        otraVariedadLayout = (RelativeLayout) findViewById(R.id.otraVariedadLayout);
+        otraVariedadLayout.setVisibility(View.GONE);
         fabricanteLayout = (RelativeLayout) findViewById(R.id.fabricanteLayout);
         fabricanteLayout.setVisibility(View.GONE);
         cantidadLayout = (RelativeLayout) findViewById(R.id.cantidadLayout);
         cantidadLayout.setVisibility(View.GONE);
         codBarrasLayout = (LinearLayout) findViewById(R.id.codBarrasLayout);
+        codBarrasLayout.setVisibility(View.VISIBLE);
 
         unidadLayout = (RelativeLayout) findViewById(R.id.unidadLayout);
         unidad2Layout = (RelativeLayout) findViewById(R.id.unidad2Layout);
@@ -261,7 +270,7 @@ public class NewProduct extends AppCompatActivity {
             titulo2.setText("Editar Producto");
 
             gasto.setText(compraData.get("gasto").toString());
-            Log.d("TAG",compraData.get("gasto").toString());
+            Log.d("TAG", compraData.get("gasto").toString());
             otraMarca.setText(compraData.get("otraMarca").toString());
             otraFragancia.setText(compraData.get("otraFragancia").toString());
             otroSabor.setText(compraData.get("otroSabor").toString());
@@ -273,7 +282,6 @@ public class NewProduct extends AppCompatActivity {
             fabricante.setText(compraData.get("fabricante").toString());
 
             unidad2.setText(compraData.get("unidad2").toString());
-
 
             barcode.setText(compraData.get("barcode").toString());
 
@@ -365,7 +373,6 @@ public class NewProduct extends AppCompatActivity {
         editarCompra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(NewProduct.this, NewPurchase.class);
                 Bundle args = new Bundle();
                 args.putSerializable("compras", (Serializable) compras);
@@ -377,14 +384,14 @@ public class NewProduct extends AppCompatActivity {
         });
     }
 
-    private void setPlaceholders(){
+    private void setPlaceholders() {
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Categoria"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categoria.setAdapter(adapter);
 
         adapter =
-                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Presentacion"});
+                new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, new String[]{"Presentación/Tamaño"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         presentacion.setAdapter(adapter);
 
@@ -477,23 +484,23 @@ public class NewProduct extends AppCompatActivity {
         return etText.getText().toString().trim().length() == 0;
     }
 
-    private void saveProd(Integer action){
+    private void saveProd(Integer action) {
         Boolean validationPassed = true;
-        for (Object element : requiredElements){
-            if (element instanceof AppCompatEditText){
-                if (isEmpty((AppCompatEditText) element)){
+        for (Object element : requiredElements) {
+            if (element instanceof AppCompatEditText) {
+                if (isEmpty((AppCompatEditText) element)) {
                     validationPassed = false;
                 }
             }
-            if (element instanceof SearchableSpinner){
+            if (element instanceof SearchableSpinner) {
                 Log.d("TAG", String.valueOf(((SearchableSpinner) element).getSelectedItemPosition()));
-                if (((SearchableSpinner) element).getSelectedItemPosition() == 0){
+                if (((SearchableSpinner) element).getSelectedItemPosition() == 0) {
                     validationPassed = false;
                 }
             }
         }
 
-        if (validationPassed == false){
+        if (validationPassed == false) {
             CFAlertDialog.Builder builder = new CFAlertDialog.Builder(NewProduct.this)
                     .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
                     .setTitle("Atención")
@@ -502,61 +509,60 @@ public class NewProduct extends AppCompatActivity {
                         dialog.dismiss();
                     });
             builder.show();
-        }else{
-                HashMap<String, Object> dato = new HashMap<>();
-                dato = compraData;
+        } else {
+            HashMap<String, Object> dato = new HashMap<>();
+            dato = compraData;
 
-                dato.put("codCat", codCat);
-                dato.put("categoria", categoriaSt);
-                dato.put("codPresentacion", codPresentacion);
-                dato.put("presentacion", presentacionSt);
-                dato.put("pesounidad", pesoSt);
-                dato.put("codMarca", codMarca);
-                dato.put("marca", marcaSt);
-                dato.put("codMedida", codMedida);
-                dato.put("medida", medidaSt);
-                dato.put("gasto", gasto.getText().toString());
-                dato.put("moneda", monedaSt);
-                dato.put("peso", peso.getText().toString());
-                dato.put("otraMarca", otraMarca.getText().toString());
-                dato.put("barcode", barcode.getText().toString());
-                dato.put("cantidad", cantidad.getText().toString());
-                dato.put("unidad2", unidad2.getText().toString());
+            dato.put("codCat", codCat);
+            dato.put("categoria", categoriaSt);
+            dato.put("codPresentacion", codPresentacion);
+            dato.put("presentacion", presentacionSt);
+            dato.put("pesounidad", pesoSt);
+            dato.put("codMarca", codMarca);
+            dato.put("marca", marcaSt);
+            dato.put("codMedida", codMedida);
+            dato.put("medida", medidaSt);
+            dato.put("gasto", gasto.getText().toString());
+            dato.put("moneda", monedaSt);
+            dato.put("peso", peso.getText().toString());
+            dato.put("otraMarca", otraMarca.getText().toString());
+            dato.put("barcode", barcode.getText().toString());
+            dato.put("cantidad", cantidad.getText().toString());
+            dato.put("unidad2", unidad2.getText().toString());
 
-                dato.put("fabricante", fabricante.getText().toString());
-                dato.put("tipo", tipoSt);
-                dato.put("otroTipo", otroTipo.getText().toString());
-                dato.put("otraMoneda", otraMoneda.getText().toString());
-                dato.put("fragancia", fraganciaSt);
-                dato.put("otraFragancia", otraFragancia.getText().toString());
-                dato.put("variedad", variedadSt);
-                dato.put("otraVariedad", otraVariedad.getText().toString());
-                dato.put("sabor", saborSt);
-                dato.put("otroSabor", otroSabor.getText().toString());
+            dato.put("fabricante", fabricante.getText().toString());
+            dato.put("tipo", tipoSt);
+            dato.put("otroTipo", otroTipo.getText().toString());
+            dato.put("otraMoneda", otraMoneda.getText().toString());
+            dato.put("fragancia", fraganciaSt);
+            dato.put("otraFragancia", otraFragancia.getText().toString());
+            dato.put("variedad", variedadSt);
+            dato.put("otraVariedad", otraVariedad.getText().toString());
+            dato.put("sabor", saborSt);
+            dato.put("otroSabor", otroSabor.getText().toString());
 
+            if (editando == 1) {
+                compras.set(prodIndex, dato);
+            } else {
+                compras.add(dato);
+            }
 
-                if (editando == 1) {
-                    compras.set(prodIndex, dato);
-                } else {
-                    compras.add(dato);
-                }
-
-                if (action == 1) {
-                    Intent intent = new Intent(NewProduct.this, NewProduct.class);
-                    Bundle args = new Bundle();
-                    args.putSerializable("compras", (Serializable) compras);
-                    args.putString("compra", new Gson().toJson(compraData));
-                    intent.putExtra("BUNDLE", args);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(NewProduct.this, FinishPurchase.class);
-                    Bundle args = new Bundle();
-                    args.putSerializable("compras", (Serializable) compras);
-                    args.putString("compra", new Gson().toJson(compraData));
-                    intent.putExtra("BUNDLE", args);
-                    Log.d("TAG_COMPRA", String.valueOf(compras));
-                    startActivity(intent);
-                }
+            if (action == 1) {
+                Intent intent = new Intent(NewProduct.this, NewProduct.class);
+                Bundle args = new Bundle();
+                args.putSerializable("compras", (Serializable) compras);
+                args.putString("compra", new Gson().toJson(compraData));
+                intent.putExtra("BUNDLE", args);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(NewProduct.this, FinishPurchase.class);
+                Bundle args = new Bundle();
+                args.putSerializable("compras", (Serializable) compras);
+                args.putString("compra", new Gson().toJson(compraData));
+                intent.putExtra("BUNDLE", args);
+                Log.d("TAG_COMPRA", String.valueOf(compras));
+                startActivity(intent);
+            }
         }
 
     }
@@ -722,7 +728,96 @@ public class NewProduct extends AppCompatActivity {
 
     }
 
+    private void loadProducts(String barcode) {
+        // startLoader();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("barcode", barcode);
+        getData(new VolleyCallBack() {
+            @Override
+            public void onSuccess(JSONObject json) throws JSONException {
+                if (json.getInt("code") == 1) {
+                    JSONArray resultado = json.getJSONArray("result");
+
+                    JSONObject resultObj = resultado.getJSONObject(0);
+                    itemsBarcode = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
+                    Log.d("BARCODE_DATA", new Gson().toJson(itemsBarcode));
+
+                    int indexCats = -1;
+                    Integer targetCodCat = Integer.valueOf(itemsBarcode.get("codCat").toString());
+                    for (int i = 0; i < itemsCategorias.size(); i++) {
+                        HashMap<String, Object> map = itemsCategorias.get(i);
+                        if (Integer.parseInt(map.get("codCat").toString()) == targetCodCat) {
+                            indexCats = i;
+                            break;
+                        }
+                    }
+
+                    if (indexCats != -1) {
+                        categoria.setSelection(indexCats);
+                        loadingBarcode = true;
+
+                       /* while (!loadedTipo || !loadedFragancias || !loadedVariedad || !loadedSabor || !loadedPresentacion || !loadedMarcas) {
+                            // Wait for a short time before checking again
+
+                            Log.d("CHECKING", "false");
+                            if (loadedTipo && loadedFragancias && loadedVariedad && loadedSabor && loadedPresentacion && loadedMarcas) {
+                                Log.d("CHECKING", "true");
+                                Integer targetCodMarca = Integer.valueOf(item.get("codMarca").toString());
+                                Integer targetCodTipo = Integer.valueOf(item.get("codTipo").toString());
+
+                                populateFields(targetCodMarca, targetCodTipo);
+                                //stopLoader();
+                                break;
+                            }
+                        }*/
+                    }
+                }
+            }
+        }, "http://skill-ca.com/api/barcode.php", params);
+    }
+
+    private void checkLoader() {
+
+        Log.d("LOADED", "TRUE");
+        if (loadingBarcode == true) {
+            if (itemsBarcode.get("codMarcas") != null) {
+                Integer targetCodMarca = Integer.valueOf(itemsBarcode.get("codMarcas").toString());
+                // AUTOSELECT MARCAS
+                if (loadedTipo && loadedFragancias && loadedVariedad && loadedSabor && loadedPresentacion && loadedMarcas) {
+                    int indexMarcas = -1;
+                    for (int i = 0; i < itemsMarcas.size(); i++) {
+                        HashMap<String, Object> map = itemsMarcas.get(i);
+                        if (Integer.parseInt(map.get("codMarca").toString()) == targetCodMarca) {
+                            indexMarcas = i;
+                            break;
+                        }
+                    }
+                    if (indexMarcas != -1) {
+                        marcas.setSelection(indexMarcas);
+                    }
+                }
+
+                if (itemsBarcode.get("codTipo") != null) {
+                    Integer targetCodTipo = Integer.valueOf(itemsBarcode.get("codTipo").toString());
+                    // AUTOSELECT TIPO
+                    int indexTipo = -1;
+                    for (int i = 0; i < itemsTipo.size(); i++) {
+                        HashMap<String, Object> map = itemsTipo.get(i);
+                        if (Integer.parseInt(map.get("codTipo").toString()) == targetCodTipo) {
+                            indexTipo = i;
+                            break;
+                        }
+                    }
+                    if (indexTipo != -1) {
+                        tipo.setSelection(indexTipo);
+                    }
+                }
+            }
+        }
+    }
+
     private void getCategorias() {
+        loadedCats = false;
         getData(new VolleyCallBack() {
             @Override
             public void onSuccess(JSONObject json) throws JSONException {
@@ -730,15 +825,15 @@ public class NewProduct extends AppCompatActivity {
                     JSONArray resultado = json.getJSONArray("result");
 
                     String[] spinnerArray = new String[resultado.length() + 1];
-                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+                    itemsCategorias = new ArrayList<HashMap<String, Object>>();
 
-                    items.add(setHint("codCat", "categoria"));
+                    itemsCategorias.add(setHint("codCat", "categoria"));
                     spinnerArray[0] = "Categoria (Producto)";
 
                     for (int i = 0; i < resultado.length(); i++) {
                         JSONObject resultObj = resultado.getJSONObject(i);
                         HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
-                        items.add(item);
+                        itemsCategorias.add(item);
                         spinnerArray[i + 1] = (resultObj.get("categoria").toString());
                     }
 
@@ -748,36 +843,37 @@ public class NewProduct extends AppCompatActivity {
                     categoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Log.d("CATEGORIA_SELECTED", "CATEGORIA_SELECTEED0");
                             if (++check > 0) {
                                 if (position > 0) {
                                     if (((TextView) parent.getChildAt(0)) != null) {
                                         ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                     }
+                                    Log.d("CATEGORIA_SELECTED", "CATEGORIA_SELECTEED");
+                                    codCat = itemsCategorias.get(position).get("codCat").toString();
+                                    categoriaSt = itemsCategorias.get(position).get("categoria").toString();
 
-                                    codCat = items.get(position).get("codCat").toString();
-                                    categoriaSt = items.get(position).get("categoria").toString();
+                                    String por_unidad = itemsCategorias.get(position).get("por_unidad").toString();
+                                    String sin_presentacion = itemsCategorias.get(position).get("sin_presentacion").toString();
 
-                                    String por_unidad = items.get(position).get("por_unidad").toString();
-                                    String sin_presentacion = items.get(position).get("sin_presentacion").toString();
-
-                                    showFields(items.get(position), codCat);
+                                    showFields(itemsCategorias.get(position), codCat);
 
                                     if (editando == 1) {
-                                        if (check > 1){
+                                        if (check > 1) {
                                             resetData();
                                         }
-                                    }else{
+                                    } else {
                                         resetData();
                                     }
 
-                                    if (sin_presentacion.equals("1")){
+                                    if (sin_presentacion.equals("1")) {
                                         checkSpecialPermission("DETALLAD", por_unidad);
                                         presentacionLayout.setVisibility(View.GONE);
                                         presentacionSt = "";
                                         presentacion.setSelection(0);
-                                    }else{
+                                    } else {
                                         presentacionLayout.setVisibility(View.VISIBLE);
-                                        getPresentaciones(codCat,por_unidad);
+                                        getPresentaciones(codCat, por_unidad);
                                     }
 
                                     getMarcas(codCat);
@@ -790,6 +886,8 @@ public class NewProduct extends AppCompatActivity {
                         public void onNothingSelected(AdapterView<?> parent) {
                         }
                     });
+
+                    loadedCats = true;
 
                     if (editando == 1) {
                         String categoriaCompra = compraData.get("codCat").toString();
@@ -809,14 +907,14 @@ public class NewProduct extends AppCompatActivity {
     private void getPresentaciones(String idCat, String por_unidad) {
         HashMap<String, String> params = new HashMap<>();
         params.put("codCat", idCat);
-
+        loadedPresentacion = false;
         getData(new VolleyCallBack() {
             @Override
             public void onSuccess(JSONObject json) throws JSONException {
                 if (json.getInt("code") == 1) {
                     JSONArray resultado = json.getJSONArray("result");
 
-                    if (resultado.length() == 0){
+                    if (resultado.length() == 0) {
                         presentacionLayout.setVisibility(View.GONE);
                         pesoLayout.setVisibility(View.VISIBLE);
                     }
@@ -851,7 +949,7 @@ public class NewProduct extends AppCompatActivity {
 
                                 if (items.get(position).get("pesounidad") != null) {
                                     pesoSt = items.get(position).get("pesounidad").toString();
-                                }else{
+                                } else {
                                     pesoSt = "";
                                 }
 
@@ -863,6 +961,9 @@ public class NewProduct extends AppCompatActivity {
                         public void onNothingSelected(AdapterView<?> parent) {
                         }
                     });
+
+                    loadedPresentacion = true;
+                    checkLoader();
 
                     if (editando == 1) {
                         String codPrese = compraData.get("codPresentacion").toString();
@@ -878,7 +979,7 @@ public class NewProduct extends AppCompatActivity {
         }, "http://skill-ca.com/api/presentaciones.php", params);
     }
 
-    private void checkSpecialPermission(String selectedText, String por_unidad){
+    private void checkSpecialPermission(String selectedText, String por_unidad) {
         if (selectedText.contains("OTR")) {
             pesoLayout.setVisibility(View.VISIBLE);
             requiredElements.add(peso);
@@ -888,7 +989,6 @@ public class NewProduct extends AppCompatActivity {
             pesoLayout.setVisibility(View.GONE);
             requiredElements.remove(peso);
             requiredElements.remove(unidad);
-
 
             if (selectedText.contains("DETALLAD")) {
                 pesoLayout.setVisibility(View.VISIBLE);
@@ -927,7 +1027,7 @@ public class NewProduct extends AppCompatActivity {
     private void getUnidades(String idCat) {
         HashMap<String, String> params = new HashMap<>();
         params.put("idCat", idCat);
-
+        loadedUnidades = false;
         getData(new VolleyCallBack() {
             @Override
             public void onSuccess(JSONObject json) throws JSONException {
@@ -968,6 +1068,9 @@ public class NewProduct extends AppCompatActivity {
                         public void onNothingSelected(AdapterView<?> parent) {
                         }
                     });
+
+                    loadedUnidades = true;
+                    checkLoader();
 
                     if (editando == 1) {
                         if (compraData.containsKey("codMedida") == true) {
@@ -1061,7 +1164,8 @@ public class NewProduct extends AppCompatActivity {
     private void getMarcas(String idCat) {
         HashMap<String, String> params = new HashMap<>();
         params.put("codCat", idCat);
-
+        loadedMarcas = false;
+        Log.d("LOADING_MARCAS", "LOADING_MARCAS");
         getData(new VolleyCallBack() {
             @Override
             public void onSuccess(JSONObject json) throws JSONException {
@@ -1069,15 +1173,15 @@ public class NewProduct extends AppCompatActivity {
                     JSONArray resultado = json.getJSONArray("result");
 
                     String[] spinnerArray = new String[resultado.length() + 1];
-                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+                    itemsMarcas = new ArrayList<HashMap<String, Object>>();
 
-                    items.add(setHint("codMarca", "marca"));
+                    itemsMarcas.add(setHint("codMarca", "marca"));
                     spinnerArray[0] = "Marca";
 
                     for (int i = 0; i < resultado.length(); i++) {
                         JSONObject resultObj = resultado.getJSONObject(i);
                         HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
-                        items.add(item);
+                        itemsMarcas.add(item);
                         spinnerArray[i + 1] = (resultObj.get("marca").toString());
                     }
 
@@ -1093,8 +1197,8 @@ public class NewProduct extends AppCompatActivity {
                                     ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                 }
 
-                                codMarca = items.get(position).get("codMarca").toString();
-                                marcaSt = items.get(position).get("marca").toString();
+                                codMarca = itemsMarcas.get(position).get("codMarca").toString();
+                                marcaSt = itemsMarcas.get(position).get("marca").toString();
 
                                 if (spinnerArray[position].contains("OTRA")) {
                                     otraMarcaLayout.setVisibility(View.VISIBLE);
@@ -1108,6 +1212,9 @@ public class NewProduct extends AppCompatActivity {
                         public void onNothingSelected(AdapterView<?> parent) {
                         }
                     });
+
+                    loadedMarcas = true;
+                    checkLoader();
 
                     if (editando == 1) {
                         if (compraData.get("codMarca") != null) {
@@ -1130,7 +1237,8 @@ public class NewProduct extends AppCompatActivity {
     private void getTipo(String idCat) {
         HashMap<String, String> params = new HashMap<>();
         params.put("codCat", idCat);
-Log.d("TAG","getTipo " + idCat);
+
+        loadedTipo = false;
         getData(new VolleyCallBack() {
             @Override
             public void onSuccess(JSONObject json) throws JSONException {
@@ -1138,15 +1246,15 @@ Log.d("TAG","getTipo " + idCat);
                     JSONArray resultado = json.getJSONArray("result");
 
                     String[] spinnerArray = new String[resultado.length() + 1];
-                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+                    itemsTipo = new ArrayList<HashMap<String, Object>>();
 
-                    items.add(setHint("codTipo", "tipo"));
+                    itemsTipo.add(setHint("codTipo", "tipo"));
                     spinnerArray[0] = "Tipo";
 
                     for (int i = 0; i < resultado.length(); i++) {
                         JSONObject resultObj = resultado.getJSONObject(i);
                         HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
-                        items.add(item);
+                        itemsTipo.add(item);
                         spinnerArray[i + 1] = (resultObj.get("tipo").toString()).toUpperCase();
                     }
 
@@ -1162,8 +1270,8 @@ Log.d("TAG","getTipo " + idCat);
                                     ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                 }
 
-                                codTipo = items.get(position).get("codTipo").toString();
-                                tipoSt = items.get(position).get("tipo").toString();
+                                codTipo = itemsTipo.get(position).get("codTipo").toString();
+                                tipoSt = itemsTipo.get(position).get("tipo").toString();
 
                                 if (spinnerArray[position].contains("OTR")) {
                                     otroTipoLayout.setVisibility(View.VISIBLE);
@@ -1181,19 +1289,22 @@ Log.d("TAG","getTipo " + idCat);
                         }
                     });
 
+                    loadedTipo = true;
+                    checkLoader();
+
                     if (editando == 1) {
-                        Log.d("TAG","EDITANDO_GET_TIPO");
+                        Log.d("TAG", "EDITANDO_GET_TIPO");
                         if (compraData.get("codTipo") != null) {
                             String codigo = compraData.get("codTipo").toString();
                             codTipo = codigo;
-                            Log.d("TAG","CODTIPO: " + codTipo);
+                            Log.d("TAG", "CODTIPO: " + codTipo);
                         }
                         if (compraData.get("tipo") != null) {
                             String titulo = compraData.get("tipo").toString().toUpperCase();
                             tipoSt = titulo.toUpperCase();
-                            Log.d("TAG","tipoSt: " + tipoSt.toUpperCase());
+                            Log.d("TAG", "tipoSt: " + tipoSt.toUpperCase());
                             int spinnerPosition = adapter.getPosition(tipoSt);
-                            Log.d("TAG","tipspinnerPositionoSt: " + String.valueOf(spinnerPosition));
+                            Log.d("TAG", "tipspinnerPositionoSt: " + String.valueOf(spinnerPosition));
                             tipo.setSelection(spinnerPosition);
                         }
                     }
@@ -1206,7 +1317,7 @@ Log.d("TAG","getTipo " + idCat);
     private void getSabor(String idCat) {
         HashMap<String, String> params = new HashMap<>();
         params.put("codCat", idCat);
-
+        loadedSabor = false;
         getData(new VolleyCallBack() {
             @Override
             public void onSuccess(JSONObject json) throws JSONException {
@@ -1257,6 +1368,9 @@ Log.d("TAG","getTipo " + idCat);
                         }
                     });
 
+                    loadedSabor = true;
+                    checkLoader();
+
                     if (editando == 1) {
                         if (compraData.get("codSabor") != null) {
                             String codigo = compraData.get("codSabor").toString();
@@ -1278,7 +1392,7 @@ Log.d("TAG","getTipo " + idCat);
     private void getVariedad(String idCat) {
         HashMap<String, String> params = new HashMap<>();
         params.put("codCat", idCat);
-
+        loadedVariedad = false;
         getData(new VolleyCallBack() {
             @Override
             public void onSuccess(JSONObject json) throws JSONException {
@@ -1302,7 +1416,7 @@ Log.d("TAG","getTipo " + idCat);
                             new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, spinnerArray);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     variedad.setAdapter(adapter);
-                    if (editando == 1){
+                    if (editando == 1) {
                         if (compraData.get("variedad") != null) {
                             String titulo = compraData.get("variedad").toString().toUpperCase();
                             variedadSt = titulo.toUpperCase();
@@ -1313,7 +1427,7 @@ Log.d("TAG","getTipo " + idCat);
                     variedad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            Log.d("TAG","TIPO_SELECTED: " + position);
+                            Log.d("TAG", "TIPO_SELECTED: " + position);
                             if (position > 0) {
 
                                 if (((TextView) parent.getChildAt(0)) != null) {
@@ -1339,6 +1453,8 @@ Log.d("TAG","getTipo " + idCat);
                         }
                     });
 
+                    loadedVariedad = true;
+                    checkLoader();
                 }
             }
         }, "http://skill-ca.com/api/variedades.php", params);
@@ -1347,7 +1463,7 @@ Log.d("TAG","getTipo " + idCat);
     private void getFragancia(String idCat) {
         HashMap<String, String> params = new HashMap<>();
         params.put("codCat", idCat);
-
+        loadedFragancias = false;
         getData(new VolleyCallBack() {
             @Override
             public void onSuccess(JSONObject json) throws JSONException {
@@ -1398,6 +1514,9 @@ Log.d("TAG","getTipo " + idCat);
                         }
                     });
 
+                    loadedFragancias = true;
+                    checkLoader();
+
                     if (editando == 1) {
                         if (compraData.get("codFragancia") != null) {
                             String codigo = compraData.get("codFragancia").toString();
@@ -1440,6 +1559,10 @@ Log.d("TAG","getTipo " + idCat);
     private void stopLoader() {
         loader.setVisibility(View.GONE);
         overlay.setVisibility(View.GONE);
+    }
+
+    public interface VolleyCallBack {
+        void onSuccess(JSONObject json) throws JSONException;
     }
 
 }

@@ -36,6 +36,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.carusoft.skill.BuildConfig;
 import com.carusoft.skill.ClassNegocio;
 import com.carusoft.skill.HomeActivity;
 import com.carusoft.skill.NewProduct;
@@ -68,6 +69,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -93,6 +95,12 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
+
+        TextView version = (TextView) findViewById(R.id.version);
+
+        int versionCode = BuildConfig.VERSION_CODE;
+        String versionName = BuildConfig.VERSION_NAME;
+        version.setText("Version " + versionName);
 
         ImageView logout = (ImageView) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {

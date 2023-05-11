@@ -353,7 +353,7 @@
                             android:background="@null"
                             android:ems="10"
                             android:fontFamily="@font/avenirnextregular"
-                            android:hint="Barrio"
+                            android:hint="Barrio/ Urb./ Zona:"
                             android:inputType="none|textCapCharacters"
 
                             android:textSize="14sp" />

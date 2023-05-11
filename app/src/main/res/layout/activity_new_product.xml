@@ -62,7 +62,7 @@
 
                             <TextView
                                 android:id="@+id/fechaLbl"
-                                android:layout_width="75dp"
+                                android:layout_width="130dp"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/avenirnextregular"
                                 android:text="Fecha:"
@@ -97,7 +97,7 @@
 
                             <TextView
                                 android:id="@+id/diaLbl"
-                                android:layout_width="75dp"
+                                android:layout_width="130dp"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/avenirnextregular"
                                 android:text="Dia"
@@ -155,7 +155,7 @@
 
                         <TextView
                             android:id="@+id/textView5"
-                            android:layout_width="75dp"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/avenirnextregular"
                             android:text="Tipo:"
@@ -183,7 +183,7 @@
 
                         <TextView
                             android:id="@+id/textView5"
-                            android:layout_width="75dp"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/avenirnextregular"
                             android:text="Negocio:"
@@ -211,7 +211,7 @@
 
                         <TextView
                             android:id="@+id/textView5"
-                            android:layout_width="75dp"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/avenirnextregular"
                             android:text="Estado:"
@@ -239,7 +239,7 @@
 
                         <TextView
                             android:id="@+id/textView5"
-                            android:layout_width="75dp"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/avenirnextregular"
                             android:text="Municipio:"
@@ -267,10 +267,10 @@
 
                         <TextView
                             android:id="@+id/textView5"
-                            android:layout_width="75dp"
+                            android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/avenirnextregular"
-                            android:text="Barrio:"
+                            android:text="Barrio/ Urb./ Zona:"
                             android:textAlignment="viewStart"
                             android:textColor="@color/darkGray"
                             android:textSize="14sp" />
