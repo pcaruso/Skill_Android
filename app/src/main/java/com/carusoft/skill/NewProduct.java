@@ -62,6 +62,7 @@ public class NewProduct extends AppCompatActivity {
     Boolean loadedPresentacion = true;
     Boolean loadedUnidades = true;
     Boolean loadedMarcas = true;
+
     private Boolean modified = false;
     private LinearLayout tipoContainer;
     private LinearLayout saborContainer;
@@ -87,9 +88,6 @@ public class NewProduct extends AppCompatActivity {
     private ArrayList<Object> requiredElements = new ArrayList<>();
     private AppCompatEditText unidad2;
     private RelativeLayout otraMonedaLayout;
-    private ArrayList<HashMap<String, Object>> itemsCategorias;
-    private ArrayList<HashMap<String, Object>> itemsMarcas;
-    private ArrayList<HashMap<String, Object>> itemsTipo;
     private boolean loadingBarcode = false;
     private HashMap<String, Object> itemsBarcode;
     private SearchableSpinner categoria;
@@ -132,6 +130,14 @@ public class NewProduct extends AppCompatActivity {
     private RelativeLayout marcaLayout;
     private LinearLayout gastoLayout;
     private RelativeLayout otraMarcaLayout;
+    private ArrayList<HashMap<String, Object>> itemsSabor = new ArrayList<HashMap<String, Object>>();
+    private ArrayList<HashMap<String, Object>> itemsVariedad = new ArrayList<HashMap<String, Object>>();
+    private ArrayList<HashMap<String, Object>> itemsFragancia = new ArrayList<HashMap<String, Object>>();
+    private ArrayList<HashMap<String, Object>> itemsCategorias = new ArrayList<HashMap<String, Object>>();
+    private ArrayList<HashMap<String, Object>> itemsMarcas = new ArrayList<HashMap<String, Object>>();
+    private ArrayList<HashMap<String, Object>> itemsTipo = new ArrayList<HashMap<String, Object>>();
+    private ArrayList<HashMap<String, Object>> itemsMedida = new ArrayList<HashMap<String, Object>>();
+    private ArrayList<HashMap<String, Object>> itemsPresentacion  = new ArrayList<HashMap<String, Object>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -742,34 +748,21 @@ public class NewProduct extends AppCompatActivity {
                     itemsBarcode = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
                     Log.d("BARCODE_DATA", new Gson().toJson(itemsBarcode));
 
-                    int indexCats = -1;
-                    Integer targetCodCat = Integer.valueOf(itemsBarcode.get("codCat").toString());
-                    for (int i = 0; i < itemsCategorias.size(); i++) {
-                        HashMap<String, Object> map = itemsCategorias.get(i);
-                        if (Integer.parseInt(map.get("codCat").toString()) == targetCodCat) {
-                            indexCats = i;
-                            break;
-                        }
-                    }
-
-                    if (indexCats != -1) {
-                        categoria.setSelection(indexCats);
-                        loadingBarcode = true;
-
-                       /* while (!loadedTipo || !loadedFragancias || !loadedVariedad || !loadedSabor || !loadedPresentacion || !loadedMarcas) {
-                            // Wait for a short time before checking again
-
-                            Log.d("CHECKING", "false");
-                            if (loadedTipo && loadedFragancias && loadedVariedad && loadedSabor && loadedPresentacion && loadedMarcas) {
-                                Log.d("CHECKING", "true");
-                                Integer targetCodMarca = Integer.valueOf(item.get("codMarca").toString());
-                                Integer targetCodTipo = Integer.valueOf(item.get("codTipo").toString());
-
-                                populateFields(targetCodMarca, targetCodTipo);
-                                //stopLoader();
+                    if (itemsBarcode.get("codCat") != null) {
+                        int indexCats = -1;
+                        Integer targetCodCat = Integer.valueOf(itemsBarcode.get("codCat").toString());
+                        for (int i = 0; i < itemsCategorias.size(); i++) {
+                            HashMap<String, Object> map = itemsCategorias.get(i);
+                            if (Double.parseDouble(map.get("codCat").toString()) == Double.parseDouble(String.valueOf(targetCodCat))) {
+                                indexCats = i;
                                 break;
                             }
-                        }*/
+                        }
+
+                        if (indexCats != -1) {
+                            categoria.setSelection(indexCats);
+                            loadingBarcode = true;
+                        }
                     }
                 }
             }
@@ -777,19 +770,29 @@ public class NewProduct extends AppCompatActivity {
     }
 
     private void checkLoader() {
-
-        Log.d("LOADED", "TRUE");
         if (loadingBarcode == true) {
-            if (itemsBarcode.get("codMarcas") != null) {
-                Integer targetCodMarca = Integer.valueOf(itemsBarcode.get("codMarcas").toString());
+
+            Log.d("LOADED1", "TIPO " + String.valueOf(loadedTipo));
+            Log.d("LOADED1", "FRAG " + String.valueOf(loadedFragancias));
+            Log.d("LOADED1", "VARIEDAD " + String.valueOf(loadedVariedad));
+            Log.d("LOADED1", "SABOR " + String.valueOf(loadedSabor));
+            Log.d("LOADED1", "PRES " + String.valueOf(loadedPresentacion));
+            Log.d("LOADED1", "MARCAS " + String.valueOf(loadedMarcas));
+            Log.d("LOADED1", "===");
+
+            if (loadedTipo && loadedFragancias && loadedVariedad && loadedSabor && loadedPresentacion && loadedMarcas) {
+
                 // AUTOSELECT MARCAS
-                if (loadedTipo && loadedFragancias && loadedVariedad && loadedSabor && loadedPresentacion && loadedMarcas) {
+                if (itemsBarcode.get("codMarca") != null) {
+                    Integer targetCodMarca = Integer.valueOf(itemsBarcode.get("codMarca").toString());
                     int indexMarcas = -1;
                     for (int i = 0; i < itemsMarcas.size(); i++) {
                         HashMap<String, Object> map = itemsMarcas.get(i);
-                        if (Integer.parseInt(map.get("codMarca").toString()) == targetCodMarca) {
-                            indexMarcas = i;
-                            break;
+                        if (map.get("codMarca") != null) {
+                            if (Integer.parseInt(map.get("codMarca").toString()) == targetCodMarca) {
+                                indexMarcas = i;
+                                break;
+                            }
                         }
                     }
                     if (indexMarcas != -1) {
@@ -797,20 +800,123 @@ public class NewProduct extends AppCompatActivity {
                     }
                 }
 
+                // AUTOSELECT MARCAS
+                if (itemsBarcode.get("codPresentacion") != null) {
+                    Integer targetCodPres = Integer.valueOf(itemsBarcode.get("codPresentacion").toString());
+                    int indexPresentacion = -1;
+                    for (int i = 0; i < itemsPresentacion.size(); i++) {
+                        HashMap<String, Object> map = itemsPresentacion.get(i);
+                        if (map.get("codPresentacion") != null) {
+                            if (Integer.parseInt(map.get("codPresentacion").toString()) == targetCodPres) {
+                                indexPresentacion = i;
+                                break;
+                            }
+                        }
+                    }
+                    if (indexPresentacion != -1) {
+                        presentacion.setSelection(indexPresentacion);
+                    }
+                }
+
+                // AUTOSELECT TIPO
                 if (itemsBarcode.get("codTipo") != null) {
                     Integer targetCodTipo = Integer.valueOf(itemsBarcode.get("codTipo").toString());
-                    // AUTOSELECT TIPO
+
                     int indexTipo = -1;
                     for (int i = 0; i < itemsTipo.size(); i++) {
                         HashMap<String, Object> map = itemsTipo.get(i);
-                        if (Integer.parseInt(map.get("codTipo").toString()) == targetCodTipo) {
-                            indexTipo = i;
-                            break;
+                        if (map.get("codTipo") != null) {
+                            if (Integer.parseInt(map.get("codTipo").toString()) == targetCodTipo) {
+                                indexTipo = i;
+                                break;
+                            }
                         }
                     }
                     if (indexTipo != -1) {
                         tipo.setSelection(indexTipo);
                     }
+                }
+
+                // AUTOSELECT UNIDADES
+                if (itemsBarcode.get("codUnidad") != null) {
+                    Integer targetCodUnidad = Integer.valueOf(itemsBarcode.get("codUnidad").toString());
+
+                    int indexUnidad = -1;
+                    for (int i = 0; i < itemsMedida.size(); i++) {
+                        HashMap<String, Object> map = itemsMedida.get(i);
+                        if (map.get("codMedida") != null) {
+                            if (Integer.parseInt(map.get("codMedida").toString()) == targetCodUnidad) {
+                                indexUnidad = i;
+                                break;
+                            }
+                        }
+                    }
+                    if (indexUnidad != -1) {
+                        unidad.setSelection(indexUnidad);
+                    }
+                }
+
+                // AUTOSELECT UNIDADES
+                Log.d("BARCODE_DATA", String.valueOf(itemsBarcode.get("codSabor")));
+                if (itemsBarcode.get("codSabor") != null) {
+                    Integer targetCodSabor = Integer.valueOf(itemsBarcode.get("codSabor").toString());
+                    Log.d("BARCODE_DATA", String.valueOf(targetCodSabor));
+                    int indexSabor = -1;
+                    for (int i = 0; i < itemsSabor.size(); i++) {
+                        HashMap<String, Object> map = itemsSabor.get(i);
+                        if (map.get("codSabor") != null) {
+                            Log.d("BARCODE_DATA", String.valueOf(map.get("codSabor")));
+                            if (Integer.parseInt(map.get("codSabor").toString()) == targetCodSabor) {
+                                indexSabor = i;
+                                break;
+                            }
+                        }
+                    }
+                    if (indexSabor != -1) {
+                        sabor.setSelection(indexSabor);
+                    }
+                }
+
+                // AUTOSELECT UNIDADES
+                if (itemsBarcode.get("codVariedad") != null) {
+                    Integer targetCodVariedad = Integer.valueOf(itemsBarcode.get("codVariedad").toString());
+
+                    int indexVariedad = -1;
+                    for (int i = 0; i < itemsVariedad.size(); i++) {
+                        HashMap<String, Object> map = itemsVariedad.get(i);
+                        if (map.get("codVariedad") != null) {
+                            if (Integer.parseInt(map.get("codVariedad").toString()) == targetCodVariedad) {
+                                indexVariedad = i;
+                                break;
+                            }
+                        }
+                    }
+                    if (indexVariedad != -1) {
+                        variedad.setSelection(indexVariedad);
+                    }
+                }
+
+                // AUTOSELECT UNIDADES
+                if (itemsBarcode.get("codFragancia") != null) {
+                    Integer targetCodFragancia = Integer.valueOf(itemsBarcode.get("codFragancia").toString());
+
+                    int indexFragancia = -1;
+                    for (int i = 0; i < itemsFragancia.size(); i++) {
+                        HashMap<String, Object> map = itemsFragancia.get(i);
+                        if (map.get("codFragancia") != null) {
+                            if (Integer.parseInt(map.get("codFragancia").toString()) == targetCodFragancia) {
+                                indexFragancia = i;
+                                break;
+                            }
+                        }
+                    }
+                    if (indexFragancia != -1) {
+                        fragancia.setSelection(indexFragancia);
+                    }
+                }
+
+                if (itemsBarcode.get("fabricante") != null) {
+                    fabricante.setText(itemsBarcode.get("fabricante").toString());
                 }
             }
         }
@@ -919,8 +1025,8 @@ public class NewProduct extends AppCompatActivity {
                         pesoLayout.setVisibility(View.VISIBLE);
                     }
 
-                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
-                    items.add(setHint("codPresentacion", "presentacion"));
+                    itemsPresentacion = new ArrayList<HashMap<String, Object>>();
+                    itemsPresentacion.add(setHint("codPresentacion", "presentacion"));
 
                     String[] spinnerArray = new String[resultado.length() + 1];
                     spinnerArray[0] = "Presentacion";
@@ -928,7 +1034,7 @@ public class NewProduct extends AppCompatActivity {
                     for (int i = 0; i < resultado.length(); i++) {
                         JSONObject resultObj = resultado.getJSONObject(i);
                         HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
-                        items.add(item);
+                        itemsPresentacion.add(item);
                         spinnerArray[i + 1] = (resultObj.get("presentacion").toString());
                     }
 
@@ -944,11 +1050,11 @@ public class NewProduct extends AppCompatActivity {
                                     ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                 }
 
-                                codPresentacion = items.get(position).get("codPresentacion").toString();
-                                presentacionSt = items.get(position).get("presentacion").toString();
+                                codPresentacion = itemsPresentacion.get(position).get("codPresentacion").toString();
+                                presentacionSt = itemsPresentacion.get(position).get("presentacion").toString();
 
-                                if (items.get(position).get("pesounidad") != null) {
-                                    pesoSt = items.get(position).get("pesounidad").toString();
+                                if (itemsPresentacion.get(position).get("pesounidad") != null) {
+                                    pesoSt = itemsPresentacion.get(position).get("pesounidad").toString();
                                 } else {
                                     pesoSt = "";
                                 }
@@ -1035,15 +1141,15 @@ public class NewProduct extends AppCompatActivity {
                     JSONArray resultado = json.getJSONArray("result");
 
                     String[] spinnerArray = new String[resultado.length() + 1];
-                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+                    itemsMedida = new ArrayList<HashMap<String, Object>>();
 
-                    items.add(setHint("codMedida", "medida"));
+                    itemsMedida.add(setHint("codMedida", "medida"));
                     spinnerArray[0] = "Medida";
 
                     for (int i = 0; i < resultado.length(); i++) {
                         JSONObject resultObj = resultado.getJSONObject(i);
                         HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
-                        items.add(item);
+                        itemsMedida.add(item);
                         spinnerArray[i + 1] = (resultObj.get("medida").toString());
                     }
 
@@ -1059,8 +1165,8 @@ public class NewProduct extends AppCompatActivity {
                                     ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                 }
 
-                                codMedida = items.get(position).get("codMedida").toString();
-                                medidaSt = items.get(position).get("medida").toString();
+                                codMedida = itemsMedida.get(position).get("codMedida").toString();
+                                medidaSt = itemsMedida.get(position).get("medida").toString();
                             }
                         }
 
@@ -1325,15 +1431,15 @@ public class NewProduct extends AppCompatActivity {
                     JSONArray resultado = json.getJSONArray("result");
 
                     String[] spinnerArray = new String[resultado.length() + 1];
-                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+                    itemsSabor = new ArrayList<HashMap<String, Object>>();
 
-                    items.add(setHint("codSabor", "sabor"));
+                    itemsSabor.add(setHint("codSabor", "sabor"));
                     spinnerArray[0] = "Sabor";
 
                     for (int i = 0; i < resultado.length(); i++) {
                         JSONObject resultObj = resultado.getJSONObject(i);
                         HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
-                        items.add(item);
+                        itemsSabor.add(item);
                         spinnerArray[i + 1] = (resultObj.get("sabor").toString()).toUpperCase();
                     }
 
@@ -1349,8 +1455,8 @@ public class NewProduct extends AppCompatActivity {
                                     ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                 }
 
-                                codSabor = items.get(position).get("codSabor").toString();
-                                saborSt = items.get(position).get("sabor").toString();
+                                codSabor = itemsSabor.get(position).get("codSabor").toString();
+                                saborSt = itemsSabor.get(position).get("sabor").toString();
 
                                 if (spinnerArray[position].contains("OTR")) {
                                     otroSaborLayout.setVisibility(View.VISIBLE);
@@ -1400,15 +1506,15 @@ public class NewProduct extends AppCompatActivity {
                     JSONArray resultado = json.getJSONArray("result");
 
                     String[] spinnerArray = new String[resultado.length() + 1];
-                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+                    itemsVariedad = new ArrayList<HashMap<String, Object>>();
 
-                    items.add(setHint("codVariedad", "variedad"));
+                    itemsVariedad.add(setHint("codVariedad", "variedad"));
                     spinnerArray[0] = "Variedad";
 
                     for (int i = 0; i < resultado.length(); i++) {
                         JSONObject resultObj = resultado.getJSONObject(i);
                         HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
-                        items.add(item);
+                        itemsVariedad.add(item);
                         spinnerArray[i + 1] = (resultObj.get("variedad").toString()).toUpperCase();
                     }
 
@@ -1434,8 +1540,8 @@ public class NewProduct extends AppCompatActivity {
                                     ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                 }
 
-                                codVariedad = items.get(position).get("codVariedad").toString();
-                                variedadSt = items.get(position).get("variedad").toString();
+                                codVariedad = itemsVariedad.get(position).get("codVariedad").toString();
+                                variedadSt = itemsVariedad.get(position).get("variedad").toString();
 
                                 if (spinnerArray[position].contains("OTR")) {
                                     otraVariedadLayout.setVisibility(View.VISIBLE);
@@ -1471,15 +1577,15 @@ public class NewProduct extends AppCompatActivity {
                     JSONArray resultado = json.getJSONArray("result");
 
                     String[] spinnerArray = new String[resultado.length() + 1];
-                    ArrayList<HashMap<String, Object>> items = new ArrayList<HashMap<String, Object>>();
+                    itemsFragancia = new ArrayList<HashMap<String, Object>>();
 
-                    items.add(setHint("codFragancia", "fragancia"));
+                    itemsFragancia.add(setHint("codFragancia", "fragancia"));
                     spinnerArray[0] = "Fragancia";
 
                     for (int i = 0; i < resultado.length(); i++) {
                         JSONObject resultObj = resultado.getJSONObject(i);
                         HashMap<String, Object> item = new Gson().fromJson(String.valueOf(resultObj), HashMap.class);
-                        items.add(item);
+                        itemsFragancia.add(item);
                         spinnerArray[i + 1] = (resultObj.get("fragancia").toString()).toUpperCase();
                     }
 
@@ -1495,8 +1601,8 @@ public class NewProduct extends AppCompatActivity {
                                     ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
                                 }
 
-                                codFragancia = items.get(position).get("codFragancia").toString();
-                                fraganciaSt = items.get(position).get("fragancia").toString();
+                                codFragancia = itemsFragancia.get(position).get("codFragancia").toString();
+                                fraganciaSt = itemsFragancia.get(position).get("fragancia").toString();
 
                                 if (spinnerArray[position].contains("OTR")) {
                                     otraFraganciaLayout.setVisibility(View.VISIBLE);
