@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/back_color"
+    android:fitsSystemWindows="true"
+    tools:context=".authentication.SignInActivity">
+
+    <TextView
+        android:id="@+id/titulo2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Datos del Negocio"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomActions"
+        android:layout_below="@id/titulo2"
+        android:layout_centerVertical="false"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="100dp">
+
+            <LinearLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/fechaLbl"
+                                android:layout_width="130dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenirnextregular"
+                                android:text="Fecha:"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/darkGray"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/fecha"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:fontFamily="@font/avenirnextmedium"
+                                android:text="   "
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/darkGray"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="190dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/diaLbl"
+                                android:layout_width="130dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenirnextregular"
+                                android:text="Dia"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/darkGray"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/dia"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:fontFamily="@font/avenirnextmedium"
+                                android:text=" "
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/darkGray"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/semanaLbl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/avenirnextregular"
+                                android:text="Semana"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/darkGray"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/semana"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:fontFamily="@font/avenirnextmedium"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/darkGray"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/avenirnextregular"
+                            android:text="Tipo:"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tipoNegocio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/avenirnextmedium"
+                            android:text="   "
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/avenirnextregular"
+                            android:text="Negocio:"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/nombre"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/avenirnextmedium"
+                            android:text="   "
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/avenirnextregular"
+                            android:text="Estado:"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/estado"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/avenirnextmedium"
+                            android:text="   "
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/avenirnextregular"
+                            android:text="Municipio:"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/municipio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/avenirnextmedium"
+                            android:text="   "
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/avenirnextregular"
+                            android:text="Barrio/ Urb./ Zona:"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/barrio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:fontFamily="@font/avenirnextmedium"
+                            android:text="   "
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/darkGray"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/editarCompra"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/semiround_gold_solid"
+                        android:fontFamily="@font/poppins_bold"
+                        android:padding="0dp"
+                        android:text="Editar datos del Negocio"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="Registrar Producto"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenirnextregular"
+                    android:text="Ingrese los datos del producto"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/darkGray"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+
+                    android:id="@+id/categoriaLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white">
+
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:id="@+id/categoria"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:padding="0dp"
+                        android:textAlignment="center" />
+                </RelativeLayout>
+
+                <RelativeLayout
+
+                    android:id="@+id/presentacionLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white">
+
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:id="@+id/presentacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:padding="0dp"
+                        android:textAlignment="center" />
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/pesoLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1.5"
+                        android:background="@color/white">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/peso"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/poppins_regular"
+                            android:hint="Peso/Vol."
+
+                            android:inputType="none|number"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/unidadLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="2"
+                        android:background="@color/white">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/unidad"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+
+
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/unidad2Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/unidad2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:background="@null"
+                        android:fontFamily="@font/avenirnextregular"
+                        android:hint="Unidades"
+                        android:inputType="numberDecimal"
+                        android:padding="0dp"
+                        android:textAlignment="textStart"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+
+                    android:id="@+id/marcaLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    tools:visibility="gone">
+
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:id="@+id/marcas"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:padding="0dp"
+                        android:textAlignment="center" />
+                </RelativeLayout>
+
+                <RelativeLayout
+
+                    android:id="@+id/otraMarcaLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+
+                        android:id="@+id/otraMarca"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:background="@null"
+
+                        android:ems="10"
+                        android:fontFamily="@font/avenirnextregular"
+                        android:hint="Otra Marca (Cual?)"
+
+                        android:inputType="none|textCapCharacters"
+                        android:textSize="14sp"
+                        android:visibility="visible" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/tipoContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:visibility="gone">
+
+                    <RelativeLayout
+                        android:id="@+id/tipoLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/tipo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:id="@+id/otroTipoLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/otroTipo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+
+                            android:fontFamily="@font/avenirnextregular"
+                            android:hint="Otro Tipo (Cual?)"
+
+                            android:inputType="none|textCapCharacters"
+                            android:textSize="14sp"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/saborContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:visibility="gone">
+
+                    <RelativeLayout
+                        android:id="@+id/saborLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/sabor"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:id="@+id/otroSaborLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/otroSabor"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/avenirnextregular"
+                            android:hint="Otro Sabor (Cual?)"
+
+                            android:inputType="none|textCapCharacters"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/fraganciaContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:visibility="gone">
+
+                    <RelativeLayout
+                        android:id="@+id/fraganciaLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/fragancia"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:id="@+id/otraFraganciaLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/otraFragancia"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/avenirnextregular"
+                            android:hint="Otra Fragancia (Cual?)"
+
+                            android:inputType="none|textCapCharacters"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/variedadContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:visibility="gone">
+
+                    <RelativeLayout
+                        android:id="@+id/variedadLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/variedad"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:id="@+id/otraVariedadLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/otraVariedad"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/avenirnextregular"
+                            android:hint="Otra Variedad (Cual?)"
+
+                            android:inputType="none|textCapCharacters"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/fabricanteLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    tools:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+
+                        android:id="@+id/fabricante"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:background="@null"
+                        android:ems="10"
+                        android:fontFamily="@font/avenirnextregular"
+                        android:hint="Fabricante"
+
+                        android:inputType="none|textCapCharacters"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/ingreseDatos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/avenirnextbold"
+                    android:text="Ingrese los siguiente datos" />
+
+                <LinearLayout
+                    android:id="@+id/gastoLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <RelativeLayout
+                        android:id="@+id/passLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@color/white">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+
+                            android:id="@+id/gasto"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@null"
+                            android:ems="10"
+                            android:fontFamily="@font/avenirnextregular"
+                            android:hint="Costo"
+
+                            android:inputType="numberDecimal"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="2"
+                        android:background="@color/white">
+
+                        <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                            android:id="@+id/moneda"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:padding="0dp"
+                            android:textAlignment="center" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <RelativeLayout
+
+                    android:id="@+id/otraMonedaLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+
+                        android:id="@+id/otraMoneda"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:background="@null"
+                        android:ems="10"
+                        android:fontFamily="@font/avenirnextregular"
+                        android:hint="Otra Moneda (Cual?)"
+
+                        android:inputType="none|textCapCharacters"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+
+                    android:id="@+id/cantidadLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    tools:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+
+                        android:id="@+id/cantidad"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:background="@null"
+                        android:ems="10"
+                        android:fontFamily="@font/avenirnextregular"
+                        android:hint="Cantidad de Productos."
+                        android:inputType="numberDecimal"
+
+
+                        android:textSize="14sp" />
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/codBarrasLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/legend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/avenirnextregular"
+                        android:text="si el producto posse codigo de barras por favor escanee aquí"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/darkGray"
+                        android:textSize="16sp"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/escanear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/semiround_gold_solid"
+                        android:fontFamily="@font/poppins_bold"
+                        android:padding="0dp"
+                        android:text="ESCANEAR"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
+
+                    <net.orandja.shadowlayout.ShadowLayout
+                        android:id="@+id/scannerLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="40dp"
+                        android:background="@drawable/semiround_white_solid"
+                        android:padding="4dp"
+                        app:shadow_cast_only_background="true"
+                        app:shadow_color="#808"
+                        app:shadow_downscale="1"
+                        app:shadow_radius="8"
+                        app:shadow_with_color="true"
+                        app:shadow_with_content="true"
+
+                        app:shadow_with_css_scale="true"
+                        app:shadow_with_dpi_scale="true"
+                        app:shadow_x_shift="0dp"
+                        app:shadow_y_shift="4dp">
+
+                        <RelativeLayout
+                            android:id="@+id/barcodeLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+
+                                android:id="@+id/barcode"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="5dp"
+                                android:background="@null"
+                                android:ems="10"
+                                android:fontFamily="@font/avenirnextregular"
+                                android:hint="Ingrese manualmente el código"
+                                android:inputType="numberDecimal"
+
+
+                                android:textSize="14sp" />
+                        </RelativeLayout>
+
+                    </net.orandja.shadowlayout.ShadowLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="200dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/logo_skill"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomActions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/finCompra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/semiround_gold_solid"
+            android:fontFamily="@font/poppins_bold"
+            android:padding="0dp"
+            android:text="Guardar"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/nuevoProd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/semiround_gray_solid"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Siguiente Producto"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:background="@color/black"
+        android:visibility="gone">
+
+    </RelativeLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+         />
+
+    <ImageView
+        android:id="@+id/logout"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:tint="@color/darkGray"
+        app:srcCompat="@drawable/logout" />
+
+
+</RelativeLayout>

@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -138,6 +140,8 @@ public class NewProduct extends AppCompatActivity {
     private ArrayList<HashMap<String, Object>> itemsTipo = new ArrayList<HashMap<String, Object>>();
     private ArrayList<HashMap<String, Object>> itemsMedida = new ArrayList<HashMap<String, Object>>();
     private ArrayList<HashMap<String, Object>> itemsPresentacion  = new ArrayList<HashMap<String, Object>>();
+    private TextView titulo;
+    private TextView titulo2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,19 +152,13 @@ public class NewProduct extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("BUNDLE");
 
-        TextView titulo = (TextView) findViewById(R.id.titulo);
-        TextView titulo2 = (TextView) findViewById(R.id.titulo2);
-
-        ShadowLayout codeTxt = (ShadowLayout) findViewById(R.id.scannerLayout);
-        //codeTxt.setVisibility(View.VISIBLE);
-        TextView legend = (TextView) findViewById(R.id.legend);
-        //legend.setVisibility(View.VISIBLE);
-        Button escanear = (Button) findViewById(R.id.escanear);
-        //escanear.setVisibility(View.VISIBLE);
+        titulo = (TextView) findViewById(R.id.titulo);
+        titulo2 = (TextView) findViewById(R.id.titulo2);
 
         //loadProducts("7591002000745");
 
-        barcode = findViewById(R.id.barcode);
+        LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
+        bottomActions.setVisibility(View.GONE);
 
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -168,30 +166,72 @@ public class NewProduct extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK) {
-                            // There are no request codes
                             Intent data = result.getData();
-                            // doSomeOperations();
                             Log.d("GOT_BACK", data.getStringExtra("barcode"));
-
                             String barcodeResponse = data.getStringExtra("barcode");
                             barcode.setText(barcodeResponse);
                             if (loadedCats == true) {
                                 loadProducts(barcodeResponse);
                             }
-
-
                         }
                     }
                 });
 
-        escanear.setOnClickListener(new View.OnClickListener() {
+        Button option1 = (Button) findViewById(R.id.option1);
+        option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NewProduct.this, ScannerActivity.class);
-                //startActivityForResult(intent,  2,null); // suppose requestCode == 2
                 someActivityResultLauncher.launch(intent);
+            }
+        });
 
-                // startActivity(intent);
+        Button option2 = (Button) findViewById(R.id.option2);
+        option2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetData();
+                LinearLayout scanOptions = (LinearLayout) findViewById(R.id.scanOptions);
+                LinearLayout prods = (LinearLayout) findViewById(R.id.prods);
+                LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
+                bottomActions.setVisibility(View.VISIBLE);
+                scanOptions.setVisibility(View.GONE);
+                prods.setVisibility(View.VISIBLE);
+                titulo.setText("Registrar Producto");
+                titulo2.setText("Ingrese los datos manualmente");
+            }
+        });
+
+        barcode = findViewById(R.id.barcode);
+        barcode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE ||
+                        (event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    resetData();
+                    String barcodeText = barcode.getText().toString();
+                    loadProducts(barcodeText);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+        Button rescan = (Button) findViewById(R.id.rescan);
+        rescan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Intent intent = new Intent(NewProduct.this, ScannerActivity.class);
+                someActivityResultLauncher.launch(intent);*/
+                resetData();
+                LinearLayout scanOptions = (LinearLayout) findViewById(R.id.scanOptions);
+                LinearLayout prods = (LinearLayout) findViewById(R.id.prods);
+                scanOptions.setVisibility(View.VISIBLE);
+                prods.setVisibility(View.GONE);
+                LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
+                bottomActions.setVisibility(View.GONE);
+
             }
         });
 
@@ -236,8 +276,8 @@ public class NewProduct extends AppCompatActivity {
         fabricanteLayout.setVisibility(View.GONE);
         cantidadLayout = (RelativeLayout) findViewById(R.id.cantidadLayout);
         cantidadLayout.setVisibility(View.GONE);
-        codBarrasLayout = (LinearLayout) findViewById(R.id.codBarrasLayout);
-        codBarrasLayout.setVisibility(View.VISIBLE);
+       // codBarrasLayout = (LinearLayout) findViewById(R.id.codBarrasLayout);
+       // codBarrasLayout.setVisibility(View.VISIBLE);
 
         unidadLayout = (RelativeLayout) findViewById(R.id.unidadLayout);
         unidad2Layout = (RelativeLayout) findViewById(R.id.unidad2Layout);
@@ -689,9 +729,9 @@ public class NewProduct extends AppCompatActivity {
             gastoLayout.setVisibility(View.GONE);
         }
         if (codBarras.equals("1")) {
-            codBarrasLayout.setVisibility(View.VISIBLE);
+          //  codBarrasLayout.setVisibility(View.VISIBLE);
         } else {
-            codBarrasLayout.setVisibility(View.VISIBLE);
+         //   codBarrasLayout.setVisibility(View.VISIBLE);
         }
 
     }
@@ -762,8 +802,45 @@ public class NewProduct extends AppCompatActivity {
                         if (indexCats != -1) {
                             categoria.setSelection(indexCats);
                             loadingBarcode = true;
+                            LinearLayout scanOptions = (LinearLayout) findViewById(R.id.scanOptions);
+                            LinearLayout prods = (LinearLayout) findViewById(R.id.prods);
+                            LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
+                            bottomActions.setVisibility(View.VISIBLE);
+                            scanOptions.setVisibility(View.GONE);
+
+                            prods.setVisibility(View.VISIBLE);
+                            titulo.setText("Producto Escaneado");
+                            titulo2.setText("");
+                        }else{
+                            LinearLayout scanOptions = (LinearLayout) findViewById(R.id.scanOptions);
+                            LinearLayout prods = (LinearLayout) findViewById(R.id.prods);
+                            scanOptions.setVisibility(View.GONE);
+                            prods.setVisibility(View.VISIBLE);
+                            LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
+                            bottomActions.setVisibility(View.VISIBLE);
+                            titulo.setText("Registrar Producto");
+                            titulo2.setText("Ingrese los datos manualmente");
                         }
+
+                    }else{
+                        LinearLayout scanOptions = (LinearLayout) findViewById(R.id.scanOptions);
+                        LinearLayout prods = (LinearLayout) findViewById(R.id.prods);
+                        scanOptions.setVisibility(View.GONE);
+                        prods.setVisibility(View.VISIBLE);
+                        LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
+                        bottomActions.setVisibility(View.VISIBLE);
+                        titulo.setText("Registrar Producto");
+                        titulo2.setText("Ingrese los datos manualmente");
                     }
+                }else{
+                    LinearLayout scanOptions = (LinearLayout) findViewById(R.id.scanOptions);
+                    LinearLayout prods = (LinearLayout) findViewById(R.id.prods);
+                    scanOptions.setVisibility(View.GONE);
+                    prods.setVisibility(View.VISIBLE);
+                    LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
+                    bottomActions.setVisibility(View.VISIBLE);
+                    titulo.setText("Registrar Producto");
+                    titulo2.setText("Ingrese los datos manualmente");
                 }
             }
         }, "http://skill-ca.com/api/barcode.php", params);
