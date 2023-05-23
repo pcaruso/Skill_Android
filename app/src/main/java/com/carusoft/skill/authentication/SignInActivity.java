@@ -106,7 +106,8 @@ public class SignInActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+
+                finishAffinity();
             }
         });
 

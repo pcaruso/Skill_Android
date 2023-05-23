@@ -56,6 +56,7 @@ public class FinishPurchase extends AppCompatActivity {
         Bundle args = intent.getBundleExtra("BUNDLE");
         compras = (ArrayList<HashMap<String, Object>>) args.getSerializable("compras");
 
+        Log.d("compras", String.valueOf(new Gson().toJson(compras)));
 
         String compra = args.getString("compra");
         compraData = new Gson().fromJson(compra, new TypeToken<HashMap<String, Object>>() {}.getType());
@@ -263,6 +264,7 @@ public class FinishPurchase extends AppCompatActivity {
         prefsEditor.remove("municipio").apply();
         prefsEditor.remove("ciudad").apply();
 
+        finish();
         Intent intent = new Intent(FinishPurchase.this, SignInActivity.class);
         startActivity(intent);
     }

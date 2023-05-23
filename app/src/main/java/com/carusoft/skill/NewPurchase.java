@@ -604,6 +604,7 @@ public class NewPurchase extends AppCompatActivity {
         prefsEditor.remove("municipio").apply();
         prefsEditor.remove("ciudad").apply();
 
+        finish();
         Intent intent = new Intent(NewPurchase.this, SignInActivity.class);
         startActivity(intent);
     }

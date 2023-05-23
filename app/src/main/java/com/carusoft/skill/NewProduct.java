@@ -159,6 +159,8 @@ public class NewProduct extends AppCompatActivity {
 
         LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
         bottomActions.setVisibility(View.GONE);
+        LinearLayout bottomActionsCart = (LinearLayout) findViewById(R.id.bottomActionsCart);
+        bottomActionsCart.setVisibility(View.VISIBLE);
 
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -195,10 +197,13 @@ public class NewProduct extends AppCompatActivity {
                 LinearLayout prods = (LinearLayout) findViewById(R.id.prods);
                 LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
                 bottomActions.setVisibility(View.VISIBLE);
+                LinearLayout bottomActionsCart = (LinearLayout) findViewById(R.id.bottomActionsCart);
+                bottomActionsCart.setVisibility(View.GONE);
                 scanOptions.setVisibility(View.GONE);
                 prods.setVisibility(View.VISIBLE);
                 titulo.setText("Registrar Producto");
                 titulo2.setText("Ingrese los datos manualmente");
+
             }
         });
 
@@ -217,7 +222,6 @@ public class NewProduct extends AppCompatActivity {
             }
         });
 
-
         Button rescan = (Button) findViewById(R.id.rescan);
         rescan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,13 +229,16 @@ public class NewProduct extends AppCompatActivity {
                 /*Intent intent = new Intent(NewProduct.this, ScannerActivity.class);
                 someActivityResultLauncher.launch(intent);*/
                 resetData();
+
                 LinearLayout scanOptions = (LinearLayout) findViewById(R.id.scanOptions);
                 LinearLayout prods = (LinearLayout) findViewById(R.id.prods);
                 scanOptions.setVisibility(View.VISIBLE);
                 prods.setVisibility(View.GONE);
                 LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
                 bottomActions.setVisibility(View.GONE);
-
+                LinearLayout bottomActionsCart = (LinearLayout) findViewById(R.id.bottomActionsCart);
+                bottomActionsCart.setVisibility(View.VISIBLE);
+                barcode.setText("");
             }
         });
 
@@ -310,6 +317,16 @@ public class NewProduct extends AppCompatActivity {
         setPlaceholders();
 
         if (args.getInt("editando") == 1) {
+
+            LinearLayout prods = (LinearLayout) findViewById(R.id.prods);
+            prods.setVisibility(View.VISIBLE);
+            LinearLayout scanOptions = (LinearLayout) findViewById(R.id.scanOptions);
+            scanOptions.setVisibility(View.GONE);
+
+            bottomActions.setVisibility(View.VISIBLE);
+            bottomActionsCart.setVisibility(View.GONE);
+            rescan.setVisibility(View.GONE);
+
             editando = 1;
             prodIndex = args.getInt("prodIndex");
             titulo.setText("Editar Producto");
@@ -343,7 +360,9 @@ public class NewProduct extends AppCompatActivity {
         nuevoProd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (barcode.getText().toString().isEmpty()) {
+
+                saveProd(1);
+                /*if (barcode.getText().toString().isEmpty()) {
                     CFAlertDialog.Builder builder = new CFAlertDialog.Builder(NewProduct.this)
                             .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
                             .setTitle("Atención")
@@ -365,7 +384,21 @@ public class NewProduct extends AppCompatActivity {
                 } else {
                     saveProd(1);
                 }
+            }*/
+            };
+        });
 
+        Button viewCart = (Button) findViewById(R.id.cart);
+        viewCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewProduct.this, FinishPurchase.class);
+                Bundle args = new Bundle();
+                args.putSerializable("compras", (Serializable) compras);
+                args.putString("compra", new Gson().toJson(compraData));
+                intent.putExtra("BUNDLE", args);
+                Log.d("TAG_COMPRA", String.valueOf(compras));
+                startActivity(intent);
             }
         });
 
@@ -373,7 +406,8 @@ public class NewProduct extends AppCompatActivity {
         finCompra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (barcode.getText().toString().isEmpty()) {
+                saveProd(2);
+                /*if (barcode.getText().toString().isEmpty()) {
                     CFAlertDialog.Builder builder = new CFAlertDialog.Builder(NewProduct.this)
                             .setDialogStyle(CFAlertDialog.CFAlertStyle.ALERT)
                             .setTitle("Atención")
@@ -395,6 +429,7 @@ public class NewProduct extends AppCompatActivity {
                 } else {
                     saveProd(2);
                 }
+            }*/
             }
         });
 
@@ -776,6 +811,8 @@ public class NewProduct extends AppCompatActivity {
 
     private void loadProducts(String barcode) {
         // startLoader();
+
+
         HashMap<String, String> params = new HashMap<>();
         params.put("barcode", barcode);
         getData(new VolleyCallBack() {
@@ -806,6 +843,8 @@ public class NewProduct extends AppCompatActivity {
                             LinearLayout prods = (LinearLayout) findViewById(R.id.prods);
                             LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
                             bottomActions.setVisibility(View.VISIBLE);
+                            LinearLayout bottomActionsCart = (LinearLayout) findViewById(R.id.bottomActionsCart);
+                            bottomActionsCart.setVisibility(View.GONE);
                             scanOptions.setVisibility(View.GONE);
 
                             prods.setVisibility(View.VISIBLE);
@@ -818,6 +857,8 @@ public class NewProduct extends AppCompatActivity {
                             prods.setVisibility(View.VISIBLE);
                             LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
                             bottomActions.setVisibility(View.VISIBLE);
+                            LinearLayout bottomActionsCart = (LinearLayout) findViewById(R.id.bottomActionsCart);
+                            bottomActionsCart.setVisibility(View.GONE);
                             titulo.setText("Registrar Producto");
                             titulo2.setText("Ingrese los datos manualmente");
                         }
@@ -829,6 +870,8 @@ public class NewProduct extends AppCompatActivity {
                         prods.setVisibility(View.VISIBLE);
                         LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
                         bottomActions.setVisibility(View.VISIBLE);
+                        LinearLayout bottomActionsCart = (LinearLayout) findViewById(R.id.bottomActionsCart);
+                        bottomActionsCart.setVisibility(View.GONE);
                         titulo.setText("Registrar Producto");
                         titulo2.setText("Ingrese los datos manualmente");
                     }
@@ -839,6 +882,8 @@ public class NewProduct extends AppCompatActivity {
                     prods.setVisibility(View.VISIBLE);
                     LinearLayout bottomActions = (LinearLayout) findViewById(R.id.bottomActions);
                     bottomActions.setVisibility(View.VISIBLE);
+                    LinearLayout bottomActionsCart = (LinearLayout) findViewById(R.id.bottomActionsCart);
+                    bottomActionsCart.setVisibility(View.GONE);
                     titulo.setText("Registrar Producto");
                     titulo2.setText("Ingrese los datos manualmente");
                 }
@@ -1727,6 +1772,7 @@ public class NewProduct extends AppCompatActivity {
         prefsEditor.remove("municipio").apply();
         prefsEditor.remove("ciudad").apply();
 
+        finish();
         Intent intent = new Intent(NewProduct.this, SignInActivity.class);
         startActivity(intent);
     }

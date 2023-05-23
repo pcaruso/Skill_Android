@@ -45,6 +45,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
         HashMap<String, Object> data = dataGlobal.get(position);
 
+
         holder.categoria.setText(data.get("categoria").toString());
         holder.presentacion.setText(data.get("presentacion").toString());
         holder.marca.setText(data.get("marca").toString());
